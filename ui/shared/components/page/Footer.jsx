@@ -57,13 +57,7 @@ const Footer = React.memo(({ version }) => (
         </TableHeaderCell>
         <TableHeaderCell collapsing textAlign="right">
           If you have questions or feedback, &nbsp;
-          <a
-            href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;tf=1&amp;to=seqr@broadinstitute.org"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Contact Us
-          </a>
+          <a href="mailto:seqr@broadinstitute.org">Contact Us</a>
         </TableHeaderCell>
         <TableHeaderCell width={1} />
       </Table.Row>
