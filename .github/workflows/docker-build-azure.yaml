@@ -1,4 +1,4 @@
-name: Build SEQR Docker Image (Azure)
+name: Build docker image (Azure)
 on: workflow_dispatch
 
 jobs:
@@ -22,7 +22,9 @@ jobs:
         echo "SEQR_IMAGE=$AZURE_CR/seqr" >> $GITHUB_ENV
         echo "IMAGE_TAG=${GITHUB_SHA}" >> $GITHUB_ENV
 
-    - name: 'Build and push driver image'
+        echo "Build/push ${SEQR_IMAGE}:${IMAGE_TAG}"
+
+    - name: 'Build and push image'
       uses: azure/docker-login@v1
       with:
         login-server: ${{ env.AZURE_CR }}
