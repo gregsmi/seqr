@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      AZURE_CR: msseqr01.azurecr.io
+      AZURE_CR: msseqr01acr.azurecr.io
 
     steps:
     - name: "checkout seqr repo"
@@ -19,10 +19,9 @@ jobs:
         echo "CLIENT_PWD=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | jq -r '.clientSecret')" >> $GITHUB_ENV
 
         # Set up image name and tag.
-        echo "SEQR_IMAGE=$AZURE_CR/seqr" >> $GITHUB_ENV
+        echo "Build/push ${AZURE_CR}/seqr:${GITHUB_SHA}"
+        echo "SEQR_IMAGE=${AZURE_CR}/seqr" >> $GITHUB_ENV
         echo "IMAGE_TAG=${GITHUB_SHA}" >> $GITHUB_ENV
-
-        echo "Build/push ${SEQR_IMAGE}:${IMAGE_TAG}"
 
     - name: 'Build and push image'
       uses: azure/docker-login@v1
