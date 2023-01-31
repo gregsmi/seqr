@@ -25,7 +25,7 @@ from seqr.views.utils.permissions_utils import data_manager_required, get_intern
 
 from seqr.models import Sample, Individual, RnaSeqOutlier, RnaSeqTpm, PhenotypePrioritization
 
-from settings import KIBANA_SERVER, KIBANA_ELASTICSEARCH_PASSWORD
+from settings import KIBANA_SERVER, KIBANA_ELASTICSEARCH_PASSWORD, KIBANA_ELASTICSEARCH_USER
 
 logger = SeqrLogger(__name__)
 
@@ -474,7 +474,7 @@ def proxy_to_kibana(request):
     headers = _convert_django_meta_to_http_headers(request.META)
     headers['Host'] = KIBANA_SERVER
     if KIBANA_ELASTICSEARCH_PASSWORD:
-        token = base64.b64encode('kibana:{}'.format(KIBANA_ELASTICSEARCH_PASSWORD).encode('utf-8'))
+        token = base64.b64encode('{}:{}'.format(KIBANA_ELASTICSEARCH_USER, KIBANA_ELASTICSEARCH_PASSWORD).encode('utf-8'))
         headers['Authorization'] = 'Basic {}'.format(token.decode('utf-8'))
 
     url = "http://{host}{path}".format(host=KIBANA_SERVER, path=request.get_full_path())
