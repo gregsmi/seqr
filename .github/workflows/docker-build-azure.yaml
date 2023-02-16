@@ -19,9 +19,10 @@ jobs:
         echo "CLIENT_PWD=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | jq -r '.clientSecret')" >> $GITHUB_ENV
 
         # Set up image name and tag.
-        echo "Build/push ${AZURE_CR}/seqr:${GITHUB_SHA}"
+        BUILDTAG=$(date +'%y%m%d-%HH%MM%SS')
+        echo "Build/push ${AZURE_CR}/seqr:${BUILDTAG}"
         echo "SEQR_IMAGE=${AZURE_CR}/seqr" >> $GITHUB_ENV
-        echo "IMAGE_TAG=${GITHUB_SHA}" >> $GITHUB_ENV
+        echo "IMAGE_TAG=${BUILDTAG}" >> $GITHUB_ENV
 
     - name: 'Build and push image'
       uses: azure/docker-login@v1
