@@ -19,7 +19,7 @@ jobs:
         echo "CLIENT_PWD=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | jq -r '.clientSecret')" >> $GITHUB_ENV
 
         # Set up image name and tag.
-        BUILDTAG=$(date +'%y%m%d-%HH%MM%SS')
+        BUILDTAG=$(TZ=America/Los_Angeles date +'%y%m%d-%H%M%S')
         echo "Build/push ${AZURE_CR}/seqr:${BUILDTAG}"
         echo "SEQR_IMAGE=${AZURE_CR}/seqr" >> $GITHUB_ENV
         echo "IMAGE_TAG=${BUILDTAG}" >> $GITHUB_ENV
