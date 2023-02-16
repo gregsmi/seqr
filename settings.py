@@ -289,7 +289,7 @@ TEMPLATES = [
 #########################################################
 
 SEQR_VERSION = 'v1.0'
-SEQR_SHA_VERSION = os.environ.get('SEQR_CONTAINER_SHORT_SHA', '0')
+SEQR_BUILD_VERSION = os.environ.get('SEQR_CONTAINER_BUILD_TAG', '0')
 SEQR_PRIVACY_VERSION = float(os.environ.get('SEQR_PRIVACY_VERSION', 1.0))
 SEQR_TOS_VERSION = float(os.environ.get('SEQR_TOS_VERSION', 1.1))
 
