@@ -17,7 +17,7 @@ import { stripMarkdown } from './stringUtils'
 import { ColoredIcon } from '../components/StyledComponents'
 
 export const ANVIL_URL = 'https://anvil.terra.bio'
-export const GOOGLE_LOGIN_URL = '/login/google-oauth2'
+export const GOOGLE_LOGIN_URL = '/login/azuread-v2-tenant-oauth2'
 export const LOCAL_LOGIN_URL = '/login'
 
 export const GENOME_VERSION_37 = '37'

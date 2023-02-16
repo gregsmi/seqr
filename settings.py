@@ -192,6 +192,7 @@ ANVIL_UI_URL = 'https://anvil.terra.bio/'
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.azuread_tenant.AzureADV2TenantOAuth2',
     'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
 )
@@ -382,8 +383,16 @@ USE_UNIQUE_USER_ID = True
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_CLIENT_ID')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
-LOGIN_URL = GOOGLE_LOGIN_REQUIRED_URL if SOCIAL_AUTH_GOOGLE_OAUTH2_KEY else '/login'
+# LOGIN_URL = GOOGLE_LOGIN_REQUIRED_URL if SOCIAL_AUTH_GOOGLE_OAUTH2_KEY else '/login'
 
+#########################################################
+#  Social auth AzureAD specific settings
+#########################################################
+SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_KEY = os.environ.get('SOCIAL_AUTH_AZUREAD_V2_OAUTH2_CLIENT_ID')
+SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_AZUREAD_V2_OAUTH2_SECRET')
+SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_TENANT_ID = os.environ.get('SOCIAL_AUTH_AZUREAD_V2_OAUTH2_TENANT')
+LOGIN_URL = '/login/azuread-v2-tenant-oauth2' if SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_KEY else '/login'
+#########################################################
 
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
@@ -442,6 +451,14 @@ if TERRA_API_ROOT_URL:
                            ('social_core.pipeline.social_auth.load_extra_data',
                             'social_core.pipeline.user.user_details') + \
                            SOCIAL_AUTH_PIPELINE_LOG
+elif SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_KEY:
+    SOCIAL_AUTH_PIPELINE = SOCIAL_AUTH_PIPELINE_BASE + \
+                           ('social_core.pipeline.user.get_username',
+                            'social_core.pipeline.user.create_user') + \
+                           SOCIAL_AUTH_PIPELINE_ASSOCIATE_USER + \
+                           ('social_core.pipeline.social_auth.load_extra_data',
+                            'social_core.pipeline.user.user_details',
+                            'seqr.utils.social_auth_pipeline.log_azure_signed_in')
 else:
     SOCIAL_AUTH_PIPELINE = SOCIAL_AUTH_PIPELINE_BASE + SOCIAL_AUTH_PIPELINE_USER_EXIST + \
                            SOCIAL_AUTH_PIPELINE_ASSOCIATE_USER + SOCIAL_AUTH_PIPELINE_LOG
