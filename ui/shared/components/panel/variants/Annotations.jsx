@@ -4,16 +4,61 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Popup, Label, Icon } from 'semantic-ui-react'
 
-import { getGenesById, getLocusListIntervalsByChromProject, getFamiliesByGuid } from 'redux/selectors'
+import { getGenesById, getLocusListIntervalsByChromProject, getFamiliesByGuid, getUser, getSpliceOutliersByChromFamily }
+  from 'redux/selectors'
 import { HorizontalSpacer, VerticalSpacer } from '../../Spacers'
 import SearchResultsLink from '../../buttons/SearchResultsLink'
 import Modal from '../../modal/Modal'
 import { ButtonLink, HelpIcon } from '../../StyledComponents'
+import RnaSeqJunctionOutliersTable from '../../table/RnaSeqJunctionOutliersTable'
 import { getOtherGeneNames } from '../genes/GeneDetail'
 import Transcripts from './Transcripts'
 import VariantGenes, { LocusListLabels } from './VariantGene'
-import { getLocus, Sequence, ProteinSequence, TranscriptLink } from './VariantUtils'
-import { GENOME_VERSION_37, getVariantMainTranscript, SVTYPE_LOOKUP, SVTYPE_DETAILS, SCREEN_LABELS } from '../../../utils/constants'
+import {
+  getLocus,
+  has37Coords,
+  Sequence,
+  ProteinSequence,
+  TranscriptLink,
+  getOverlappedIntervals,
+  getOverlappedSpliceOutliers,
+} from './VariantUtils'
+import {
+  GENOME_VERSION_37, GENOME_VERSION_38, getVariantMainTranscript, SVTYPE_LOOKUP, SVTYPE_DETAILS, SCREEN_LABELS,
+} from '../../../utils/constants'
+
+const BaseSpliceOutlierLabel = React.memo(({ variant, spliceOutliersByFamily }) => {
+  if (!spliceOutliersByFamily || spliceOutliersByFamily.length < 1) {
+    return null
+  }
+
+  const overlappedOutliers = getOverlappedSpliceOutliers(variant, spliceOutliersByFamily)
+
+  if (overlappedOutliers.length < 1) {
+    return null
+  }
+
+  return (
+    <Popup
+      trigger={<Label size="mini" content={<span>RNA splice</span>} color="pink" />}
+      content={<RnaSeqJunctionOutliersTable basic="very" compact="very" singleLine data={overlappedOutliers} showPopupColumns />}
+      size="tiny"
+      wide
+      hoverable
+    />
+  )
+})
+
+BaseSpliceOutlierLabel.propTypes = {
+  spliceOutliersByFamily: PropTypes.object,
+  variant: PropTypes.object,
+}
+
+const mapSpliceOutliersStateToProps = (state, ownProps) => ({
+  spliceOutliersByFamily: getSpliceOutliersByChromFamily(state)[ownProps.variant.chrom],
+})
+
+const SpliceOutlierLabel = connect(mapSpliceOutliersStateToProps)(BaseSpliceOutlierLabel)
 
 const LargeText = styled.div`
   font-size: 1.2em;
@@ -104,36 +149,47 @@ const LOF_FILTER_MAP = {
   END_TRUNC: { title: 'End Truncation', message: 'This variant falls in the last 5% of the transcript' },
   INCOMPLETE_CDS: { title: 'Incomplete CDS', message: 'The start or stop codons are not known for this transcript' },
   EXON_INTRON_UNDEF: { title: 'Exon-Intron Boundaries', message: 'The exon/intron boundaries of this transcript are undefined in the EnsEMBL API' },
-  SMALL_INTRON: { title: 'Small Intron', message: 'The LoF falls in a transcript whose exon/intron boundaries are undefined in the EnsEMBL API' },
+  SMALL_INTRON: { title: 'Small Intron', message: 'The LoF falls in a splice site of a small (biologically unlikely) intron' },
   NON_CAN_SPLICE: { title: 'Non Canonical Splicing', message: 'This variant falls in a non-canonical splice site (not GT..AG)' },
   NON_CAN_SPLICE_SURR: { title: 'Non Canonical Splicing', message: 'This exon has surrounding splice sites that are non-canonical (not GT..AG)' },
   ANC_ALLELE: { title: 'Ancestral Allele', message: 'The alternate allele reverts the sequence back to the ancestral state' },
+  NON_DONOR_DISRUPTING: { title: 'Non Donor Disrupting', message: 'The essential splice donor variant does not disrupt the donor site' },
+  NON_ACCEPTOR_DISRUPTING: { title: 'Non Acceptor Disrupting', message: 'The essential splice donor variant does not disrupt the acceptor site' },
+  RESCUE_DONOR: { title: 'Rescue Donor', message: 'A splice donor-disrupting variant is rescued by an alternative splice site' },
+  RESCUE_ACCEPTOR: { title: 'Rescue Acceptor', message: 'A splice acceptor-disrupting variant is rescued by an alternative splice site' },
+  GC_TO_GT_DONOR: { title: 'GC-to-GT Donor', message: 'Essential donor splice variant creates a more canonical splice site' },
+  '5UTR_SPLICE': { title: "5'UTR", message: 'Essential splice variant LoF occurs in the UTR of the transcript' },
+  '3UTR_SPLICE': { title: "3'UTR", message: 'Essential splice variant LoF occurs in the UTR of the transcript' },
 }
 
-const getSvRegion = ({ chrom, endChrom, pos, end, liftedOverGenomeVersion, liftedOverPos }) => {
+const getSvRegion = (
+  { chrom, endChrom, pos, end, liftedOverGenomeVersion, liftedOverPos }, divider, useLiftoverVersion,
+) => {
   const endOffset = endChrom ? 0 : end - pos
-  const start = liftedOverGenomeVersion === GENOME_VERSION_37 ? liftedOverPos : pos
-  return `${chrom}-${start}-${start + endOffset}`
+  const start = (useLiftoverVersion && liftedOverGenomeVersion === useLiftoverVersion) ? liftedOverPos : pos
+  return `${chrom}${divider}${start}-${start + endOffset}`
 }
 
 const getGeneNames = genes => genes.reduce((acc, gene) => [gene.geneSymbol, ...getOtherGeneNames(gene), ...acc], [])
 
-const getPubmedSearch = (genes, variations) => {
-  let pubmedSearch = `(${getGeneNames(genes).join(' OR ')})`
+const getLitSearch = (genes, variations) => {
+  let search = `(${getGeneNames(genes).join(' OR ')})`
   if (variations.length) {
-    pubmedSearch = `${pubmedSearch} AND ( ${variations.join(' OR ')})`
+    search = `${search} AND (${variations.join(' OR ')})`
   }
-  return pubmedSearch
+  return search
 }
 
 const VARIANT_LINKS = [
   {
     name: 'gnomAD',
-    shouldShow: ({ svType, genomeVersion, liftedOverGenomeVersion, liftedOverPos }) => (
-      !!svType && (
-        genomeVersion === GENOME_VERSION_37 || (liftedOverGenomeVersion === GENOME_VERSION_37 && liftedOverPos))
-    ),
-    getHref: variant => `https://gnomad.broadinstitute.org/region/${getSvRegion(variant)}?dataset=gnomad_sv_r2_1`,
+    shouldShow: variant => !!variant.svType && has37Coords(variant),
+    getHref: variant => `https://gnomad.broadinstitute.org/region/${getSvRegion(variant, '-', GENOME_VERSION_37)}?dataset=gnomad_sv_r2_1`,
+  },
+  {
+    name: 'Decipher',
+    shouldShow: ({ svType, genomeVersion }) => !!svType && genomeVersion === GENOME_VERSION_38,
+    getHref: variant => `https://www.deciphergenomics.org/search/patients/results?q=${getSvRegion(variant, ':')}`,
   },
   {
     name: 'mitomap',
@@ -148,9 +204,19 @@ const VARIANT_LINKS = [
     getHref: ({ pos, ref, alt }) => `https://www.mitovisualize.org/variant/m-${pos}-${ref}-${alt}`,
   },
   {
-    name: 'Geno2MP',
-    shouldShow: ({ svType, chrom }) => !svType && chrom !== 'M',
-    getHref: ({ chrom, pos }) => `https://geno2mp.gs.washington.edu/Geno2MP/#/gene/${chrom}:${pos}/chrLoc/${pos}/${pos}/${chrom}`,
+    name: 'google',
+    shouldShow: ({ genes, variations }) => genes.length && variations.length,
+    getHref: ({ genes, variations }) => `https://scholar.google.com/scholar?q=${getLitSearch(genes, variations).replaceAll('=', '')}`,
+  },
+  {
+    name: 'pubmed',
+    shouldShow: ({ genes }) => genes.length,
+    getHref: ({ genes, variations }) => `https://www.ncbi.nlm.nih.gov/pubmed?term=${getLitSearch(genes, variations)}`,
+  },
+  {
+    name: 'AoU',
+    shouldShow: ({ svType }) => !svType,
+    getHref: ({ chrom, pos, ref, alt }) => `https://databrowser.researchallofus.org/genomic-variants/${chrom}-${pos}-${ref}-${alt}`,
   },
   {
     name: 'Iranome',
@@ -158,22 +224,30 @@ const VARIANT_LINKS = [
     getHref: ({ chrom, pos, ref, alt }) => `http://www.iranome.ir/variant/${chrom}-${pos}-${ref}-${alt}`,
   },
   {
-    name: 'google',
-    shouldShow: ({ genes, variations }) => genes.length && variations.length,
-    getHref: ({ genes, variations }) => `https://www.google.com/search?q=(${getGeneNames(genes).join('|')})+(${variations.join('|')}`,
+    name: 'Geno2MP',
+    shouldShow: ({ svType, chrom }) => !svType && chrom !== 'M',
+    getHref: ({ chrom, pos }) => `https://geno2mp.gs.washington.edu/Geno2MP/#/gene/${chrom}:${pos}/chrLoc/${pos}/${pos}/${chrom}`,
   },
   {
-    name: 'pubmed',
-    shouldShow: ({ genes }) => genes.length,
-    getHref: ({ genes, variations }) => `https://www.ncbi.nlm.nih.gov/pubmed?term=${getPubmedSearch(genes, variations)}`,
+    name: 'Mastermind',
+    shouldShow: ({ svType, hgvsc }) => !svType && hgvsc,
+    getHref: ({ genes, hgvsc }) => `https://mastermind.genomenon.com/detail?gene=${genes[0].geneSymbol}&mutation=${genes[0].geneSymbol}:${hgvsc}`,
+  },
+  {
+    name: 'BCH',
+    shouldShow: (variant, user) => has37Coords(variant) && user.isAnalyst,
+    getHref: ({ chrom, pos, ref, alt, genomeVersion, liftedOverPos }) => (
+      `https://aggregator.bchresearch.org/variant.html?variant=${chrom}:${genomeVersion === GENOME_VERSION_37 ? pos : liftedOverPos}:${ref}:${alt}`
+    ),
   },
 ]
 
-const variantSearchLinks = (variant, mainTranscript, genesById) => {
+const variantSearchLinks = (variant, mainTranscript, genesById, user) => {
   const { chrom, endChrom, pos, end, ref, alt, genomeVersion, svType, variantId, transcripts } = variant
 
   const mainGene = genesById[mainTranscript.geneId]
   let genes
+  let hgvsc
   const variations = []
 
   if (mainGene) {
@@ -189,7 +263,7 @@ const variantSearchLinks = (variant, mainTranscript, genesById) => {
     }
 
     if (mainTranscript.hgvsc) {
-      const hgvsc = mainTranscript.hgvsc.split(':')[1].replace('c.', '')
+      hgvsc = mainTranscript.hgvsc.split(':')[1].replace('c.', '')
       variations.unshift(
         `c.${hgvsc}`, // c.1282C>T
         hgvsc, // 1282C>T
@@ -201,7 +275,7 @@ const variantSearchLinks = (variant, mainTranscript, genesById) => {
     genes = Object.keys(transcripts || {}).map(geneId => genesById[geneId]).filter(gene => gene)
   }
 
-  const linkVariant = { genes, variations, ...variant }
+  const linkVariant = { genes, variations, hgvsc, ...variant }
 
   return [
     <Popup
@@ -219,7 +293,7 @@ const variantSearchLinks = (variant, mainTranscript, genesById) => {
       content={`Search for this variant across all your seqr projects${svType ? '. Any structural variant with ≥20% reciprocal overlap will be returned.' : ''}`}
       size="tiny"
     />,
-    ...VARIANT_LINKS.filter(({ shouldShow }) => shouldShow(linkVariant)).map(
+    ...VARIANT_LINKS.filter(({ shouldShow }) => shouldShow(linkVariant, user)).map(
       ({ name, getHref }) => <DividedLink key={name} href={getHref(linkVariant)}>{name}</DividedLink>,
     ),
   ]
@@ -231,6 +305,7 @@ class BaseSearchLinks extends React.PureComponent {
     variant: PropTypes.object,
     mainTranscript: PropTypes.object,
     genesById: PropTypes.object,
+    user: PropTypes.object,
   }
 
   state = { showAll: false }
@@ -240,12 +315,15 @@ class BaseSearchLinks extends React.PureComponent {
   }
 
   render() {
-    const { variant, mainTranscript, genesById } = this.props
+    const { variant, mainTranscript, genesById, user } = this.props
     const { showAll } = this.state
 
-    const links = variantSearchLinks(variant, mainTranscript, genesById)
-    if (links.length < 5 || showAll) {
+    const links = variantSearchLinks(variant, mainTranscript, genesById, user)
+    if (links.length < 5) {
       return links
+    }
+    if (showAll) {
+      return [...links.slice(0, 5), <br key="break" />, ...links.slice(5)]
     }
 
     return [
@@ -258,6 +336,7 @@ class BaseSearchLinks extends React.PureComponent {
 
 const mapStateToProps = state => ({
   genesById: getGenesById(state),
+  user: getUser(state),
 })
 
 const SearchLinks = connect(mapStateToProps)(BaseSearchLinks)
@@ -266,26 +345,9 @@ const BaseVariantLocusListLabels = React.memo(({ locusListIntervalsByProject, fa
   if (!locusListIntervalsByProject || locusListIntervalsByProject.length < 1) {
     return null
   }
-  const { pos, end, genomeVersion, liftedOverPos, familyGuids = [] } = variant
-  const locusListIntervals = familyGuids.reduce((acc, familyGuid) => ([
-    ...acc, ...(locusListIntervalsByProject[familiesByGuid[familyGuid].projectGuid] || [])]), [])
-  if (locusListIntervals.length < 1) {
-    return null
-  }
-  const locusListGuids = locusListIntervals.filter((interval) => {
-    const variantPos = genomeVersion === interval.genomeVersion ? pos : liftedOverPos
-    if (!variantPos) {
-      return false
-    }
-    if ((variantPos >= interval.start) && (variantPos <= interval.end)) {
-      return true
-    }
-    if (end && !variant.endChrom) {
-      const variantPosEnd = variantPos + (end - pos)
-      return (variantPosEnd >= interval.start) && (variantPosEnd <= interval.end)
-    }
-    return false
-  }).map(({ locusListGuid }) => locusListGuid)
+
+  const locusListGuids = getOverlappedIntervals(variant, locusListIntervalsByProject,
+    fGuid => familiesByGuid[fGuid].projectId).map(({ locusListGuid }) => locusListGuid)
 
   return locusListGuids.length > 0 && <LocusListLabels locusListGuids={locusListGuids} />
 })
@@ -321,8 +383,12 @@ const Annotations = React.memo(({ variant, mainGeneId, showMainGene }) => {
   } = variant
   const mainTranscript = getVariantMainTranscript(variant)
 
-  const lofDetails = (mainTranscript.lof === 'LC' || mainTranscript.lofFlags === 'NAGNAG_SITE') ? [
-    ...(mainTranscript.lofFilter ? [...new Set(mainTranscript.lofFilter.split(/&|,/g))] : []).map((lofFilterKey) => {
+  const isLofNagnag = mainTranscript.isLofNagnag || mainTranscript.lofFlags === 'NAGNAG_SITE'
+  const lofFilters = mainTranscript.lofFilters || (
+    mainTranscript.lof === 'LC' && mainTranscript.lofFilter && mainTranscript.lofFilter.split(/&|,/g)
+  )
+  const lofDetails = (lofFilters || isLofNagnag) ? [
+    ...(lofFilters ? [...new Set(lofFilters)] : []).map((lofFilterKey) => {
       const lofFilter = LOF_FILTER_MAP[lofFilterKey] || { message: lofFilterKey }
       return (
         <div key={lofFilterKey}>
@@ -332,7 +398,7 @@ const Annotations = React.memo(({ variant, mainGeneId, showMainGene }) => {
         </div>
       )
     }),
-    mainTranscript.lofFlags === 'NAGNAG_SITE' ? (
+    isLofNagnag ? (
       <div key="NAGNAG_SITE">
         <b>LOFTEE: NAGNAG site</b>
         <br />
@@ -483,6 +549,7 @@ const Annotations = React.memo(({ variant, mainGeneId, showMainGene }) => {
       ).map(e => <div key={e}>{e}</div>)]}
       <VerticalSpacer height={5} />
       <VariantLocusListLabels variant={variant} familyGuids={variant.familyGuids} />
+      <SpliceOutlierLabel variant={variant} />
       <VerticalSpacer height={5} />
       <SearchLinks variant={variant} mainTranscript={mainTranscript} />
     </div>
