@@ -12,6 +12,7 @@ import {
   INDIVIDUAL_EXPORT_DATA,
   INDIVIDUAL_HAS_DATA_FIELD,
   MME_TAG_NAME,
+  TISSUE_DISPLAY,
 } from 'shared/utils/constants'
 import { toCamelcase, toSnakecase, snakecaseToTitlecase } from 'shared/utils/stringUtils'
 
@@ -20,7 +21,8 @@ import {
   getAnalysisGroupsGroupedByProjectGuid, getSavedVariantsByGuid, getSortedIndividualsByFamily,
   getMmeResultsByGuid, getMmeSubmissionsByGuid, getHasActiveSearchableSampleByFamily, getSelectableTagTypesByProject,
   getVariantTagsByGuid, getUserOptionsByUsername, getSamplesByFamily, getNotesByFamilyType,
-  getSamplesGroupedByProjectGuid, getVariantTagNotesByFamilyVariants,
+  getSamplesGroupedByProjectGuid, getVariantTagNotesByFamilyVariants, getPhenotypeGeneScoresByIndividual,
+  getRnaSeqDataByIndividual,
 } from 'redux/selectors'
 
 import {
@@ -61,7 +63,7 @@ export const getMmeSubmissionsLoading = state => state.mmeSubmissionsLoading.isL
 export const getSamplesLoading = state => state.samplesLoading.isLoading
 export const getTagTypesLoading = state => state.tagTypesLoading.isLoading
 export const getFamilyTagTypeCounts = state => state.familyTagTypeCounts
-export const getFamiliesTableFilters = state => state.familyTableFilterState
+const getFamiliesTableFiltersByProject = state => state.familyTableFilterState
 
 export const getCurrentProject = createSelector(
   getProjectsByGuid, getProjectGuid, (projectsByGuid, currentProjectGuid) => projectsByGuid[currentProjectGuid],
@@ -105,16 +107,26 @@ export const getProjectAnalysisGroupFamiliesByGuid = createSelector(
 
 export const getProjectAnalysisGroupFamilyIndividualCounts = createSelector(
   getProjectAnalysisGroupFamiliesByGuid,
-  familiesByGuid => Object.values(familiesByGuid).map(family => (family.individualGuids || []).length),
+  familiesByGuid => Object.values(familiesByGuid).map(family => ({
+    size: (family.individualGuids || []).length,
+    numParents: (family.parents || []).length === 1 ?
+      [family.parents[0].maternalGuid, family.parents[0].paternalGuid].filter(g => g).length : 0,
+  })),
 )
 
 export const getProjectAnalysisGroupDataLoadedFamilyIndividualCounts = createSelector(
   getProjectAnalysisGroupFamiliesByGuid,
   getSamplesByFamily,
-  (familiesByGuid, samplesByFamily) => Object.keys(familiesByGuid).map((familyGuid) => {
-    const sampleIndividuals = new Set((samplesByFamily[familyGuid] || []).map(sample => sample.individualGuid))
-    return sampleIndividuals.size
-  }).filter(size => size > 0),
+  (familiesByGuid, samplesByFamily) => Object.values(familiesByGuid).map(((family) => {
+    const sampleIndividuals = new Set((samplesByFamily[family.familyGuid] || []).map(sample => sample.individualGuid))
+    const hasSampleParentCounts = (family.parents || []).map(
+      ({ maternalGuid, paternalGuid }) => [maternalGuid, paternalGuid].filter(guid => sampleIndividuals.has(guid)),
+    ).filter(parents => parents.length > 0)
+    return {
+      size: sampleIndividuals.size,
+      numParents: hasSampleParentCounts.length === 1 ? hasSampleParentCounts[0].length : 0,
+    }
+  })).filter(({ size }) => size > 0),
 )
 
 export const getProjectAnalysisGroupIndividualsByGuid = createSelector(
@@ -420,6 +432,12 @@ const analysedByFilters = (filter, analysedByOptions) => {
   return filterGroups
 }
 
+export const getFamiliesTableFilters = createSelector(
+  getFamiliesTableFiltersByProject,
+  getProjectGuid,
+  (familyTableFiltersByProject, projectGuid) => (familyTableFiltersByProject || {})[projectGuid],
+)
+
 const getFamiliesFilterFunc = createSelector(
   (state, ownProps) => ownProps?.tableName === CASE_REVIEW_TABLE_NAME,
   state => state.caseReviewTableState.familiesFilter,
@@ -704,6 +722,22 @@ export const getMmeDefaultContactEmail = createSelector(
   },
 )
 
+const individualOption = ({ individualGuid, displayName }) => ({ value: individualGuid, text: displayName })
+
+export const getParentOptionsByIndividual = createSelector(
+  getSortedIndividualsByFamily,
+  individualsByFamily => Object.values(individualsByFamily).reduce((acc, individuals) => ({
+    ...acc,
+    ...individuals.reduce((indAcc, { individualGuid }) => ({
+      ...indAcc,
+      [individualGuid]: {
+        M: individuals.filter(i => i.sex === 'M' && i.individualGuid !== individualGuid).map(individualOption),
+        F: individuals.filter(i => i.sex === 'F' && i.individualGuid !== individualGuid).map(individualOption),
+      },
+    }), {}),
+  }), {}),
+)
+
 // user options selectors
 export const getUserOptions = createSelector(
   getUserOptionsByUsername,
@@ -727,10 +761,11 @@ export const getPageHeaderAnalysisGroup = createSelector(
 export const getPageHeaderBreadcrumbIdSections = createSelector(
   getCurrentProject,
   getPageHeaderFamily,
+  getIndividualsByGuid,
   getPageHeaderAnalysisGroup,
   (state, props) => props.breadcrumb || props.match.params.breadcrumb,
   (state, props) => props.match,
-  (project, family, analysisGroup, breadcrumb, match) => {
+  (project, family, individualsByGuid, analysisGroup, breadcrumb, match) => {
     if (!project) {
       return null
     }
@@ -743,8 +778,14 @@ export const getPageHeaderBreadcrumbIdSections = createSelector(
         content: `Family: ${family.displayName || ''}`,
         link: `/project/${project.projectGuid}/family_page/${family.familyGuid}`,
       }]
-      if (match.params.breadcrumbIdSection) {
-        breadcrumbIdSections.push({ content: snakecaseToTitlecase(match.params.breadcrumbIdSection), link: match.url })
+      const { breadcrumbIdSection, breadcrumbIdSubsection } = match.params
+      if (breadcrumbIdSection) {
+        if (breadcrumbIdSection === 'rnaseq_results') {
+          const individualId = individualsByGuid[breadcrumbIdSubsection]?.individualId || ''
+          breadcrumbIdSections.push({ content: `RNAseq: ${individualId}` })
+        } else {
+          breadcrumbIdSections.push({ content: snakecaseToTitlecase(breadcrumbIdSection), link: match.url })
+        }
       }
       return breadcrumbIdSections
     }
@@ -828,4 +869,56 @@ export const getPageHeaderEntityLinks = createSelector(
     }
     return entityLinks
   },
+)
+
+export const getIndividualPhenotypeGeneScores = createSelector(
+  getGenesById,
+  getIndividualsByGuid,
+  getPhenotypeGeneScoresByIndividual,
+  (genesById, individualsByGuid, phenotypeGeneScoresByIndividual) => (
+    Object.entries(phenotypeGeneScoresByIndividual || {}).reduce((acc, [individualGuid, dataByGene]) => ({
+      ...acc,
+      [individualGuid]: Object.entries(dataByGene).reduce((acc2, [geneId, dataByTool]) => ([
+        ...acc2,
+        ...Object.entries(dataByTool).reduce((acc3, [tool, data]) => ([
+          ...acc3, ...data.map(d => (
+            { ...d, tool, familyGuid: individualsByGuid[individualGuid].familyGuid, gene: genesById[geneId], rowId: `${geneId}-${tool}-${d.diseaseId}` }
+          )),
+        ]), []),
+      ]), []),
+    }), {})
+  ),
+)
+
+export const getTissueOptionsByIndividualGuid = createSelector(
+  getRnaSeqDataByIndividual,
+  (rnaSeqDataByIndividualGuid) => {
+    const tissueTypesByIndividualGuid = Object.entries(rnaSeqDataByIndividualGuid || {}).map(
+      ([individualGuid, rnaSeqData]) => ([
+        individualGuid,
+        [...new Set(Object.values(rnaSeqData?.spliceOutliers || {}).flat().map(({ tissueType }) => tissueType))],
+      ]),
+    )
+    return tissueTypesByIndividualGuid.reduce((acc, [individualGuid, tissueTypes]) => (
+      tissueTypes.length > 0 ? {
+        ...acc,
+        [individualGuid]: tissueTypes.map(tissueType => (
+          { key: tissueType, text: TISSUE_DISPLAY[tissueType] || 'No Tissue', value: tissueType }
+        )),
+      } : acc
+    ), {})
+  },
+)
+
+export const getRnaSeqOutliersByIndividual = createSelector(
+  getRnaSeqDataByIndividual,
+  rnaSeqDataByIndividual => Object.entries(rnaSeqDataByIndividual).reduce(
+    (acc, [individualGuid, rnaSeqData]) => ({
+      ...acc,
+      [individualGuid]: {
+        outliers: Object.values(rnaSeqData.outliers || {}),
+        spliceOutliers: Object.values(rnaSeqData.spliceOutliers || {}).flat(),
+      },
+    }), {},
+  ),
 )

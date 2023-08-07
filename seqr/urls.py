@@ -118,22 +118,23 @@ from seqr.views.apis.users_api import \
     forgot_password
 
 from seqr.views.apis.data_manager_api import elasticsearch_status, upload_qc_pipeline_output, delete_index, \
-    update_rna_seq, load_rna_seq_sample_data, proxy_to_kibana, load_phenotype_prioritization_data
+    update_rna_seq, load_rna_seq_sample_data, proxy_to_kibana, load_phenotype_prioritization_data, write_pedigree, \
+    validate_callset, get_loaded_projects, load_data
 from seqr.views.apis.report_api import \
     anvil_export, \
     discovery_sheet, \
-    get_cmg_projects, \
+    get_category_projects, \
     sample_metadata_export, \
     gregor_export, \
     seqr_stats
-from seqr.views.apis.summary_data_api import success_story, saved_variants_page, mme_details, \
+from seqr.views.apis.summary_data_api import success_story, saved_variants_page, mme_details, hpo_summary_data, \
     bulk_update_family_analysed_by
 from seqr.views.apis.superuser_api import get_all_users
 
 from seqr.views.apis.awesomebar_api import awesomebar_autocomplete_handler
 from seqr.views.apis.auth_api import login_required_error, login_view, logout_view, policies_required_error
 from seqr.views.apis.igv_api import fetch_igv_track, receive_igv_table_handler, update_individual_igv_sample, \
-    igv_genomes_proxy
+    igv_genomes_proxy, receive_bulk_igv_table_handler
 from seqr.views.apis.analysis_group_api import update_analysis_group_handler, delete_analysis_group_handler
 from seqr.views.apis.project_api import create_project_handler, update_project_handler, delete_project_handler, \
     project_page_data, project_families, project_overview, project_mme_submisssions, project_individuals, \
@@ -167,6 +168,7 @@ no_login_react_app_pages = [
     'matchmaker/disclaimer',
     'privacy_policy',
     'terms_of_service',
+    'faq',
 
 ]
 
@@ -307,8 +309,8 @@ api_endpoints = {
     'report/anvil/(?P<project_guid>[^/]+)': anvil_export,
     'report/sample_metadata/(?P<project_guid>[^/]+)': sample_metadata_export,
     'report/discovery_sheet/(?P<project_guid>[^/]+)': discovery_sheet,
-    'report/gregor/(?P<consent_code>[^/]+)': gregor_export,
-    'report/get_cmg_projects': get_cmg_projects,
+    'report/gregor': gregor_export,
+    'report/get_category_projects/(?P<category>[^/]+)': get_category_projects,
     'report/seqr_stats': seqr_stats,
 
     'data_management/elasticsearch_status': elasticsearch_status,
@@ -318,8 +320,14 @@ api_endpoints = {
     'data_management/update_rna_seq': update_rna_seq,
     'data_management/load_rna_seq_sample/(?P<sample_guid>[^/]+)': load_rna_seq_sample_data,
     'data_management/load_phenotype_prioritization_data': load_phenotype_prioritization_data,
+    'data_management/write_pedigree/(?P<project_guid>[^/]+)': write_pedigree,
+    'data_management/validate_callset': validate_callset,
+    'data_management/loaded_projects/(?P<sample_type>[^/]+)/(?P<dataset_type>[^/]+)': get_loaded_projects,
+    'data_management/load_data': load_data,
+    'data_management/add_igv': receive_bulk_igv_table_handler,
 
     'summary_data/saved_variants/(?P<tag>[^/]+)': saved_variants_page,
+    'summary_data/hpo/(?P<hpo_id>[^/]+)': hpo_summary_data,
     'summary_data/success_story/(?P<success_story_types>[^/]+)': success_story,
     'summary_data/matchmaker': mme_details,
     'summary_data/update_analysed_by': bulk_update_family_analysed_by,

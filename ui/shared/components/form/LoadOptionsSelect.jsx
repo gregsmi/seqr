@@ -1,57 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Message } from 'semantic-ui-react'
 
-import { HttpRequestHelper } from 'shared/utils/httpRequestHelper'
 import { Select } from 'shared/components/form/Inputs'
-import DataLoader from '../DataLoader'
+import StateDataLoader from '../StateDataLoader'
 
-class LoadOptionsSelect extends React.PureComponent {
+const defaultFormatOption = value => ({ name: value, value })
 
-  static propTypes = {
-    url: PropTypes.string.isRequired,
-    optionsResponseKey: PropTypes.string.isRequired,
-    errorHeader: PropTypes.string,
-    validationErrorHeader: PropTypes.string,
-    validationErrorMessage: PropTypes.string,
-  }
+const parseResponse = (optionsResponseKey, formatOption) => responseJson => (
+  { options: responseJson[optionsResponseKey]?.map(formatOption || defaultFormatOption) }
+)
 
-  state = {
-    options: null,
-    loading: false,
-    errorHeader: null,
-    error: null,
-  }
+const validateResponse = ({ options }) => (!!options && options.length > 0)
 
-  load = () => {
-    const { url, errorHeader, validationErrorHeader, validationErrorMessage, optionsResponseKey } = this.props
-    this.setState({ loading: true })
-    new HttpRequestHelper(url,
-      (responseJson) => {
-        const options = responseJson[optionsResponseKey]?.map(value => ({ name: value, value }))
-        if (!options || options.length === 0) {
-          this.setState({
-            errorHeader: validationErrorHeader,
-            error: validationErrorMessage,
-          })
-        }
-        this.setState({ loading: false, options })
-      },
-      (e) => {
-        this.setState({ loading: false, errorHeader, error: e.message })
-      }).get()
-  }
+const LoadOptionsSelect = ({ optionsResponseKey, formatOption, ...props }) => (
+  <StateDataLoader
+    childComponent={Select}
+    parseResponse={parseResponse(optionsResponseKey, formatOption)}
+    validateResponse={validateResponse}
+    {...props}
+  />
+)
 
-  render() {
-    const { options, loading, errorHeader, error } = this.state
-    const errorMessage = error ? <Message visible error header={errorHeader} content={error} /> : null
-    return (
-      <DataLoader content={options} loading={loading} load={this.load} errorMessage={errorMessage}>
-        <Select {...this.props} options={options} />
-      </DataLoader>
-    )
-  }
-
+LoadOptionsSelect.propTypes = {
+  url: PropTypes.string.isRequired,
+  optionsResponseKey: PropTypes.string.isRequired,
+  formatOption: PropTypes.func,
+  errorHeader: PropTypes.string,
+  validationErrorHeader: PropTypes.string,
+  validationErrorMessage: PropTypes.string,
 }
 
 export default LoadOptionsSelect

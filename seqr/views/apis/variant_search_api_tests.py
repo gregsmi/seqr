@@ -6,13 +6,15 @@ from django.db import transaction
 from django.urls.base import reverse
 from elasticsearch.exceptions import ConnectionTimeout, TransportError
 
+from hail_search.test_utils import HAIL_BACKEND_SINGLE_FAMILY_VARIANTS
 from seqr.models import VariantSearchResults, LocusList, Project, VariantSearch
-from seqr.utils.elasticsearch.utils import InvalidIndexException, InvalidSearchException
+from seqr.utils.search.utils import InvalidSearchException
+from seqr.utils.search.elasticsearch.es_utils import InvalidIndexException
 from seqr.views.apis.variant_search_api import query_variants_handler, query_single_variant_handler, \
     export_variants_handler, search_context_handler, get_saved_search_handler, create_saved_search_handler, \
     update_saved_search_handler, delete_saved_search_handler, get_variant_gene_breakdown
 from seqr.views.utils.test_utils import AuthenticationTestCase, VARIANTS, AnvilAuthenticationTestCase,\
-    GENE_VARIANT_FIELDS, GENE_VARIANT_DISPLAY_FIELDS, PROJECT_FIELDS, LOCUS_LIST_FIELDS, FAMILY_FIELDS, \
+    GENE_VARIANT_FIELDS, GENE_VARIANT_DISPLAY_FIELDS, LOCUS_LIST_FIELDS, FAMILY_FIELDS, \
     PA_LOCUS_LIST_FIELDS, INDIVIDUAL_FIELDS, FUNCTIONAL_FIELDS, IGV_SAMPLE_FIELDS, FAMILY_NOTE_FIELDS, ANALYSIS_GROUP_FIELDS, \
     VARIANT_NOTE_FIELDS, TAG_FIELDS, MATCHMAKER_SUBMISSION_FIELDS, SAVED_VARIANT_DETAIL_FIELDS
 
@@ -22,7 +24,7 @@ SEARCH_HASH = 'd380ed0fd28c3127d07a64ea2ba907d7'
 SEARCH = {'filters': {}, 'inheritance': None}
 PROJECT_FAMILIES = [{'projectGuid': PROJECT_GUID, 'familyGuids': ['F000001_1', 'F000002_2']}]
 
-VARIANTS_WITH_DISCOVERY_TAGS = deepcopy(VARIANTS)
+VARIANTS_WITH_DISCOVERY_TAGS = deepcopy(VARIANTS + HAIL_BACKEND_SINGLE_FAMILY_VARIANTS)
 DISCOVERY_TAGS = [{
     'savedVariant': {
         'variantGuid': 'SV0000006_1248367227_r0003_tes',
@@ -73,7 +75,7 @@ EXPECTED_LIRICAL_DATA = [
 ]
 
 EXPECTED_SEARCH_RESPONSE = {
-    'searchedVariants': VARIANTS,
+    'searchedVariants': VARIANTS + HAIL_BACKEND_SINGLE_FAMILY_VARIANTS,
     'savedVariantsByGuid': {
         'SV0000001_2103343353_r0390_100': expected_detail_saved_variant,
         'SV0000002_1248367227_r0390_100': EXPECTED_SAVED_VARIANT,
@@ -83,19 +85,25 @@ EXPECTED_SEARCH_RESPONSE = {
     'search': {
         'search': SEARCH,
         'projectFamilies': [{'projectGuid': PROJECT_GUID, 'familyGuids': mock.ANY}],
-        'totalResults': 3,
+        'totalResults': 5,
     },
     'variantTagsByGuid': {
         'VT1708633_2103343353_r0390_100': EXPECTED_TAG, 'VT1726945_2103343353_r0390_100': EXPECTED_TAG,
         'VT1726970_2103343353_r0004_tes': EXPECTED_TAG, 'VT1726961_2103343353_r0390_100': EXPECTED_TAG,
     },
-    'variantNotesByGuid': {'VN0714935_2103343353_r0390_100': {k: mock.ANY for k in VARIANT_NOTE_FIELDS}},
+    'variantNotesByGuid': {
+        'VN0714935_2103343353_r0390_100': {k: mock.ANY for k in VARIANT_NOTE_FIELDS},
+        'VN0714937_2103343353_r0390_100': {k: mock.ANY for k in VARIANT_NOTE_FIELDS},
+    },
     'variantFunctionalDataByGuid': {
         'VFD0000023_1248367227_r0390_10': expected_functional_tag, 'VFD0000024_1248367227_r0390_10': expected_functional_tag,
         'VFD0000025_1248367227_r0390_10': expected_functional_tag, 'VFD0000026_1248367227_r0390_10': expected_functional_tag,
     },
     'locusListsByGuid': {LOCUS_LIST_GUID: {'intervals': mock.ANY}},
-    'rnaSeqData': {'I000001_na19675': {'outliers': {'ENSG00000268903': mock.ANY}}},
+    'rnaSeqData': {
+        'I000001_na19675': {'outliers': {'ENSG00000268903': mock.ANY}, 'spliceOutliers': {'ENSG00000268903': mock.ANY}},
+        'I000003_na19679': {'outliers': {}, 'spliceOutliers': {'ENSG00000268903': mock.ANY}},
+    },
     'phenotypeGeneScores': {
         'I000001_na19675': {'ENSG00000268903': {'exomiser': EXPECTED_EXOMISER_DATA}},
         'I000002_na19678': {'ENSG00000268903': {'lirical': EXPECTED_LIRICAL_DATA}},
@@ -124,7 +132,7 @@ EXPECTED_SEARCH_FAMILY_CONTEXT_RESPONSE.update(deepcopy(EXPECTED_SEARCH_RESPONSE
 
 def _get_es_variants(results_model, **kwargs):
     results_model.save()
-    return deepcopy(VARIANTS), len(VARIANTS)
+    return deepcopy(VARIANTS + HAIL_BACKEND_SINGLE_FAMILY_VARIANTS), len(VARIANTS + HAIL_BACKEND_SINGLE_FAMILY_VARIANTS)
 
 
 def _get_empty_es_variants(results_model, **kwargs):
@@ -138,6 +146,7 @@ def _get_compound_het_es_variants(results_model, **kwargs):
     return deepcopy(COMP_HET_VARAINTS), 1
 
 
+@mock.patch('seqr.views.utils.orm_to_json_utils.RnaSeqSpliceOutlier.MAX_SIGNIFICANT_OUTLIER_NUM', 2)
 @mock.patch('seqr.views.utils.permissions_utils.safe_redis_get_json', lambda *args: None)
 class VariantSearchAPITest(object):
 
@@ -156,9 +165,28 @@ class VariantSearchAPITest(object):
         self.assertSetEqual(set(response_json['analysisGroupsByGuid']['AG0000183_test_group'].keys()), ANALYSIS_GROUP_FIELDS)
 
         self.assertEqual(len(response_json['familiesByGuid']), 11)
-        self.assertSetEqual(set(response_json['familiesByGuid']['F000001_1'].keys()), {'projectGuid', 'familyGuid', 'displayName'})
+        self.assertSetEqual(set(response_json['familiesByGuid']['F000001_1'].keys()), {'projectGuid', 'familyGuid', 'displayName', 'analysisStatus'})
         self.assertEqual(response_json['familiesByGuid']['F000001_1']['displayName'], '1')
+        self.assertEqual(response_json['familiesByGuid']['F000001_1']['analysisStatus'], 'Q')
 
+    def _assert_expected_rnaseq_response(self, response_json):
+        self.assertDictEqual(
+            response_json['rnaSeqData']['I000001_na19675']['outliers']['ENSG00000268903'],
+            {'geneId': 'ENSG00000268903', 'isSignificant': True, 'pAdjust': 1.39e-09, 'pValue': 5.88e-10,
+             'tissueType': None, 'zScore': 7.08}
+        )
+        self.assertListEqual(
+            sorted(response_json['rnaSeqData']['I000001_na19675']['spliceOutliers']['ENSG00000268903'], key=lambda d: d['start']),
+            [{'chrom': '7', 'deltaPsi': 0.85, 'end': 4000, 'geneId': 'ENSG00000268903', 'isSignificant': True,
+              'pValue': 0.0001, 'rareDiseaseSamplesTotal': 20, 'rareDiseaseSamplesWithJunction': 1, 'readCount': 1297,
+              'start': 3000, 'strand': '*', 'tissueType': 'F', 'type': 'psi5', 'zScore': 12.34},
+             {'chrom': '7', 'deltaPsi': 0.85, 'end': 8000, 'geneId': 'ENSG00000268903', 'isSignificant': True,
+              'pValue': 0.001, 'rareDiseaseSamplesTotal': 20, 'rareDiseaseSamplesWithJunction': 1, 'readCount': 1297,
+              'start': 7000, 'strand': '*', 'tissueType': 'M', 'type': 'psi5', 'zScore': 12.34},
+             {'chrom': '7', 'deltaPsi': 0.85, 'end': 132886973, 'geneId': 'ENSG00000268903', 'isSignificant': True,
+              'pValue': 1.08e-56, 'rareDiseaseSamplesTotal': 20, 'rareDiseaseSamplesWithJunction': 1, 'readCount': 1297,
+              'start': 132885746, 'strand': '*', 'tissueType': 'F', 'type': 'psi5', 'zScore': 12.34}]
+        )
 
     def _assert_expected_results_family_context(self, response_json, locus_list_detail=False):
         self._assert_expected_results_context(response_json, locus_list_detail=locus_list_detail)
@@ -168,8 +196,9 @@ class VariantSearchAPITest(object):
         if len(response_json['familiesByGuid']) > 1:
             self.assertSetEqual(set(response_json['familiesByGuid']['F000002_2'].keys()), family_fields)
 
-        family_fields.add('hasRnaTpmData')
+        family_fields.add('tpmGenes')
         self.assertSetEqual(set(response_json['familiesByGuid']['F000001_1'].keys()), family_fields)
+        self.assertSetEqual(set(response_json['familiesByGuid']['F000001_1']['tpmGenes']), {'ENSG00000227232'})
 
         self.assertEqual(len(response_json['individualsByGuid']), len(response_json['familiesByGuid'])*3)
         individual_fields = {'igvSampleGuids'}
@@ -182,7 +211,9 @@ class VariantSearchAPITest(object):
         self.assertEqual(len(response_json['familyNotesByGuid']), 3)
         self.assertSetEqual(set(response_json['familyNotesByGuid']['FAN000001_1'].keys()), FAMILY_NOTE_FIELDS)
 
-    def _assert_expected_results_context(self, response_json, has_pa_detail=True, locus_list_detail=False):
+        self._assert_expected_rnaseq_response(response_json)
+
+    def _assert_expected_results_context(self, response_json, has_pa_detail=True, locus_list_detail=False, rnaseq=True):
         gene_fields = {'locusListGuids'}
         gene_fields.update(GENE_VARIANT_FIELDS)
         basic_gene_id = next(gene_id for gene_id in ['ENSG00000268903', 'ENSG00000233653'] if gene_id in response_json['genesById'])
@@ -216,10 +247,12 @@ class VariantSearchAPITest(object):
         if response_json['variantFunctionalDataByGuid']:
             self.assertSetEqual(set(next(iter(response_json['variantFunctionalDataByGuid'].values())).keys()), FUNCTIONAL_FIELDS)
 
+        if rnaseq:
+            self._assert_expected_rnaseq_response(response_json)
 
     @mock.patch('seqr.utils.middleware.logger.error')
-    @mock.patch('seqr.views.apis.variant_search_api.get_es_variant_gene_counts')
-    @mock.patch('seqr.views.apis.variant_search_api.get_es_variants')
+    @mock.patch('seqr.views.apis.variant_search_api.get_variant_query_gene_counts')
+    @mock.patch('seqr.views.apis.variant_search_api.query_variants')
     def test_query_variants(self, mock_get_variants, mock_get_gene_counts, mock_error_logger):
         url = reverse(query_variants_handler, args=['abc'])
         self.check_collaborator_login(url, request_data={'projectFamilies': PROJECT_FAMILIES})
@@ -337,20 +370,30 @@ class VariantSearchAPITest(object):
         response = self.client.get(export_url)
         self.assertEqual(response.status_code, 200)
         expected_content = [
-            ['chrom', 'pos', 'ref', 'alt', 'gene', 'worst_consequence', '1kg_freq', 'exac_freq', 'gnomad_genomes_freq',
+            ['chrom', 'pos', 'ref', 'alt', 'gene', 'worst_consequence', 'callset_freq', 'exac_freq', 'gnomad_genomes_freq',
              'gnomad_exomes_freq', 'topmed_freq', 'cadd', 'revel', 'eigen', 'splice_ai', 'polyphen', 'sift', 'muttaster', 'fathmm',
              'rsid', 'hgvsc', 'hgvsp', 'clinvar_clinical_significance', 'clinvar_gold_stars', 'filter', 'family_id_1',
              'tags_1', 'notes_1', 'family_id_2', 'tags_2', 'notes_2', 'sample_1', 'num_alt_alleles_1', 'gq_1', 'ab_1',
-             'sample_2', 'num_alt_alleles_2', 'gq_2', 'ab_2'],
-            ['21', '3343400', 'GAGA', 'G', 'WASH7P', 'missense_variant', '', '', '', '', '', '', '', '', '', '', '', '',
+             'sample_2', 'num_alt_alleles_2', 'gq_2', 'ab_2', 'sample_3', 'num_alt_alleles_3', 'gq_3', 'ab_3'],
+            ['21', '3343400', 'GAGA', 'G', 'WASH7P', 'missense_variant', '0.13', '', '0.007', '', '', '', '', '', '', '', '', '',
              '', '', 'ENST00000623083.3:c.1075G>A', 'ENSP00000485442.1:p.Gly359Ser', '', '', '', '1',
              'Tier 1 - Novel gene and phenotype (None)|Review (None)', '', '2', '', '', 'NA19675', '1', '46.0',
-             '0.702127659574', 'NA19679', '0', '99.0', '0.0'],
+             '0.702127659574', 'NA19679', '0', '99.0', '0.0', '', '', '', ''],
             ['3', '835', 'AAAG', 'A', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-             '1', '', '', '', '', '', 'NA19679', '0', '99.0', '0.0', '', '', '', ''],
+             '1', '', '', '', '', '', 'NA19679', '0', '99.0', '0.0', '', '', '', '', '', '', '', ''],
             ['12', '48367227', 'TC', 'T', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-             '', '2', 'Known gene for phenotype (None)|Excluded (None)', 'test n\xf8te (None)', '', '', '', '', '', '',
-             '', '', '', '', '']]
+             '', '2', 'Known gene for phenotype (None)|Excluded (None)', 'a later note (None)|test n\xf8te (None)', '', '', '', '', '', '',
+             '', '', '', '', '', '', '', '', ''],
+            ['1', '11794419', 'T', 'G', '', 'missense_variant', '', '0.29499998688697815', '0.2633855640888214',
+             '0.28899794816970825', '0.24615199863910675', '20.899999618530273', '0.19699999690055847',
+             '2.000999927520752', '0.0', '', 'tolerated', '', 'damaging', 'rs1801131', 'ENST00000376585.6:c.1409A>C',
+             'ENSP00000365770.1:p.Glu470Ala', '', '1', '', '2', '', '', '', '', '', 'HG00731', '2', '99', '1.0',
+             'HG00732', '0', '40', '0.0', 'HG00733', '1', '99', '0.625'],
+            ['1', '91502721', 'G', 'A', '', 'intron_variant', '', '0.0', '0.38041073083877563', '0.0',
+             '0.36268100142478943', '2.753999948501587', '', '1.378000020980835', '0.009999999776482582', '', '', '',
+             '', 'rs13447464', 'ENST00000428239.5:c.115+890G>A', '', '', '', '', '2', '', '', '', '', '', 'HG00731',
+             '1', '99', '1.0', 'HG00732', '0', '99', '0.4594594594594595', 'HG00733', '1', '99', '0.4074074074074074'],
+        ]
         self.assertEqual(response.content, ('\n'.join(['\t'.join(line) for line in expected_content])+'\n').encode('utf-8'))
 
         # test export with max families
@@ -358,20 +401,34 @@ class VariantSearchAPITest(object):
             response = self.client.get(export_url)
             self.assertEqual(response.status_code, 200)
             expected_content = [
-                ['chrom', 'pos', 'ref', 'alt', 'gene', 'worst_consequence', '1kg_freq', 'exac_freq', 'gnomad_genomes_freq',
+                ['chrom', 'pos', 'ref', 'alt', 'gene', 'worst_consequence', 'callset_freq', 'exac_freq', 'gnomad_genomes_freq',
                  'gnomad_exomes_freq', 'topmed_freq', 'cadd', 'revel', 'eigen', 'splice_ai', 'polyphen', 'sift', 'muttaster', 'fathmm',
                  'rsid', 'hgvsc', 'hgvsp', 'clinvar_clinical_significance', 'clinvar_gold_stars', 'filter', 'family_id_1',
-                 'tags_1', 'notes_1', 'sample_1', 'num_alt_alleles_1', 'gq_1', 'ab_1',],
-                ['21', '3343400', 'GAGA', 'G', 'WASH7P', 'missense_variant', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                 'tags_1', 'notes_1', 'sample_1', 'num_alt_alleles_1', 'gq_1', 'ab_1', 'sample_2', 'num_alt_alleles_2',
+                 'gq_2', 'ab_2', 'sample_3', 'num_alt_alleles_3', 'gq_3', 'ab_3'],
+                ['21', '3343400', 'GAGA', 'G', 'WASH7P', 'missense_variant', '0.13', '', '0.007', '', '', '', '', '', '', '', '', '', '',
                  '', 'ENST00000623083.3:c.1075G>A', 'ENSP00000485442.1:p.Gly359Ser', '', '', '', '1',
-                 'Tier 1 - Novel gene and phenotype (None)|Review (None)', '', 'NA19675', '1', '46.0', '0.702127659574',],
-                ['21', '3343400', 'GAGA', 'G', 'WASH7P', 'missense_variant', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                 'Tier 1 - Novel gene and phenotype (None)|Review (None)', '', 'NA19675', '1', '46.0', '0.702127659574',
+                 '', '', '', '', '', '', '', '',],
+                ['21', '3343400', 'GAGA', 'G', 'WASH7P', 'missense_variant', '0.13', '', '0.007', '', '', '', '', '', '', '', '', '', '',
                  '', 'ENST00000623083.3:c.1075G>A', 'ENSP00000485442.1:p.Gly359Ser', '', '', '', '2', '', '',
-                 'NA19679', '0', '99.0', '0.0'],
+                 'NA19679', '0', '99.0', '0.0', '', '', '', '', '', '', '', '',],
                 ['3', '835', 'AAAG', 'A', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                 '1', '', '', 'NA19679', '0', '99.0', '0.0',],
+                 '1', '', '', 'NA19679', '0', '99.0', '0.0', '', '', '', '', '', '', '', '',],
                 ['12', '48367227', 'TC', 'T', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                 '', '2', 'Known gene for phenotype (None)|Excluded (None)', 'test n\xf8te (None)', '', '', '', '',]]
+                 '', '2', 'Known gene for phenotype (None)|Excluded (None)', 'a later note (None)|test n\xf8te (None)',
+                 '', '', '', '', '', '', '', '', '', '', '', '',],
+                ['1', '11794419', 'T', 'G', '', 'missense_variant', '', '0.29499998688697815', '0.2633855640888214',
+                 '0.28899794816970825', '0.24615199863910675', '20.899999618530273', '0.19699999690055847',
+                 '2.000999927520752', '0.0', '', 'tolerated', '', 'damaging', 'rs1801131', 'ENST00000376585.6:c.1409A>C',
+                 'ENSP00000365770.1:p.Glu470Ala', '', '1', '', '2', '', '', 'HG00731', '2', '99', '1.0',
+                 'HG00732', '0', '40', '0.0', 'HG00733', '1', '99', '0.625'],
+                ['1', '91502721', 'G', 'A', '', 'intron_variant', '', '0.0', '0.38041073083877563', '0.0',
+                 '0.36268100142478943', '2.753999948501587', '', '1.378000020980835', '0.009999999776482582', '', '',
+                 '', '', 'rs13447464', 'ENST00000428239.5:c.115+890G>A', '', '', '', '', '2', '', '', 'HG00731',
+                 '1', '99', '1.0', 'HG00732', '0', '99', '0.4594594594594595', 'HG00733', '1', '99',
+                 '0.4074074074074074'],
+            ]
             self.assertEqual(response.content,
                              ('\n'.join(['\t'.join(line) for line in expected_content]) + '\n').encode('utf-8'))
 
@@ -418,7 +475,7 @@ class VariantSearchAPITest(object):
         })
         expected_search_response['search']['totalResults'] = 1
         self.assertDictEqual(response_json, expected_search_response)
-        self._assert_expected_results_context(response_json, has_pa_detail=False)
+        self._assert_expected_results_context(response_json, has_pa_detail=False, rnaseq=False)
         mock_error_logger.assert_not_called()
 
         # Test cross-project discovery for analyst users
@@ -455,7 +512,7 @@ class VariantSearchAPITest(object):
         })
         mock_error_logger.assert_not_called()
 
-    @mock.patch('seqr.views.apis.variant_search_api.get_es_variants')
+    @mock.patch('seqr.views.apis.variant_search_api.query_variants')
     def test_query_all_projects_variants(self, mock_get_variants):
         url = reverse(query_variants_handler, args=[SEARCH_HASH])
         self.check_require_login(url)
@@ -465,16 +522,15 @@ class VariantSearchAPITest(object):
             results_model.save()
             self.assertSetEqual(expected_searched_families, {f.guid for f in results_model.families.all()})
             matched_variants = [
-                deepcopy(variant) for variant in VARIANTS
+                deepcopy(variant) for variant in VARIANTS + HAIL_BACKEND_SINGLE_FAMILY_VARIANTS
                 if any(family_guid in expected_searched_families for family_guid in variant['familyGuids'])
             ]
             return matched_variants, len(matched_variants)
 
         mock_get_variants.side_effect = _get_variants
 
-        response = self.client.post(url, content_type='application/json', data=json.dumps({
-            'allGenomeProjectFamilies': '37', 'search': SEARCH
-        }))
+        body = {'allGenomeProjectFamilies': '37', 'search': SEARCH}
+        response = self.client.post(url, content_type='application/json', data=json.dumps(body))
         self.assertEqual(response.status_code, 200)
         response_json = response.json()
         empty_search_response = {
@@ -489,9 +545,7 @@ class VariantSearchAPITest(object):
 
         VariantSearchResults.objects.filter(search_hash=SEARCH_HASH).delete()
         self.login_data_manager_user()
-        response = self.client.post(url, content_type='application/json', data=json.dumps({
-            'allGenomeProjectFamilies': '37', 'search': SEARCH
-        }))
+        response = self.client.post(url, content_type='application/json', data=json.dumps(body))
         self.assertEqual(response.status_code, 200)
         self.assertDictEqual(response.json(), empty_search_response)
 
@@ -500,13 +554,10 @@ class VariantSearchAPITest(object):
         expected_searched_families = {
             'F000001_1', 'F000002_2', 'F000003_3', 'F000004_4', 'F000005_5', 'F000006_6', 'F000007_7', 'F000008_8',
             'F000009_9', 'F000010_10', 'F000013_13'}
-        response = self.client.post(url, content_type='application/json', data=json.dumps({
-            'allGenomeProjectFamilies': '37', 'search': SEARCH,
-            'projectFamilies': [{'projectGuid': PROJECT_GUID, 'familyGuids': ['F000001_1']}]
-        }))
+        body['projectFamilies'] = [{'projectGuid': PROJECT_GUID, 'familyGuids': ['F000001_1']}]
+        response = self.client.post(url, content_type='application/json', data=json.dumps(body))
         self.assertEqual(response.status_code, 200)
         response_json = response.json()
-        self.assertSetEqual(set(response_json.keys()), set(EXPECTED_SEARCH_RESPONSE.keys()))
         self.assertDictEqual(response_json, EXPECTED_SEARCH_RESPONSE)
         self._assert_expected_results_context(response_json)
         self.assertSetEqual(
@@ -517,7 +568,20 @@ class VariantSearchAPITest(object):
         mock_get_variants.assert_called_with(result_model, sort='xpos', page=1, num_results=100,
                                              skip_genotype_filter=True, user=self.collaborator_user)
 
-    @mock.patch('seqr.views.apis.variant_search_api.get_es_variants')
+        result_model.delete()
+        expected_searched_families.remove('F000007_7')
+        expected_searched_families.remove('F000010_10')
+        body['unsolvedFamiliesOnly'] = True
+        response = self.client.post(url, content_type='application/json', data=json.dumps(body))
+        self.assertEqual(response.status_code, 200)
+        response_json = response.json()
+        self.assertSetEqual(set(response_json.keys()), set(EXPECTED_SEARCH_RESPONSE.keys()))
+        self.assertDictEqual(response_json, EXPECTED_SEARCH_RESPONSE)
+        self._assert_expected_results_context(response_json)
+        self.assertSetEqual(
+            set(response_json['search']['projectFamilies'][0]['familyGuids']), expected_searched_families)
+
+    @mock.patch('seqr.views.apis.variant_search_api.query_variants')
     def test_query_all_project_families_variants(self, mock_get_variants):
         url = reverse(query_variants_handler, args=['abc'])
         self.check_collaborator_login(url, request_data={'projectGuids': ['R0003_test']})
@@ -534,7 +598,7 @@ class VariantSearchAPITest(object):
         self.assertDictEqual(response_json['search'], {
             'search': SEARCH,
             'projectFamilies': [{'projectGuid': 'R0003_test', 'familyGuids': mock.ANY}],
-            'totalResults': 3,
+            'totalResults': 5,
         })
         self.assertSetEqual(
             {'F000011_11', 'F000012_12'}, set(response_json['search']['projectFamilies'][0]['familyGuids']))
@@ -626,7 +690,7 @@ class VariantSearchAPITest(object):
         self._assert_expected_search_context(response_json)
 
 
-    @mock.patch('seqr.views.apis.variant_search_api.get_single_es_variant')
+    @mock.patch('seqr.views.apis.variant_search_api.get_single_variant')
     def test_query_single_variant(self, mock_get_variant):
         single_family_variant = deepcopy(VARIANTS[0])
         single_family_variant['familyGuids'] = ['F000001_1']
@@ -652,7 +716,7 @@ class VariantSearchAPITest(object):
         expected_search_response['savedVariantsByGuid'].pop('SV0000002_1248367227_r0390_100')
         expected_search_response['variantTagsByGuid'].pop('VT1726945_2103343353_r0390_100')
         expected_search_response['variantTagsByGuid'].pop('VT1726970_2103343353_r0004_tes')
-        expected_search_response['variantNotesByGuid'].pop('VN0714935_2103343353_r0390_100')
+        expected_search_response['variantNotesByGuid'] = {}
         expected_search_response['genesById'].pop('ENSG00000233653')
         expected_search_response['searchedVariants'] = [single_family_variant]
         self.assertDictEqual(response_json, expected_search_response)
@@ -804,7 +868,7 @@ class AnvilVariantSearchAPITest(AnvilAuthenticationTestCase, VariantSearchAPITes
 
     def test_query_all_projects_variants(self, *args):
         super(AnvilVariantSearchAPITest, self).test_query_all_projects_variants(*args)
-        assert_no_al_has_list_ws(self)
+        assert_no_al_has_list_ws(self, group_count=2)
 
     def test_query_all_project_families_variants(self, *args):
         super(AnvilVariantSearchAPITest, self).test_query_all_project_families_variants(*args)
@@ -820,7 +884,7 @@ class AnvilVariantSearchAPITest(AnvilAuthenticationTestCase, VariantSearchAPITes
 
     def test_saved_search(self):
         super(AnvilVariantSearchAPITest, self).test_saved_search()
-        assert_workspace_calls(self, 6, user=self.no_access_user)
+        assert_workspace_calls(self, 3, user=self.no_access_user)
         self.mock_list_workspaces.assert_not_called()
         self.mock_get_ws_access_level.assert_not_called()
 

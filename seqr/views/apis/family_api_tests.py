@@ -28,6 +28,9 @@ PREVIOUS_FAMILY_ID_FIELD = 'previousFamilyId'
 
 INDIVIDUAL_GUID = 'I000001_na19675'
 INDIVIDUAL2_GUID = 'I000002_na19678'
+INDIVIDUAL3_GUID = 'I000003_na19679'
+
+INDIVIDUAL_GUIDS = [INDIVIDUAL_GUID, INDIVIDUAL2_GUID, INDIVIDUAL3_GUID]
 
 class FamilyAPITest(AuthenticationTestCase):
     fixtures = ['users', '1kg_project', 'reference_data']
@@ -48,11 +51,14 @@ class FamilyAPITest(AuthenticationTestCase):
 
         self.assertEqual(len(response_json['familiesByGuid']), 1)
         family = response_json['familiesByGuid'][FAMILY_GUID]
-        family_fields = {'individualGuids', 'hasRnaTpmData', 'detailsLoaded'}
+        family_fields = {'individualGuids', 'detailsLoaded'}
         family_fields.update(FAMILY_FIELDS)
         self.assertSetEqual(set(family.keys()), family_fields)
         self.assertEqual(family['projectGuid'], PROJECT_GUID)
         self.assertSetEqual(set(family['individualGuids']), set(response_json['individualsByGuid'].keys()))
+        self.assertListEqual(family['analysedBy'], [
+            {'createdBy': 'Test No Access User', 'dataType': 'SNP', 'lastModifiedDate': '2022-07-22T19:27:08.563+00:00'},
+        ])
 
         self.assertEqual(len(response_json['individualsByGuid']), 3)
         individual = response_json['individualsByGuid'][INDIVIDUAL_GUID]
@@ -60,16 +66,22 @@ class FamilyAPITest(AuthenticationTestCase):
                              'hasPhenotypeGeneScores'}
         individual_fields.update(INDIVIDUAL_FIELDS)
         self.assertSetEqual(set(individual.keys()), individual_fields)
-        self.assertTrue(response_json['individualsByGuid'][INDIVIDUAL_GUID]['hasPhenotypeGeneScores'])
-        self.assertTrue(response_json['individualsByGuid'][INDIVIDUAL2_GUID]['hasPhenotypeGeneScores'])
+        self.assertListEqual(
+            [True, True, False],
+            [response_json['individualsByGuid'][guid].get('hasPhenotypeGeneScores', False) for guid in INDIVIDUAL_GUIDS]
+        )
+        self.assertListEqual(
+            [True, False, True],
+            [response_json['individualsByGuid'][guid].get('hasRnaOutlierData', False) for guid in INDIVIDUAL_GUIDS]
+        )
         self.assertSetEqual({PROJECT_GUID}, {i['projectGuid'] for i in response_json['individualsByGuid'].values()})
         self.assertSetEqual({FAMILY_GUID}, {i['familyGuid'] for i in response_json['individualsByGuid'].values()})
 
-        self.assertEqual(len(response_json['samplesByGuid']), 4)
+        self.assertEqual(len(response_json['samplesByGuid']), 7)
         self.assertSetEqual(set(next(iter(response_json['samplesByGuid'].values())).keys()), SAMPLE_FIELDS)
         self.assertSetEqual({PROJECT_GUID}, {s['projectGuid'] for s in response_json['samplesByGuid'].values()})
         self.assertSetEqual({FAMILY_GUID}, {s['familyGuid'] for s in response_json['samplesByGuid'].values()})
-        self.assertEqual(len(individual['sampleGuids']), 2)
+        self.assertEqual(len(individual['sampleGuids']), 4)
         self.assertTrue(set(individual['sampleGuids']).issubset(set(response_json['samplesByGuid'].keys())))
 
         self.assertEqual(len(response_json['igvSamplesByGuid']), 1)
@@ -384,9 +396,9 @@ class FamilyAPITest(AuthenticationTestCase):
             'errors': ['Could not find families with the following previous IDs: 1_old'], 'warnings': []})
 
         # send valid request
-        data = b'Family ID	Previous Family ID	Display Name	Description	Coded Phenotype\n\
-"1_renamed"	"1"	"1"	"family one description"	""\n\
-"2"	""	"2"	"family two description"	""'
+        data = b'Family ID	Previous Family ID	Display Name	Description	Phenotype Description	MONDO ID\n\
+"1_renamed"	"1"	"1"	"family one description"	"dystrophy"	"MONDO:12345"\n\
+"2"	""	"2"	"family two description"	""	""'
 
         response = self.client.post(url, {'f': SimpleUploadedFile("1000_genomes demo_families.tsv", data)})
         self.assertEqual(response.status_code, 200)
@@ -406,6 +418,8 @@ class FamilyAPITest(AuthenticationTestCase):
         family_1 = response_json['familiesByGuid'][FAMILY_GUID]
         self.assertEqual(family_1['description'], 'family one description')
         self.assertEqual(family_1['familyId'], '1_renamed')
+        self.assertEqual(family_1['codedPhenotype'], 'dystrophy')
+        self.assertEqual(family_1['mondoId'], 'MONDO:12345')
         family_2 = response_json['familiesByGuid'][FAMILY_GUID2]
         self.assertEqual(family_2['description'], 'family two description')
         self.assertEqual(family_2['familyId'], '2')
@@ -483,10 +497,8 @@ class FamilyAPITest(AuthenticationTestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertDictEqual(response.json(), {
-            'M': {
-                'individualData': {'NA19675_1': 8.38},
-                'rdgData': [1.01, 8.38],
-            }
+            'F': {'individualData': {'NA19675_1': 1.01}, 'rdgData': [1.01]},
+            'M': {'individualData': {'NA19675_1': 8.38}, 'rdgData': [8.38]}
         })
 
     def test_get_family_phenotype_gene_scores(self):
