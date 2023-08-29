@@ -16,5 +16,9 @@ deploy/*.tar.gz
 
 pedigree_images/*
 seqr_settings
+static/*
+ui/dist/*
+data/*
 
 django_key
+.vscode/settings.json

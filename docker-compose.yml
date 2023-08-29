@@ -99,3 +99,12 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  pipeline-runner-ms:
+    image: msseqr01acr.azurecr.io/azure/pipeline-runner:latest
+    volumes:
+      - ./data/spark_configs:/spark_configs
+    environment:
+      - LUIGI_CONFIG_PATH=/luigi_configs/seqr-load-local-GRCh38.toml
+    depends_on:
+      elasticsearch:
+        condition: service_healthy

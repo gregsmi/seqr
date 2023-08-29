@@ -1701,6 +1701,20 @@ export const TISSUE_DISPLAY = {
 
 export const RNASEQ_JUNCTION_PADDING = 200
 
+export const EVIDENCE_TABLE_COLUMNS = [
+  { name: 'gene', content: 'Gene' },
+  { name: 'hgvsc', content: 'HGVS.C' },
+  { name: 'hgvsp', content: 'HGVS.P' },
+  { name: 'phenotype', content: 'Phenotype' },
+  { name: 'zygosity', content: 'Zygosity' },
+  { name: 'inheritance', content: 'Inheritance' },
+  { name: 'citation', content: 'Citation' },
+  { name: 'studytype', content: 'Study Type' },
+  { name: 'functionalinfo', content: 'Functional Study' },
+  { name: 'mutationtype', content: 'Mutation Type' },
+  { name: 'notes', content: 'Notes' },
+]
+
 export const FAQ_PATH = '/faq'
 export const MATCHMAKER_PATH = '/matchmaker'
 export const PRIVACY_PATH = '/privacy_policy'

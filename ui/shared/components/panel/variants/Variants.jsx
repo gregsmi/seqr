@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Grid, Popup, Label, Button, Header, Tab } from 'semantic-ui-react'
 
-import { GENOME_VERSION_37, clinvarSignificance, clinvarColor, getVariantMainGeneId } from 'shared/utils/constants'
+import { GENOME_VERSION_37, clinvarSignificance, clinvarColor, getVariantMainGeneId, EVIDENCE_TABLE_COLUMNS } from 'shared/utils/constants'
 import { VerticalSpacer } from '../../Spacers'
 import { TagFieldDisplay } from '../view-fields/TagFieldView'
 import FamilyReads from '../family/FamilyReads'
@@ -15,6 +15,8 @@ import Frequencies from './Frequencies'
 import VariantGenes, { VariantGene } from './VariantGene'
 import VariantIndividuals from './VariantIndividuals'
 import { compHetGene, has37Coords } from './VariantUtils'
+import DataTable from '../../table/DataTable'
+import rgsl1Evidence from './PublicationData/RGSL1.json'
 
 const StyledVariantRow = styled(({ isSV, severity, ...props }) => <Grid.Row {...props} />)`  
   .column {
@@ -75,6 +77,8 @@ const tagFamily = tag => (
   />
 )
 
+const toggleTable = () => window.scrollTo(0, 0)
+
 const VariantLayout = (
   {
     variant, compoundHetToggle, mainGeneId, isCompoundHet, linkToSavedVariants, topContent,
@@ -104,6 +108,7 @@ const VariantLayout = (
           {mainGeneId ?
             <VariantGene geneId={mainGeneId} variant={coreVariant} compoundHetToggle={compoundHetToggle} /> :
             <VariantGenes variant={variant} />}
+          {<Button color="blue" onClick={toggleTable}>AI Evidence Aggregator</Button>}
         </Grid.Column>
       )}
       <Grid.Column width={isCompoundHet ? 16 : 12}>
@@ -111,6 +116,17 @@ const VariantLayout = (
       </Grid.Column>
       <Grid.Column width={16}>
         {bottomContent}
+      </Grid.Column>
+      <Grid.Column width={16}>
+        <DataTable
+          striped
+          collapsing
+          singleLine
+          idField="hgvsp"
+          defaultSortColumn="hgvsp"
+          data={rgsl1Evidence}
+          columns={EVIDENCE_TABLE_COLUMNS}
+        />
       </Grid.Column>
     </StyledVariantRow>
   )
