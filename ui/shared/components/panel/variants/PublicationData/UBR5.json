@@ -1,0 +1,93 @@
+[
+    {
+        "id": 1,
+        "gene": "UBR5",
+        "hgvsc": "c.3682C>T",
+        "hgvsp": "p.P1228S",
+        "phenotype": "Neurodevelopmental disorder",
+        "zygosity": "Heterozygous",
+        "inheritance" : "[Dominant]",
+        "citation": "Lieberwirth (2022) Hum Mutat 43, 1795",
+        "studytype": "Family-based",
+        "functionalinfo": "",
+        "mutationtype": "Missense"
+    },
+    {
+        "id": 2,
+        "gene": "UBR5",
+        "hgvsc": "c.2591C>G",
+        "hgvsp": "p.A864G",
+        "phenotype": "[Autism spectrum disorder]",
+        "zygosity": "Heterozygous",
+        "inheritance" : "[Dominant]",
+        "citation": "Pan (2021) Int J Legal Med",
+        "studytype": "Meta-analysis",
+        "functionalinfo": "",
+        "mutationtype": "Missense"
+    },
+    {
+        "id": 3,
+        "gene": "UBR5",
+        "hgvsc": "c.1097A>G",
+        "hgvsp": "p.K366R",
+        "phenotype": "[Cardiac arrythmia]",
+        "zygosity": "Heterozygous",
+        "inheritance" : "[Dominant]",
+        "citation": "Shigemizu (2015) PLoS One 10, e0130329",
+        "studytype": "Family-based",
+        "functionalinfo": "",
+        "mutationtype": "Nonsense"
+    },
+    {
+        "id": 4,
+        "gene": "UBR5",
+        "hgvsc": "c.1349G>T",
+        "hgvsp": "p.R450L",
+        "phenotype": "[Cardiac arrythmia]",
+        "zygosity": "Heterozygous",
+        "inheritance" : "[Dominant]",
+        "citation": "Shigemizu (2015) PLoS One 10, e0130329",
+        "studytype": "Family-based",
+        "functionalinfo": "",
+        "mutationtype": "Nonsense"
+    },
+    {
+        "id": 5,
+        "gene": "UBR5",
+        "hgvsc": "c.2965C>T",
+        "hgvsp": "p.R989W",
+        "phenotype": "[Cardiac arrythmia]",
+        "zygosity": "Heterozygous",
+        "inheritance" : "[Dominant]",
+        "citation": "Shigemizu (2015) PLoS One 10, e0130329",
+        "studytype": "Family-based",
+        "functionalinfo": "",
+        "mutationtype": "Nonsense"
+    },
+    {
+        "id": 6,
+        "gene": "UBR5",
+        "hgvsc": "c.5971G>A",
+        "hgvsp": "p.E1991K",
+        "phenotype": "[Neurodevelopmental disorder]",
+        "zygosity": "Heterozygous",
+        "inheritance" : "Dominant",
+        "citation": "Shigemizu (2015) PLoS One 10, e0130329",
+        "studytype": "Meta-analysis",
+        "functionalinfo": "",
+        "mutationtype": "Missense"
+    },
+    {
+        "id": 7,
+        "gene": "UBR5",
+        "hgvsc": "c.5720G>A",
+        "hgvsp": "p.Arg1907His",
+        "phenotype": "Myoclonic epilepsy",
+        "zygosity": "Heterozygous",
+        "inheritance" : "Dominant",
+        "citation": "Kato (2012) ISRN Neurol 2012, 508308",
+        "studytype": "Family-based",
+        "functionalinfo": "",
+        "mutationtype": "Missense"
+    }
+]

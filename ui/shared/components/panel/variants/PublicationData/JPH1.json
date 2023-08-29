@@ -1,0 +1,28 @@
+[
+    {
+        "id": 1,
+        "gene": "JPH1",
+        "hgvsc": "c.638G>C",
+        "hgvsp": "p.R213P",
+        "phenotype": "Charcot-Marie-Tooth disease [modifier]",
+        "zygosity": "Heterozygous",
+        "inheritance" : "Dominant",
+        "citation": "Pla-Martín (2015) Hum Mol Genet 24, 213",
+        "studytype": "Family-based",
+        "functionalinfo": "Functional studies using animal cells supports pathogenicity of the variant",
+        "mutationtype": "Missense"
+    },
+    {
+        "id": 2,
+        "gene": "JPH1",
+        "hgvsc": "c.733A>G",
+        "hgvsp": "p.M245V",
+        "phenotype": "[Autism spectrum disorder]",
+        "zygosity": "Heterozygous",
+        "inheritance" : "Dominant",
+        "citation": "Zhou (2022) Nat Genet 54: 1305",
+        "studytype": "Meta-analysis",
+        "functionalinfo": "",
+        "mutationtype": "Missense"
+    }
+]

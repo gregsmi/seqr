@@ -17,6 +17,10 @@ import VariantIndividuals from './VariantIndividuals'
 import { compHetGene, has37Coords } from './VariantUtils'
 import DataTable from '../../table/DataTable'
 import rgsl1Evidence from './PublicationData/RGSL1.json'
+import col23A1Evidence from './PublicationData/COL23A1.json'
+import jph1Evidence from './PublicationData/JPH1.json'
+import fam111bEvidence from './PublicationData/FAM111B.json'
+import ubr5Evidence from './PublicationData/UBR5.json'
 
 const StyledVariantRow = styled(({ isSV, severity, ...props }) => <Grid.Row {...props} />)`  
   .column {
@@ -77,6 +81,24 @@ const tagFamily = tag => (
   />
 )
 
+const getEvidenceForTable = (geneId) => {
+  let evidence = col23A1Evidence
+
+  if (geneId === 'ENSG00000121446') {
+    evidence = rgsl1Evidence
+  } else if (geneId === 'ENSG00000050767') {
+    evidence = col23A1Evidence
+  } else if (geneId === 'ENSG00000104369') {
+    evidence = jph1Evidence
+  } else if (geneId === 'ENSG00000104517') {
+    evidence = ubr5Evidence
+  } else if (geneId === 'ENSG00000189057') {
+    evidence = fam111bEvidence
+  }
+
+  return (evidence)
+}
+
 const toggleTable = () => window.scrollTo(0, 0)
 
 const VariantLayout = (
@@ -124,7 +146,7 @@ const VariantLayout = (
           singleLine
           idField="hgvsp"
           defaultSortColumn="hgvsp"
-          data={rgsl1Evidence}
+          data={getEvidenceForTable(mainGeneId)}
           columns={EVIDENCE_TABLE_COLUMNS}
         />
       </Grid.Column>

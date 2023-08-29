@@ -5,12 +5,12 @@
         "hgvsc": "c.1414C>T",
         "hgvsp": "p.Q472*",
         "phenotype": "[Autism spectrum disorder]",
-        "zygosity": "heterozygous",
-        "inheritance" : "dominant",
+        "zygosity": "Heterozygous",
+        "inheritance" : "Dominant",
         "citation": "Fu (2022) Nat Genet 54, 1320",
-        "studytype": "meta-analysis",
+        "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "missense"
+        "mutationtype": "Missense"
     },
     {
         "id": 2,
@@ -18,12 +18,12 @@
         "hgvsc": "c.1615A>G",
         "hgvsp": "M539V",
         "phenotype": "Congenital heart disease",
-        "zygosity": "heterozygous",
-        "inheritance" : "dominant",
+        "zygosity": "Heterozygous",
+        "inheritance" : "Dominant",
         "citation": "Edwards (2020) JACC Basic Transl Sci 5, 376",
-        "studytype": "meta-analysis",
+        "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "missense"
+        "mutationtype": "Missense"
     },
     {
         "id": 3,
@@ -31,11 +31,11 @@
         "hgvsc": "c.1867C>T",
         "hgvsp": "p.R623C",
         "phenotype": "Neurodevelopmental disorder",
-        "zygosity": "heterozygous",
-        "inheritance" : "dominant",
+        "zygosity": "Heterozygous",
+        "inheritance" : "Dominant",
         "citation": "McRae (2017) Nature 542, 433",
-        "studytype": "meta-analysis",
+        "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "missense"
+        "mutationtype": "Missense"
     }
 ]
