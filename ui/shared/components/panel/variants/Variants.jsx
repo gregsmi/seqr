@@ -24,6 +24,8 @@ import ubr5Evidence from './PublicationData/UBR5.json'
 import chi3lEvidence from './PublicationData/CHI3L.json'
 import coq2Evidence from './PublicationData/COQ2.json'
 import cpa6Evidence from './PublicationData/CPA6.json'
+import prkcgEvidence from './PublicationData/PKRCG.json'
+import twnkEvidence from './PublicationData/TWNK.json'
 
 const StyledVariantRow = styled(({ isSV, severity, ...props }) => <Grid.Row {...props} />)`  
   .column {
@@ -103,6 +105,10 @@ const getEvidenceForTable = (geneId) => {
     evidence = coq2Evidence
   } else if (geneId === 'ENSG00000165078') {
     evidence = cpa6Evidence
+  } else if (geneId === 'ENSG00000126583') {
+    evidence = prkcgEvidence
+  } else if (geneId === 'ENSG00000107815') {
+    evidence = twnkEvidence
   }
 
   return (evidence)
