@@ -1,0 +1,41 @@
+[
+    {
+        "id": 1,
+        "gene": "CPA6",
+        "hgvsc": "c.809C>T",
+        "hgvsp": "p.A270V",
+        "phenotype": "Epilepsy",
+        "zygosity": "Homozygous",
+        "inheritance" : "Recessive",
+        "citation": "Salzmann (2012) Hum Mutat.",
+        "studytype": "Family-Based",
+        "functionalinfo": "In silico analysis supports pathogenicity of the variant; Functional studies using patient cells supports pathogenicity of the variant",
+        "mutationtype": "Missense"
+    },
+    {
+        "id": 2,
+        "gene": "CPA6",
+        "hgvsc": "",
+        "hgvsp": "p.G267R",
+        "phenotype": "Epilepsy",
+        "zygosity": "Heterozygous",
+        "inheritance" : "Dominant",
+        "citation": "Sapio (2012) J Biol Chem. ",
+        "studytype": "Family-Based",
+        "functionalinfo": "In silico analysis supports pathogenicity of the variant; Functional studies using patient cells supports pathogenicity of the variant",
+        "mutationtype": "Missense"
+    },
+    {
+        "id": 3,
+        "gene": "CPA6",
+        "hgvsc": "c.794G>A",
+        "hgvsp": "p.C265Y",
+        "phenotype": "Epilepsy",
+        "zygosity": "Heterozygous",
+        "inheritance" : "Dominant",
+        "citation": "Takata (2019) Nat Commun 10",
+        "studytype": "Meta-analysis",
+        "functionalinfo": "",
+        "mutationtype": "Missense"
+    }
+]

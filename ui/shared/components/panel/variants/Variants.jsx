@@ -21,6 +21,9 @@ import col23A1Evidence from './PublicationData/COL23A1.json'
 import jph1Evidence from './PublicationData/JPH1.json'
 import fam111bEvidence from './PublicationData/FAM111B.json'
 import ubr5Evidence from './PublicationData/UBR5.json'
+import chi3lEvidence from './PublicationData/CHI3L.json'
+import coq2Evidence from './PublicationData/COQ2.json'
+import cpa6Evidence from './PublicationData/CPA6.json'
 
 const StyledVariantRow = styled(({ isSV, severity, ...props }) => <Grid.Row {...props} />)`  
   .column {
@@ -82,7 +85,7 @@ const tagFamily = tag => (
 )
 
 const getEvidenceForTable = (geneId) => {
-  let evidence = col23A1Evidence
+  let evidence = {}
 
   if (geneId === 'ENSG00000121446') {
     evidence = rgsl1Evidence
@@ -94,6 +97,12 @@ const getEvidenceForTable = (geneId) => {
     evidence = ubr5Evidence
   } else if (geneId === 'ENSG00000189057') {
     evidence = fam111bEvidence
+  } else if (geneId === 'ENSG00000133048') {
+    evidence = chi3lEvidence
+  } else if (geneId === 'ENSG00000173085') {
+    evidence = coq2Evidence
+  } else if (geneId === 'ENSG00000165078') {
+    evidence = cpa6Evidence
   }
 
   return (evidence)

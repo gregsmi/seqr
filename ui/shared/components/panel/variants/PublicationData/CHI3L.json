@@ -1,0 +1,41 @@
+[
+    {
+        "id": 1,
+        "gene": "CHI3L1",
+        "hgvsc": "c.101A>G",
+        "hgvsp": "p.Y34C",
+        "phenotype": "Congenital heart defect",
+        "zygosity": "Heterozygous",
+        "inheritance" : "Dominant",
+        "citation": "Russell (2019) Data Brief 25, 104311",
+        "studytype": "Meta-analysis",
+        "functionalinfo": "",
+        "mutationtype": "Missense"
+    },
+    {
+        "id": 2,
+        "gene": "CHI3L1",
+        "hgvsc": "c.104G>A",
+        "hgvsp": "p.R35Q",
+        "phenotype": "Congenital heart defect",
+        "zygosity": "Heterozygous",
+        "inheritance" : "Dominant",
+        "citation": "Russell (2019) Data Brief 25, 104311",
+        "studytype": "Meta-analysis",
+        "functionalinfo": "",
+        "mutationtype": "Missense"
+    },
+    {
+        "id": 3,
+        "gene": "CHI3L1",
+        "hgvsc": "c.346C>T",
+        "hgvsp": "p.R116C",
+        "phenotype": "Congenital heart defect",
+        "zygosity": "Heterozygous",
+        "inheritance" : "Dominant",
+        "citation": "Russell (2019) Data Brief 25, 104311",
+        "studytype": "Meta-analysis",
+        "functionalinfo": "",
+        "mutationtype": "Missense"
+    }
+]
