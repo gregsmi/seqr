@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Segment, Icon, Popup, Divider, Loader } from 'semantic-ui-react'
+import { Segment, Icon, Popup, Divider, Loader, Button } from 'semantic-ui-react'
 
 import {
   getSortedIndividualsByFamily,
@@ -293,6 +293,13 @@ class FamilyReads extends React.PureComponent {
       minTotalReads: 0,
     },
     locus: null,
+    showPublicationTable: false,
+  }
+
+  toggleTable = () => {
+    const { showPublicationTable } = this.state
+    const newState = !showPublicationTable
+    this.setState({ showPublicationTable: newState })
   }
 
   updateReads = (familyGuid, locus, sampleTypes, tissueType) => {
@@ -396,7 +403,7 @@ class FamilyReads extends React.PureComponent {
       variant, familyGuid, buttonProps, layout, igvSamplesByFamilySampleIndividual, familiesByGuid,
       projectsByGuid, genesById, sortedIndividualByFamily, noTriggerButton, spliceOutliersByFamily, ...props
     } = this.props
-    const { openFamily, sampleTypes, rnaReferences, junctionTrackOptions, locus } = this.state
+    const { openFamily, sampleTypes, rnaReferences, junctionTrackOptions, locus, showPublicationTable } = this.state
 
     const showReads = noTriggerButton ? null : (
       <ReadButtons
@@ -408,6 +415,8 @@ class FamilyReads extends React.PureComponent {
         showReads={this.showReads}
       />
     )
+
+    const evidenceAggregationButton = (<Button color="blue" onClick={this.toggleTable}>AI Evidence Aggregator</Button>)
 
     const igvSampleIndividuals = (
       openFamily && (igvSamplesByFamilySampleIndividual || {})[openFamily]) || {}
@@ -500,7 +509,9 @@ class FamilyReads extends React.PureComponent {
       </Segment.Group>
     ) : null
 
-    return React.createElement(layout, { variant, reads, showReads, updateReads: this.updateReads, ...props })
+    return React.createElement(layout,
+      // eslint-disable-next-line max-len
+      { variant, reads, showReads, updateReads: this.updateReads, evidenceAggregationButton, showPublicationTable, ...props })
   }
 
 }

@@ -99,12 +99,10 @@ const getEvidenceForTable = (geneId) => {
   return (evidence)
 }
 
-const toggleTable = () => window.scrollTo(0, 0)
-
 const VariantLayout = (
   {
     variant, compoundHetToggle, mainGeneId, isCompoundHet, linkToSavedVariants, topContent,
-    bottomContent, children, ...rowProps
+    bottomContent, children, evidenceAggregationButton, showPublicationTable, ...rowProps
   },
 ) => {
   const coreVariant = Array.isArray(variant) ? variant[0] : variant
@@ -130,7 +128,7 @@ const VariantLayout = (
           {mainGeneId ?
             <VariantGene geneId={mainGeneId} variant={coreVariant} compoundHetToggle={compoundHetToggle} /> :
             <VariantGenes variant={variant} />}
-          {<Button color="blue" onClick={toggleTable}>AI Evidence Aggregator</Button>}
+          {evidenceAggregationButton}
         </Grid.Column>
       )}
       <Grid.Column width={isCompoundHet ? 16 : 12}>
@@ -140,15 +138,17 @@ const VariantLayout = (
         {bottomContent}
       </Grid.Column>
       <Grid.Column width={16}>
-        <DataTable
-          striped
-          collapsing
-          singleLine
-          idField="hgvsp"
-          defaultSortColumn="hgvsp"
-          data={getEvidenceForTable(mainGeneId)}
-          columns={EVIDENCE_TABLE_COLUMNS}
-        />
+        {showPublicationTable && (
+          <DataTable
+            striped
+            collapsing
+            singleLine
+            idField="hgvsp"
+            defaultSortColumn="hgvsp"
+            data={getEvidenceForTable(mainGeneId)}
+            columns={EVIDENCE_TABLE_COLUMNS}
+          />
+        )}
       </Grid.Column>
     </StyledVariantRow>
   )
@@ -163,10 +163,13 @@ VariantLayout.propTypes = {
   topContent: PropTypes.node,
   bottomContent: PropTypes.node,
   children: PropTypes.node,
+  evidenceAggregationButton: PropTypes.element,
+  showPublicationTable: PropTypes.bool,
 }
 
 const Variant = React.memo((
-  { variant, mainGeneId, reads, showReads, dispatch, isCompoundHet, updateReads, ...props },
+  // eslint-disable-next-line max-len
+  { variant, mainGeneId, reads, showReads, dispatch, isCompoundHet, updateReads, evidenceAggregationButton, showPublicationTable, ...props },
 ) => {
   const variantMainGeneId = mainGeneId || getVariantMainGeneId(variant)
   const { severity } = clinvarSignificance(variant.clinvar)
@@ -196,6 +199,8 @@ const Variant = React.memo((
       }
       bottomContent={reads}
       isCompoundHet={isCompoundHet}
+      evidenceAggregationButton={evidenceAggregationButton}
+      showPublicationTable={showPublicationTable}
       {...props}
     >
       <Grid columns="equal">
@@ -224,6 +229,8 @@ Variant.propTypes = {
   linkToSavedVariants: PropTypes.bool,
   reads: PropTypes.object,
   showReads: PropTypes.object,
+  evidenceAggregationButton: PropTypes.element,
+  showPublicationTable: PropTypes.bool,
 }
 
 const VariantWithReads = props => <FamilyReads layout={Variant} {...props} />
