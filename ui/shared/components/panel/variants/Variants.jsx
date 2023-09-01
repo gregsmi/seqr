@@ -156,12 +156,11 @@ const VariantLayout = (
         {showPublicationTable && (
           <DataTable
             striped
-            collapsing
-            singleLine
             idField="hgvsp"
             defaultSortColumn="hgvsp"
             data={getEvidenceForTable(mainGeneId)}
             columns={EVIDENCE_TABLE_COLUMNS}
+            fixedWidth={false}
           />
         )}
       </Grid.Column>
