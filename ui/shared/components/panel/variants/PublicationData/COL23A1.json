@@ -4,11 +4,11 @@
         "gene": "COL23A1",
         "hgvsc": "c.638C>T",
         "hgvsp": "p.Q472*",
-        "phenotype": "[Neurodevelopmental disorder]",
-        "zygosity": "heterozygous",
-        "inheritance" : "dominant",
+        "phenotype": "Neurodevelopmental disorder",
+        "zygosity": "Heterozygous",
+        "inheritance" : "Dominant",
         "citation": "Turner (2019) Am J Hum Genet 105, 1274",
-        "studytype": "meta-analysis",
+        "studytype": "Meta-analysis",
         "functionalinfo": "",
         "mutationtype": "missense"
     },
@@ -18,12 +18,12 @@
         "hgvsc": "c.C335T",
         "hgvsp": "p.A112V",
         "phenotype": "Aortic dissection",
-        "zygosity": "heterozygous",
-        "inheritance" : "dominant",
+        "zygosity": "Heterozygous",
+        "inheritance" : "Dominant",
         "citation": "Pan (2021) Int J Legal Med",
-        "studytype": "meta-analysis",
+        "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "missense"
+        "mutationtype": "Missense"
     },
     {
         "id": 3,

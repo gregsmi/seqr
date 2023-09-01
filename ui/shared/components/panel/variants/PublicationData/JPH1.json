@@ -17,7 +17,7 @@
         "gene": "JPH1",
         "hgvsc": "c.733A>G",
         "hgvsp": "p.M245V",
-        "phenotype": "[Autism spectrum disorder]",
+        "phenotype": "Autism spectrum disorder",
         "zygosity": "Heterozygous",
         "inheritance" : "Dominant",
         "citation": "Zhou (2022) Nat Genet 54: 1305",
