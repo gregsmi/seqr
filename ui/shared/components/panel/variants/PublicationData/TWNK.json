@@ -23,7 +23,8 @@
         "citation": "Hu (2019) Mol Psychiatry 24, 1027",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "tags": "AI Generated"
     },
     {
         "id": 3,
@@ -36,7 +37,9 @@
         "citation": "Davis (2022) Neurology",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "tags": "AI Generated"
+        
     },
     {
         "id": 4,
@@ -49,7 +52,8 @@
         "citation": "Longley (2010) J Biol Chem 285: 29690; Bermejo-Guerrero (2022) J Clin Med 11",
         "studytype": "Family-Based",
         "functionalinfo": "Functional studies using animal cells supports pathogenicity of the variant",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "tags": "AI Generated"
     },
     {
         "id": 5,

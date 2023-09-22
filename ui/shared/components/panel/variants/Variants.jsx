@@ -114,6 +114,8 @@ const getEvidenceForTable = (geneId) => {
   return (evidence)
 }
 
+const getUserFilterVal = ({ gene, hgvsc }) => `${gene}-${hgvsc}`
+
 const VariantLayout = (
   {
     variant, compoundHetToggle, mainGeneId, isCompoundHet, linkToSavedVariants, topContent,
@@ -160,6 +162,7 @@ const VariantLayout = (
             defaultSortColumn="hgvsp"
             data={getEvidenceForTable(mainGeneId)}
             columns={EVIDENCE_TABLE_COLUMNS}
+            getRowFilterVal={getUserFilterVal}
             fixedWidth={false}
           />
         )}
