@@ -26,6 +26,7 @@ import coq2Evidence from './PublicationData/COQ2.json'
 import cpa6Evidence from './PublicationData/CPA6.json'
 import prkcgEvidence from './PublicationData/PKRCG.json'
 import twnkEvidence from './PublicationData/TWNK.json'
+import FullFeaturedCrudGrid from './test_edit_table'
 
 const StyledVariantRow = styled(({ isSV, severity, ...props }) => <Grid.Row {...props} />)`  
   .column {
@@ -114,7 +115,7 @@ const getEvidenceForTable = (geneId) => {
   return (evidence)
 }
 
-const getUserFilterVal = ({ gene, hgvsc }) => `${gene}-${hgvsc}`
+const getUserFilterVal = ({ gene, hgvsc, hgvsp, phenotype, zygosity, inheritance, citation, studytype, functionalinfo, mutationtype, status, notes }) => `${gene}-${hgvsc}-${hgvsc}-${hgvsp}-${phenotype}-${zygosity}-${inheritance}-${citation}-${studytype}-${functionalinfo}-${mutationtype}-${status}-${notes}`
 
 const VariantLayout = (
   {
@@ -154,7 +155,7 @@ const VariantLayout = (
       <Grid.Column width={16}>
         {bottomContent}
       </Grid.Column>
-      <Grid.Column width={16}>
+      <Grid.Column width={12}>
         {showPublicationTable && (
           <DataTable
             striped
@@ -165,6 +166,11 @@ const VariantLayout = (
             getRowFilterVal={getUserFilterVal}
             fixedWidth={false}
           />
+        )}
+      </Grid.Column>
+      <Grid.Column width={4}>
+        {showPublicationTable && (
+          <FullFeaturedCrudGrid />
         )}
       </Grid.Column>
     </StyledVariantRow>
