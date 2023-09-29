@@ -22,3 +22,4 @@ data/*
 
 django_key
 .vscode/settings.json
+node_modules
