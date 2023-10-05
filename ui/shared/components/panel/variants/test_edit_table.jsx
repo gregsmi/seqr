@@ -10,27 +10,32 @@ const columns = [
     sortable: false,
     width: 160,
     editable: true,
-    valueGetter: (params) => `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+    valueGetter: params => `${params.row.firstName || ''} ${params.row.lastName || ''}`,
   }]
 
 const rows = [
   { id: 1, notes: 'fill in' },
   { id: 2, notes: 'fill in' }]
 
+const initialState = {
+  pagination: {
+    paginationModel: {
+      pageSize: 5,
+    },
+  },
+}
+
+const pageSizeOptions = [5]
+const boxStyle = { height: 400, width: '100%' }// define the box style outside of our component and reference it in JSX
+
 export default function DataGridDemo() {
   return (
-    <Box sx={{ height: 400, width: '100%' }}>
+    <Box sx={boxStyle}>
       <DataGrid
         rows={rows}
         columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
-            },
-          },
-        }}
-        pageSizeOptions={[5]}
+        initialState={initialState}
+        pageSizeOptions={pageSizeOptions}
         checkboxSelection
         disableRowSelectionOnClick
       />
