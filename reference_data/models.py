@@ -268,3 +268,32 @@ class ClinGen(models.Model):
 
     class Meta:
         json_fields = ['haploinsufficiency', 'triplosensitivity', 'href']
+
+
+class PubEvidence(models.Model):
+    gene = models.ForeignKey(GeneInfo, on_delete=models.CASCADE)
+
+    paper_id = models.CharField(max_length=25)
+    hgvsc = models.CharField(max_length=25)
+    hgvsp = models.CharField(max_length=25)
+    phenotype = models.TextField()
+    zygosity = models.CharField(max_length=25)
+    inheritance = models.CharField(max_length=25)
+    citation = models.TextField()
+    study_type = models.CharField(max_length=25)
+    functional_info = models.TextField()
+    mutation_type = models.CharField(max_length=25)
+ 
+    class Meta:
+        json_fields = [
+            'paper_id',
+            'hgvsc',
+            'hgvsp',
+            'phenotype',
+            'zygosity',
+            'inheritance',
+            'citation',
+            'study_type',
+            'functional_info',
+            'mutation_type'
+        ]
