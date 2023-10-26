@@ -8,7 +8,7 @@ const columns = [
     headerName: 'Notes',
     description: 'This column has a value getter and is not sortable.',
     sortable: false,
-    width: 160,
+    width: 14,
     editable: true,
     valueGetter: params => `${params.row.firstName || ''} ${params.row.lastName || ''}`,
   }]
@@ -26,9 +26,9 @@ const initialState = {
 }
 
 const pageSizeOptions = [5]
-const boxStyle = { height: 400, width: '100%' }// define the box style outside of our component and reference it in JSX
+const boxStyle = { height: 14, width: '100%' }// define the box style outside of our component and reference it in JSX
 
-export default function DataGridDemo() {
+export default function FullFeaturedCrudGrid() {
   return (
     <Box sx={boxStyle}>
       <DataGrid

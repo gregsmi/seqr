@@ -6,6 +6,7 @@ import { ButtonLink } from 'shared/components/StyledComponents'
 import { EditFamiliesBulkForm, EditIndividualsBulkForm, EditIndividualMetadataBulkForm } from './BulkEditForm'
 import EditIndividualsForm from './EditIndividualsForm'
 import EditFamiliesForm from './EditFamiliesForm'
+import EditEvAggForm from './EditEvAggForm'
 
 const TabPane = styled(Tab.Pane)`
   padding: 1em 0 !important;

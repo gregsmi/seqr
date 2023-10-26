@@ -10,6 +10,7 @@ export const getProjectDetailsIsLoading = state => state.projectDetailsLoading.i
 export const getProjectsByGuid = state => state.projectsByGuid
 export const getProjectCategoriesByGuid = state => state.projectCategoriesByGuid
 export const getFamiliesByGuid = state => state.familiesByGuid
+export const getEvAggByGuid = state => state.evAggByGuid
 export const getFamilyNotesByGuid = state => state.familyNotesByGuid
 export const getFamilyDetailsLoading = state => state.familyDetailsLoading
 export const getIndividualsByGuid = state => state.individualsByGuid

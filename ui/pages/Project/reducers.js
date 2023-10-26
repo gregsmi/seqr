@@ -33,7 +33,7 @@ const REQUEST_FAMILY_VARIANT_SUMMARY = 'REQUEST_FAMILY_VARIANT_SUMMARY'
 const REQUEST_INDIVIDUALS = 'REQUEST_INDIVIDUALS'
 const REQUEST_MME_SUBMISSIONS = 'REQUEST_MME_SUBMISSIONS'
 const REQUEST_LOCUS_LISTS = 'REQUEST_LOCUS_LISTS'
-const RECEIVE_LOCUS_LISTS = 'RECEIVE_LOCUS_LISTS'
+const RECEIVE_LOCUS_LISTS = 'RECEIVE_LOCUS_LISTS' 
 
 // Data actions
 
@@ -153,6 +153,20 @@ export const unloadProject = () => dispatch => dispatch({ type: UPDATE_CURRENT_P
 export const updateFamilies = values => (dispatch, getState) => {
   const action = values.delete ? 'delete' : 'edit'
   return new HttpRequestHelper(`/api/project/${getState().currentProjectGuid}/${action}_families`,
+    (responseJson) => {
+      dispatch({ type: RECEIVE_DATA, updatesById: responseJson })
+    }).post(values)
+}
+
+export const updateEvAgg = values => (dispatch, getState) => {
+  let action = 'edit_individuals'
+  if (values.uploadedFileId) {
+    action = `save_individuals_table/${values.uploadedFileId}`
+  } else if (values.delete) {
+    action = 'delete_individuals'
+  }
+
+  return new HttpRequestHelper(`/api/project/${getState().currentProjectGuid}/${action}`,
     (responseJson) => {
       dispatch({ type: RECEIVE_DATA, updatesById: responseJson })
     }).post(values)

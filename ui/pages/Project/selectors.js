@@ -46,6 +46,11 @@ const FAMILY_SORT_LOOKUP = FAMILY_SORT_OPTIONS.reduce(
   }), {},
 )
 
+// evidence aggregation data selectors
+export const getEvAggByGuid = createSelector(
+  getEvAgg, // getProjectGuid, selectEntitiesForProjectGuid,
+)
+
 // project data selectors
 
 export const getProjectGuid = state => state.currentProjectGuid
@@ -58,6 +63,8 @@ export const getRnaSeqDataLoading = state => state.rnaSeqDataLoading.isLoading
 export const getPhenotypeDataLoading = state => state.phenotypeDataLoading.isLoading
 export const getFamiliesLoading = state => state.familiesLoading.isLoading
 export const getFamilyVariantSummaryLoading = state => state.familyVariantSummaryLoading.isLoading
+export const getEvAggLoading = state => state.evAgg.isLoading
+export const getEvAgg = state => state.evAgg.records
 export const getIndivdualsLoading = state => state.individualsLoading.isLoading
 export const getMmeSubmissionsLoading = state => state.mmeSubmissionsLoading.isLoading
 export const getSamplesLoading = state => state.samplesLoading.isLoading

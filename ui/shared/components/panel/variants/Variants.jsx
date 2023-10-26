@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Grid, Popup, Label, Button, Header, Tab } from 'semantic-ui-react'
-
-import { GENOME_VERSION_37, clinvarSignificance, clinvarColor, getVariantMainGeneId, EVIDENCE_TABLE_COLUMNS } from 'shared/utils/constants'
+import { GENOME_VERSION_37, clinvarSignificance, clinvarColor, getVariantMainGeneId, EVIDENCE_TABLE_COLUMNS } from 'shared/utils/constants' // FAMILY_FIELD_ID, INDIVIDUAL_FIELD_ID
+// import EditRecordsForm from 'shared/components/form/EditRecordsForm'
 import { VerticalSpacer } from '../../Spacers'
+// import { INDIVIDUAL_FIELDS } from '../../../../pages/Project/constants'
 import { TagFieldDisplay } from '../view-fields/TagFieldView'
 import FamilyReads from '../family/FamilyReads'
 import FamilyVariantTags, { LoadedFamilyLabel, taggedByPopup } from './FamilyVariantTags'
@@ -26,7 +27,6 @@ import coq2Evidence from './PublicationData/COQ2.json'
 import cpa6Evidence from './PublicationData/CPA6.json'
 import prkcgEvidence from './PublicationData/PKRCG.json'
 import twnkEvidence from './PublicationData/TWNK.json'
-import FullFeaturedCrudGrid from './test_edit_table'
 
 const StyledVariantRow = styled(({ isSV, severity, ...props }) => <Grid.Row {...props} />)`  
   .column {
@@ -87,6 +87,7 @@ const tagFamily = tag => (
   />
 )
 
+const updateJSON = 
 const getEvidenceForTable = (geneId) => {
   let evidence = {}
 
@@ -159,8 +160,8 @@ const VariantLayout = (
         {showPublicationTable && (
           <DataTable
             striped
-            idField="hgvsp"
-            defaultSortColumn="hgvsp"
+            idField="hgvsc"
+            defaultSortColumn="hgvsc"
             data={getEvidenceForTable(mainGeneId)}
             columns={EVIDENCE_TABLE_COLUMNS}
             getRowFilterVal={getUserFilterVal}
@@ -168,11 +169,13 @@ const VariantLayout = (
           />
         )}
       </Grid.Column>
-      <Grid.Column width={4}>
-        {showPublicationTable && (
-          <FullFeaturedCrudGrid />
-        )}
-      </Grid.Column>
+      {/* <EditRecordsForm
+        idField="individualGuid"
+        entityKey="individuals"
+        defaultSortColumn={FAMILY_FIELD_ID}
+        filterColumn={INDIVIDUAL_FIELD_ID}
+        columns={INDIVIDUAL_FIELDS}
+      /> */}
     </StyledVariantRow>
   )
 }
