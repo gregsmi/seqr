@@ -427,6 +427,22 @@ export const reducers = {
     page: 1,
     recordsPerPage: 25,
   }, false),
+  loadEvAggState: createSingleObjectReducer(UPDATE_SAVED_VARIANT_TABLE_STATE, {
+    hideExcluded: false,
+    hideReviewOnly: false,
+    categoryFilter: SHOW_ALL,
+    sort: SORT_BY_FAMILY_GUID,
+    page: 1,
+    recordsPerPage: 25,
+  }, false),
+  updateEvAggState: createSingleObjectReducer(UPDATE_SAVED_VARIANT_TABLE_STATE, {
+    hideExcluded: false,
+    hideReviewOnly: false,
+    categoryFilter: SHOW_ALL,
+    sort: SORT_BY_FAMILY_GUID,
+    page: 1,
+    recordsPerPage: 25,
+  }, false),
 }
 
 const rootReducer = combineReducers(reducers)

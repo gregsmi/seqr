@@ -310,6 +310,50 @@ export const updateLocusList = values => (dispatch) => {
     }).post(values)
 }
 
+
+export const createSingleObjectReducer = (updateActionType, initialState = {}) => {
+  const reducer = (state = initialState, action) => {
+    if (!action) {
+      return state
+    }
+
+    switch (action.type) {
+      case updateActionType: {
+        if (action.updates === undefined) {
+          // eslint-disable-next-line no-console
+          console.error(`Invalid ${updateActionType} action: action.updates is undefined: `, action)
+          return state
+        }
+
+        return { ...state, ...action.updates }
+      }
+      default:
+        return state
+    }
+  }
+
+  return reducer
+}
+const evAggLoadReducer = (state, action) => {
+  switch (action.type) {
+    case 'LOAD_EV_AGG_DATA':
+      return {
+        ...state,
+        'evAggState': loadEvAggData()
+      }
+    case 'UPDATE_EV_AGG_DATA': {
+      updateEvAggData(action.payload)
+      return {
+        ...state,
+        "evAggState": action.payload
+      }
+    }
+    default: 
+      return state
+    
+  }
+
+}
 // root reducer
 const rootReducer = combineReducers({
   projectCategoriesByGuid: createObjectsByIdReducer(RECEIVE_DATA, 'projectCategoriesByGuid'),
