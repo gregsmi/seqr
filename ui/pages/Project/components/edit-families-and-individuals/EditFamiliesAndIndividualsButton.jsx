@@ -19,6 +19,10 @@ const PANE_DETAILS = [
     formClass: EditFamiliesForm,
   },
   {
+    menuItem: 'Edit Evidence Aggregations',
+    formClass: EditEvAggForm,
+  },
+  {
     menuItem: 'Edit Individuals',
     formClass: EditIndividualsForm,
   },

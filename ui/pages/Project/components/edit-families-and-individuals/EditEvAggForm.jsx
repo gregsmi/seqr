@@ -6,12 +6,13 @@ import DataLoader from 'shared/components/DataLoader'
 import EditRecordsForm from 'shared/components/form/EditRecordsForm'
 import { HGVSC_ID, NOTES_ID } from 'shared/utils/constants'
 import { EVIDENCE_TABLE_FIELDS } from '../../constants'
-import { updateEvAgg } from '../../reducers'
-import { getEvAggByGuid } from '../../selectors'
+// import { updateEvAgg } from '../../reducers'
+import { getEvAgg } from '../../selectors'
 
 const EditEvAggForm = React.memo(({ load, loading, ...props }) => (
   <DataLoader load={load} content={props.records} loading={loading}>
     <EditRecordsForm
+      modalName={props.modalName}
       idField="hgvsc"
       // entityKey="hgvsp"
       defaultSortColumn={HGVSC_ID}
@@ -27,8 +28,6 @@ EditEvAggForm.propTypes = {
   records: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   modalName: PropTypes.string,
-  load: PropTypes.func,
-  loading: PropTypes.bool,
 }
 
 // This enables access to the state from the Redux store.
@@ -39,8 +38,7 @@ EditEvAggForm.propTypes = {
 // Thus, within the EditEvAggForm component, we can access this.props.records.
 // Further, it will have the data returned by getEvAggByGuid(state).
 const mapStateToProps = state => ({
-  loading: getEvAggLoading(state),
-  records: getEvAggByGuid(state),
+  records: getEvAgg(state),
 })
 
 // This enables dispatching (calling the store's dispatch function and passing
@@ -51,8 +49,9 @@ const mapStateToProps = state => ({
 // This means that within the "EditEvAggForm" component, we can call
 // "this.props.onSubmit()" to dispatch the "updateEvAgg" action.
 const mapDispatchToProps = {
-  load: loadEvAgg,
-  onSubmit: updateEvAgg,
+  onSubmit: (values) => {
+    console.log("evAgg form values", JSON.stringify(values))
+  },
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditEvAggForm)
