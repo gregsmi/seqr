@@ -87,25 +87,25 @@ const tagFamily = tag => (
   />
 )
 
-const fs = require('fs');
+// const fs = require('fs');
 
-const updateJsonFile = (jsonFilePath, tempFilePath) => {
-    // Read main JSON file
-    let jsonData = fs.readFileSync(jsonFilePath);
-    let jsonContent = JSON.parse(jsonData);
+// const updateJsonFile = (jsonFilePath, tempFilePath) => {
+//     // Read main JSON file
+//     let jsonData = fs.readFileSync(jsonFilePath);
+//     let jsonContent = JSON.parse(jsonData);
 
-    // Read temp file
-    let tempData = fs.readFileSync(tempFilePath);
-    let tempContent = JSON.parse(tempData);
+//     // Read temp file
+//     let tempData = fs.readFileSync(tempFilePath);
+//     let tempContent = JSON.parse(tempData);
 
-    // Update JSON content with the temp content
-    for (let key in tempContent) {
-        jsonContent[key] = tempContent[key];
-    }
+//     // Update JSON content with the temp content
+//     for (let key in tempContent) {
+//         jsonContent[key] = tempContent[key];
+//     }
 
-    // Write content updates back to the main JSON file
-    fs.writeFileSync(jsonFilePath, JSON.stringify(jsonContent, null, 2));
-}
+//     // Write content updates back to the main JSON file
+//     fs.writeFileSync(jsonFilePath, JSON.stringify(jsonContent, null, 2));
+// }
 
 const getEvidenceForTable = (geneId) => {
   let evidence = {}

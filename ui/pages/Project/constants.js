@@ -40,6 +40,7 @@ import {
   ALL_FAMILY_ANALYSIS_STATUS_OPTIONS,
   FAMILY_ANALYSIS_STATUS_LOOKUP,
   INDIVIDUAL_FIELD_CONFIGS,
+  EVIDENCE_TABLE_CONFIGS,
   SHOW_ALL,
   exportConfigForField,
   INDIVIDUAL_EXPORT_DATA,
@@ -570,7 +571,7 @@ export const EVIDENCE_TABLE_FIELDS = [
   { name: MUT_ID, content: 'Mutation Type' },
   { name: STATUS_ID, content: 'Status' },
   { name: NOTES_ID, content: 'Notes' },
-].map(tableConfigForField(INDIVIDUAL_FIELD_CONFIGS))
+].map(tableConfigForField(EVIDENCE_TABLE_CONFIGS))
 
 export const INDIVIDUAL_DETAIL_EXPORT_DATA = [
   ...INDIVIDUAL_HPO_EXPORT_DATA,

@@ -35,8 +35,8 @@ export default (
   console.log('Creating store with initial state:', persistedInitialState) // eslint-disable-line no-console
 
   // hack: initially loading data from local json file
-  if(PERSISTING_STATE['evAggState'] == undefined)
-    PERSISTING_STATE['evAggState'] = geneData
-
+  if (persistedInitialState.evAggState === undefined) {
+    persistedInitialState.evAggState = geneData
+  }
   return createStore(rootReducer, persistedInitialState, enhancer)
 }

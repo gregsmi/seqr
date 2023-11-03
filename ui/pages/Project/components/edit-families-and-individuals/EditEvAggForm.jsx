@@ -2,25 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import DataLoader from 'shared/components/DataLoader'
+// import DataLoader from 'shared/components/DataLoader'
 import EditRecordsForm from 'shared/components/form/EditRecordsForm'
 import { HGVSC_ID, NOTES_ID } from 'shared/utils/constants'
 import { EVIDENCE_TABLE_FIELDS } from '../../constants'
 // import { updateEvAgg } from '../../reducers'
-import { getEvAgg } from '../../selectors'
+import { getEvAgg } from '../../selectors' // getting data for this table
 
-const EditEvAggForm = React.memo(({ load, loading, ...props }) => (
-  <DataLoader load={load} content={props.records} loading={loading}>
-    <EditRecordsForm
-      modalName={props.modalName}
-      idField="hgvsc"
-      // entityKey="hgvsp"
-      defaultSortColumn={HGVSC_ID}
-      filterColumn={NOTES_ID}
-      columns={EVIDENCE_TABLE_FIELDS}
-      {...props}
-    />
-  </DataLoader>
+const EditEvAggForm = React.memo(props => (
+  <EditRecordsForm
+    modalName={props.modalName}
+    idField="hgvsc"
+    entityKey="hgvsp"
+    defaultSortColumn={HGVSC_ID}
+    filterColumn={NOTES_ID}
+    columns={EVIDENCE_TABLE_FIELDS}
+    {...props}
+  />
 ))
 
 // component
@@ -50,7 +48,7 @@ const mapStateToProps = state => ({
 // "this.props.onSubmit()" to dispatch the "updateEvAgg" action.
 const mapDispatchToProps = {
   onSubmit: (values) => {
-    console.log("evAgg form values", JSON.stringify(values))
+    console.log('evAgg form values', JSON.stringify(values))
   },
 }
 
