@@ -6,7 +6,8 @@ import { ButtonLink } from 'shared/components/StyledComponents'
 import { EditFamiliesBulkForm, EditIndividualsBulkForm, EditIndividualMetadataBulkForm } from './BulkEditForm'
 import EditIndividualsForm from './EditIndividualsForm'
 import EditFamiliesForm from './EditFamiliesForm'
-import EditEvAggForm from './EditEvAggForm'
+// commented out evidence agg.
+// import EditEvAggForm from './EditEvAggForm'
 
 const TabPane = styled(Tab.Pane)`
   padding: 1em 0 !important;
@@ -18,10 +19,11 @@ const PANE_DETAILS = [
     menuItem: 'Edit Families',
     formClass: EditFamiliesForm,
   },
-  {
-    menuItem: 'Edit Evidence Aggregations',
-    formClass: EditEvAggForm,
-  },
+  // commented out evidence agg.
+  // {
+  //   menuItem: 'Edit Evidence Aggregations',
+  //   formClass: EditEvAggForm,
+  // },
   {
     menuItem: 'Edit Individuals',
     formClass: EditIndividualsForm,
