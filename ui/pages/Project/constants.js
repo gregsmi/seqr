@@ -2,6 +2,17 @@
 
 import { stripMarkdown } from 'shared/utils/stringUtils'
 import {
+  GENE_ID, HGVSC_ID,
+  HGVSP_ID,
+  PHENO_ID,
+  ZYGO_ID,
+  INHERIT_ID,
+  CITE_ID,
+  STUDY_ID,
+  FUNCT_ID,
+  MUT_ID,
+  STATUS_ID,
+  NOTES_ID,
   SELECTABLE_FAMILY_ANALYSIS_STATUS_OPTIONS,
   FAMILY_FIELD_ID,
   FAMILY_DISPLAY_NAME,
@@ -29,6 +40,7 @@ import {
   ALL_FAMILY_ANALYSIS_STATUS_OPTIONS,
   FAMILY_ANALYSIS_STATUS_LOOKUP,
   INDIVIDUAL_FIELD_CONFIGS,
+  EVIDENCE_TABLE_CONFIGS,
   SHOW_ALL,
   exportConfigForField,
   INDIVIDUAL_EXPORT_DATA,
@@ -545,6 +557,21 @@ export const INDIVIDUAL_FIELDS = [
   INDIVIDUAL_FIELD_AFFECTED,
   INDIVIDUAL_FIELD_PROBAND_RELATIONSHIP,
 ].map(tableConfigForField(INDIVIDUAL_FIELD_CONFIGS))
+
+export const EVIDENCE_TABLE_FIELDS = [
+  { name: GENE_ID, content: 'Gene' },
+  { name: HGVSC_ID, content: 'HGVS C' },
+  { name: HGVSP_ID, content: 'HGVS P' },
+  { name: PHENO_ID, content: 'Phenotype' },
+  { name: ZYGO_ID, content: 'Zygosity' },
+  { name: INHERIT_ID, content: 'Inheritance' },
+  { name: CITE_ID, content: 'Citation' },
+  { name: STUDY_ID, content: 'Study Type' },
+  { name: FUNCT_ID, content: 'Functional Study' },
+  { name: MUT_ID, content: 'Mutation Type' },
+  { name: STATUS_ID, content: 'Status' },
+  { name: NOTES_ID, content: 'Notes' },
+].map(tableConfigForField(EVIDENCE_TABLE_CONFIGS))
 
 export const INDIVIDUAL_DETAIL_EXPORT_DATA = [
   ...INDIVIDUAL_HPO_EXPORT_DATA,

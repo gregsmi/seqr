@@ -2,10 +2,11 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 
 import { loadState, saveState } from 'shared/utils/localStorage'
+import { geneData } from '../../shared/utils/jsonData'
 
 const PERSISTING_STATE = [
   'projectsTableState', 'familyTableState', 'savedVariantTableState', 'variantSearchDisplay', 'searchesByHash',
-  'familyTableFilterState',
+  'familyTableFilterState', 'evAggState',
 ]
 
 const persistStoreMiddleware = store => next => (action) => {
@@ -33,5 +34,9 @@ export default (
 
   console.log('Creating store with initial state:', persistedInitialState) // eslint-disable-line no-console
 
+  // hack: initially loading data from local json file
+  if (persistedInitialState.evAggState === undefined) {
+    persistedInitialState.evAggState = geneData
+  }
   return createStore(rootReducer, persistedInitialState, enhancer)
 }

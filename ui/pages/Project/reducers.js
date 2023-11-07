@@ -158,6 +158,20 @@ export const updateFamilies = values => (dispatch, getState) => {
     }).post(values)
 }
 
+export const updateEvAgg = values => (dispatch, getState) => {
+  let action = 'edit_individuals'
+  if (values.uploadedFileId) {
+    action = `save_individuals_table/${values.uploadedFileId}`
+  } else if (values.delete) {
+    action = 'delete_individuals'
+  }
+
+  return new HttpRequestHelper(`/api/project/${getState().currentProjectGuid}/${action}`,
+    (responseJson) => {
+      dispatch({ type: RECEIVE_DATA, updatesById: responseJson })
+    }).post(values)
+}
+
 export const updateIndividuals = values => (dispatch, getState) => {
   let action = 'edit_individuals'
   if (values.uploadedFileId) {
@@ -406,6 +420,14 @@ export const reducers = {
     familiesSortDirection: 1,
   }, false),
   savedVariantTableState: createSingleObjectReducer(UPDATE_SAVED_VARIANT_TABLE_STATE, {
+    hideExcluded: false,
+    hideReviewOnly: false,
+    categoryFilter: SHOW_ALL,
+    sort: SORT_BY_FAMILY_GUID,
+    page: 1,
+    recordsPerPage: 25,
+  }, false),
+  updateEvAggState: createSingleObjectReducer(UPDATE_SAVED_VARIANT_TABLE_STATE, {
     hideExcluded: false,
     hideReviewOnly: false,
     categoryFilter: SHOW_ALL,
