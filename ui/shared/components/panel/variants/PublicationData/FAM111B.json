@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": "FAM111B_1",
         "gene": "FAM111B",
         "hgvsc": "c.1861T>G",
         "hgvsp": "p.Tyr621Asp",
@@ -10,10 +10,12 @@
         "citation": "Mercier (2013) American Journal of Human Genetics 93.6",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "FAM111B_2",
         "gene": "FAM111B",
         "hgvsc": "c.1879A>G",
         "hgvsp": "p.Arg627Gly",
@@ -23,10 +25,12 @@
         "citation": "Mercier (2013) American Journal of Human Genetics 93.6",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 3,
+        "id": "FAM111B_3",
         "gene": "FAM111B",
         "hgvsc": "c.1883G>A",
         "hgvsp": "p.Ser628Asn",
@@ -36,10 +40,12 @@
         "citation": "Mercier (2013) American Journal of Human Genetics 93.6",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 4,
+        "id": "FAM111B_4",
         "gene": "FAM111B",
         "hgvsc": "c.1247T>C",
         "hgvsp": "p.Phe416Ser",
@@ -49,10 +55,12 @@
         "citation": "Zhang (2019) The Journal of Dermatology 46.11",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 5,
+        "id": "FAM111B_5",
         "gene": "FAM111B",
         "hgvsc": "c.1247T>C",
         "hgvsp": "p.Phe416Ser",
@@ -62,10 +70,12 @@
         "citation": "Arowolo (2022) Experimental Dermatology 31.5",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 6,
+        "id": "FAM111B_6",
         "gene": "FAM111B",
         "hgvsc": "c.1261_1263delAAG",
         "hgvsp": "p. Lys421del",
@@ -75,10 +85,12 @@
         "citation": "Arowolo (2022) Experimental Dermatology 31.5",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 7,
+        "id": "FAM111B_7",
         "gene": "FAM111B",
         "hgvsc": "c.1289A>C",
         "hgvsp": "p.Gln430Pro",
@@ -88,10 +100,12 @@
         "citation": "Arowolo (2022) Experimental Dermatology 31.5",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 8,
+        "id": "FAM111B_8",
         "gene": "FAM111B",
         "hgvsc": "c.1860T>G",
         "hgvsp": "p.Tyr621Asp",
@@ -101,10 +115,12 @@
         "citation": "Arowolo (2022) Experimental Dermatology 31.5",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 9,
+        "id": "FAM111B_9",
         "gene": "FAM111B",
         "hgvsc": "c.1874C>A",
         "hgvsp": "p.Thr625Asn",
@@ -114,6 +130,8 @@
         "citation": "Arowolo (2022) Experimental Dermatology 31.5",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     }
 ]

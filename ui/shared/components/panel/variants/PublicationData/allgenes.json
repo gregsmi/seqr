@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": "CHI3L1_1",
         "gene": "CHI3L1",
         "hgvsc": "c.101A>G",
         "hgvsp": "p.Y34C",
@@ -10,10 +10,12 @@
         "citation": "Russell (2019) Data Brief 25, 104311",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "CHI3L1_2",
         "gene": "CHI3L1",
         "hgvsc": "c.104G>A",
         "hgvsp": "p.R35Q",
@@ -23,10 +25,12 @@
         "citation": "Russell (2019) Data Brief 25, 104311",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 3,
+        "id": "CHI3L1_3",
         "gene": "CHI3L1",
         "hgvsc": "c.346C>T",
         "hgvsp": "p.R116C",
@@ -36,10 +40,12 @@
         "citation": "Russell (2019) Data Brief 25, 104311",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 1,
+        "id": "COL23A1_1",
         "gene": "COL23A1",
         "hgvsc": "c.638C>T",
         "hgvsp": "p.Q472*",
@@ -49,10 +55,12 @@
         "citation": "Turner (2019) Am J Hum Genet 105, 1274",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "missense"
+        "mutationtype": "missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "COL23A1_2",
         "gene": "COL23A1",
         "hgvsc": "c.C335T",
         "hgvsp": "p.A112V",
@@ -62,10 +70,12 @@
         "citation": "Pan (2021) Int J Legal Med",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 3,
+        "id": "COL23A1_3",
         "gene": "COL23A1",
         "hgvsc": "c.1341_1342CTdel",
         "hgvsp": "p.R447fs",
@@ -75,10 +85,12 @@
         "citation": "Pan (2021) Int J Legal Med :",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Nonsense"
+        "mutationtype": "Nonsense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 4,
+        "id": "COL23A1_4",
         "gene": "COL23A1",
         "hgvsc": "c.G3733A",
         "hgvsp": "p.V1245M",
@@ -88,10 +100,12 @@
         "citation": "Pan (2021) Int J Legal Med",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 1,
+        "id": "COQ2_1",
         "gene": "COQ2",
         "hgvsc": "c.115A>T",
         "hgvsp": "p.T39S",
@@ -101,10 +115,12 @@
         "citation": "Smedley (2021) N Engl J Med 385, 1868",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "COQ2_2",
         "gene": "COQ2",
         "hgvsc": "c.151A>G",
         "hgvsp": "p.M51V",
@@ -114,10 +130,12 @@
         "citation": "Maron (2021) JAMA Pediatr epub, epub",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 3,
+        "id": "COQ2_3",
         "gene": "COQ2",
         "hgvsc": "c.157G>A",
         "hgvsp": "p.G53S",
@@ -127,10 +145,12 @@
         "citation": "Hashemi (2021) Am J Med Genet A 185, 440",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 4,
+        "id": "COQ2_4",
         "gene": "COQ2",
         "hgvsc": "c.163C>T",
         "hgvsp": "p.R55*",
@@ -140,10 +160,12 @@
         "citation": "Bravo-Alonso (2019) J Clin Med 8, 1811",
         "studytype": "Family-Based",
         "functionalinfo": "Functional studies using patient cells supports pathogenicity of the variant",
-        "mutationtype": "Nonsense"
+        "mutationtype": "Nonsense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 5,
+        "id": "COQ2_5",
         "gene": "COQ2",
         "hgvsc": "c.215C>T",
         "hgvsp": "p.P72L",
@@ -153,10 +175,12 @@
         "citation": "Drovandi (2022) Kidney Int 102, 592",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 6,
+        "id": "COQ2_6",
         "gene": "COQ2",
         "hgvsc": "c.571-1G>A",
         "hgvsp": "N/A",
@@ -166,10 +190,12 @@
         "citation": "Drovandi (2022) Kidney Int 102, 592",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Splice"
+        "mutationtype": "Splice",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 7,
+        "id": "COQ2_7",
         "gene": "COQ2",
         "hgvsc": "c.778+1G>A",
         "hgvsp": "N/A",
@@ -179,10 +205,12 @@
         "citation": "Chen (2021) Pediatr Nephrol epub, epub",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Splice"
+        "mutationtype": "Splice",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 8,
+        "id": "COQ2_8",
         "gene": "COQ2",
         "hgvsc": "c.778+2T>C",
         "hgvsp": "N/A",
@@ -192,10 +220,12 @@
         "citation": "Drovandi (2022) Kidney Int 102, 592",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Splice"
+        "mutationtype": "Splice",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 9,
+        "id": "COQ2_9",
         "gene": "COQ2",
         "hgvsc": "",
         "hgvsp": "",
@@ -205,10 +235,12 @@
         "citation": "Katzeff JS (2019) Acta Neuropathol Commun.",
         "studytype": "Review of Literature",
         "functionalinfo": "",
-        "mutationtype": ""
+        "mutationtype": "",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 1,
+        "id": "CPA6_1",
         "gene": "CPA6",
         "hgvsc": "c.809C>T",
         "hgvsp": "p.A270V",
@@ -218,10 +250,12 @@
         "citation": "Salzmann (2012) Hum Mutat.",
         "studytype": "Family-Based",
         "functionalinfo": "In silico analysis supports pathogenicity of the variant; Functional studies using patient cells supports pathogenicity of the variant",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "CPA6_2",
         "gene": "CPA6",
         "hgvsc": "",
         "hgvsp": "p.G267R",
@@ -231,10 +265,12 @@
         "citation": "Sapio (2012) J Biol Chem. ",
         "studytype": "Family-Based",
         "functionalinfo": "In silico analysis supports pathogenicity of the variant; Functional studies using patient cells supports pathogenicity of the variant",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 3,
+        "id": "CPA6_3",
         "gene": "CPA6",
         "hgvsc": "c.794G>A",
         "hgvsp": "p.C265Y",
@@ -244,10 +280,12 @@
         "citation": "Takata (2019) Nat Commun 10",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 1,
+        "id": "FAM111B_1",
         "gene": "FAM111B",
         "hgvsc": "c.1861T>G",
         "hgvsp": "p.Tyr621Asp",
@@ -257,10 +295,12 @@
         "citation": "Mercier (2013) American Journal of Human Genetics 93.6",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "FAM111B_2",
         "gene": "FAM111B",
         "hgvsc": "c.1879A>G",
         "hgvsp": "p.Arg627Gly",
@@ -270,10 +310,12 @@
         "citation": "Mercier (2013) American Journal of Human Genetics 93.6",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 3,
+        "id": "FAM111B_3",
         "gene": "FAM111B",
         "hgvsc": "c.1883G>A",
         "hgvsp": "p.Ser628Asn",
@@ -283,10 +325,12 @@
         "citation": "Mercier (2013) American Journal of Human Genetics 93.6",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 4,
+        "id": "FAM111B_4",
         "gene": "FAM111B",
         "hgvsc": "c.1247T>C",
         "hgvsp": "p.Phe416Ser",
@@ -296,10 +340,12 @@
         "citation": "Zhang (2019) The Journal of Dermatology 46.11",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 5,
+        "id": "FAM111B_5",
         "gene": "FAM111B",
         "hgvsc": "c.1247T>C",
         "hgvsp": "p.Phe416Ser",
@@ -309,10 +355,12 @@
         "citation": "Arowolo (2022) Experimental Dermatology 31.5",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 6,
+        "id": "FAM111B_6",
         "gene": "FAM111B",
         "hgvsc": "c.1261_1263delAAG",
         "hgvsp": "p. Lys421del",
@@ -322,10 +370,12 @@
         "citation": "Arowolo (2022) Experimental Dermatology 31.5",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 7,
+        "id": "FAM111B_7",
         "gene": "FAM111B",
         "hgvsc": "c.1289A>C",
         "hgvsp": "p.Gln430Pro",
@@ -335,10 +385,12 @@
         "citation": "Arowolo (2022) Experimental Dermatology 31.5",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 8,
+        "id": "FAM111B_8",
         "gene": "FAM111B",
         "hgvsc": "c.1860T>G",
         "hgvsp": "p.Tyr621Asp",
@@ -348,10 +400,12 @@
         "citation": "Arowolo (2022) Experimental Dermatology 31.5",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 9,
+        "id": "FAM111B_9",
         "gene": "FAM111B",
         "hgvsc": "c.1874C>A",
         "hgvsp": "p.Thr625Asn",
@@ -361,10 +415,12 @@
         "citation": "Arowolo (2022) Experimental Dermatology 31.5",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 1,
+        "id": "JPH1_1",
         "gene": "JPH1",
         "hgvsc": "c.638G>C",
         "hgvsp": "p.R213P",
@@ -374,10 +430,12 @@
         "citation": "Pla-Martín (2015) Hum Mol Genet 24, 213",
         "studytype": "Family-based",
         "functionalinfo": "Functional studies using animal cells supports pathogenicity of the variant",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "JPH1_2",
         "gene": "JPH1",
         "hgvsc": "c.733A>G",
         "hgvsp": "p.M245V",
@@ -387,10 +445,12 @@
         "citation": "Zhou (2022) Nat Genet 54: 1305",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 1,
+        "id": "PRKCG_1",
         "gene": "PRKCG",
         "hgvsc": "c.68G>A",
         "hgvsp": "p.G23E",
@@ -400,10 +460,12 @@
         "citation": "Schmitz-Hübsch (2021) Ann Clin Transl Neurol 8, 774",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "PRKCG_2",
         "gene": "PRKCG",
         "hgvsc": "c.70G>T",
         "hgvsp": "p.A24S",
@@ -413,10 +475,12 @@
         "citation": "Schmitz-Hübsch (2021) Ann Clin Transl Neurol 8, 774",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 3,
+        "id": "PRKCG_3",
         "gene": "PRKCG",
         "hgvsc": "c.70G>A",
         "hgvsp": "p.A24T",
@@ -426,10 +490,12 @@
         "citation": "Chelban (2018) Mov Disord 33, 1119",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 4,
+        "id": "PRKCG_4",
         "gene": "PRKCG",
         "hgvsc": "c.76A>G",
         "hgvsp": "p.R26G",
@@ -439,10 +505,12 @@
         "citation": "Sailer (2012) Neurology 79, 127",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Nonsense"
+        "mutationtype": "Nonsense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 5,
+        "id": "PRKCG_5",
         "gene": "PRKCG",
         "hgvsc": "c.107A>G",
         "hgvsp": "p.H36R",
@@ -452,10 +520,12 @@
         "citation": "Németh (2013) Brain 136, 3106Németh (2013) Brain 136, 3106",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 6,
+        "id": "PRKCG_6",
         "gene": "PRKCG",
         "hgvsc": "c.226C>T",
         "hgvsp": "p.R76*",
@@ -465,10 +535,12 @@
         "citation": "Shirafuji (2019) Mol Cell Neurosci 98, 46",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Nonsense"
+        "mutationtype": "Nonsense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 7,
+        "id": "PRKCG_7",
         "gene": "PRKCG",
         "hgvsc": "c.285C>G",
         "hgvsp": "N/A",
@@ -478,10 +550,12 @@
         "citation": "Chen (2005) Neurology 64, 1258",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Splice"
+        "mutationtype": "Splice",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 8,
+        "id":"PRKCG_8",
         "gene": "PRKCG",
         "hgvsc": "c.1975C>A",
         "hgvsp": "p.R659S",
@@ -491,10 +565,12 @@
         "citation": "Al-Maghtheh (1998) Am J Hum Genet 62, 1248",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 9,
+        "id": "PRKCG_9",
         "gene": "PRKCG",
         "hgvsc": "c.1856G>A",
         "hgvsp": "p.W619*",
@@ -504,10 +580,12 @@
         "citation": "Zou (2021) Brain 144, 3623",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Nonsense"
+        "mutationtype": "Nonsense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 1,
+        "id": "RGSL1_1",
         "gene": "RGSL1",
         "hgvsc": "c.1414C>T",
         "hgvsp": "p.Q472*",
@@ -517,10 +595,12 @@
         "citation": "Fu (2022) Nat Genet 54, 1320",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "RGSL1_2",
         "gene": "RGSL1",
         "hgvsc": "c.1615A>G",
         "hgvsp": "M539V",
@@ -530,10 +610,12 @@
         "citation": "Edwards (2020) JACC Basic Transl Sci 5, 376",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 3,
+        "id": "RGSL1_3",
         "gene": "RGSL1",
         "hgvsc": "c.1867C>T",
         "hgvsp": "p.R623C",
@@ -543,10 +625,12 @@
         "citation": "McRae (2017) Nature 542, 433",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 1,
+        "id": "TWNK_1",
         "gene": "TWNK",
         "hgvsc": "c.205A>T",
         "hgvsp": "p.I69F",
@@ -556,10 +640,12 @@
         "citation": "Alkhateeb (2016) Metab Brain Dis 31, 901",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "TWNK_2",
         "gene": "TWNK",
         "hgvsc": "c.874C>A",
         "hgvsp": "p.P292T",
@@ -570,10 +656,11 @@
         "studytype": "Family-Based",
         "functionalinfo": "",
         "mutationtype": "Missense",
-        "tags": "AI Generated"
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 3,
+        "id": "TWNK_3",
         "gene": "TWNK",
         "hgvsc": "c.1106C>A",
         "hgvsp": "p.Ser369Tyr ",
@@ -584,11 +671,12 @@
         "studytype": "Family-Based",
         "functionalinfo": "",
         "mutationtype": "Missense",
-        "tags": "AI Generated"
+        "status": "AI Generated",
+        "notes": ""
         
     },
     {
-        "id": 4,
+        "id": "TWNK_4",
         "gene": "TWNK",
         "hgvsc": "c.907C>T",
         "hgvsp": "p.R303W",
@@ -599,10 +687,11 @@
         "studytype": "Family-Based",
         "functionalinfo": "Functional studies using animal cells supports pathogenicity of the variant",
         "mutationtype": "Missense",
-        "tags": "AI Generated"
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 5,
+        "id": "TWNK_5",
         "gene": "TWNK",
         "hgvsc": "c.1001G>A",
         "hgvsp": "p.R334Q",
@@ -612,10 +701,12 @@
         "citation": "Agostino (2003) Neurology 60, 1354",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 6,
+        "id": "TWNK_6",
         "gene": "TWNK",
         "hgvsc": "N/A",
         "hgvsp": "p.S426N",
@@ -625,10 +716,12 @@
         "citation": "Agostino (2003) Neurology 60, 1354",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 7,
+        "id": "TWNK_7",
         "gene": "TWNK",
         "hgvsc": "c.1001G>T",
         "hgvsp": "p.R334L",
@@ -638,10 +731,12 @@
         "citation": "Percetti (2022) Mov Disord 37, 1938",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Splice"
+        "mutationtype": "Splice",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 8,
+        "id": "TWNK_8",
         "gene": "TWNK",
         "hgvsc": "c.1070G>C",
         "hgvsp": "p.R357P",
@@ -651,10 +746,12 @@
         "citation": "Bermejo-Guerrero (2022) J Clin Med 11",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 9,
+        "id": "TWNK_9",
         "gene": "TWNK",
         "hgvsc": "c.1084G>C",
         "hgvsp": "p.A362P",
@@ -664,10 +761,12 @@
         "citation": "Bermejo-Guerrero (2022) J Clin Med 11",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 10,
+        "id": "TWNK_10",
         "gene": "TWNK",
         "hgvsc": "c.1106C>T",
         "hgvsp": "p.S369F*",
@@ -677,10 +776,12 @@
         "citation": "Bermejo-Guerrero (2022) J Clin Med 11",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 11,
+        "id": "TWNK_11",
         "gene": "TWNK",
         "hgvsc": "c.1423G>C",
         "hgvsp": "p.A475P",
@@ -690,10 +791,12 @@
         "citation": "Sanchez-Martinez (2012) PLoS One 7: e43954",
         "studytype": "Family-Based",
         "functionalinfo": "Functional studies using animal cells supports pathogenicity of the variant",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 12,
+        "id": "TWNK_12",
         "gene": "TWNK",
         "hgvsc": "c.737A>G",
         "hgvsp": "p.N246S",
@@ -703,10 +806,12 @@
         "citation": "Bychkov (2021) Mitochondrion 57, 205",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 13,
+        "id": "TWNK_13",
         "gene": "TWNK",
         "hgvsc": "c.794G>A",
         "hgvsp": "p.R265H",
@@ -716,10 +821,12 @@
         "citation": "Duan (2019) Zhonghua Yi Xue Yi Chuan Xue Za Zhi 36, 577",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 14,
+        "id": "TWNK_14",
         "gene": "TWNK",
         "hgvsc": "c.1172G>A",
         "hgvsp": "p.R391H",
@@ -729,10 +836,12 @@
         "citation": "Morino (2014) Neurology 83, 2054",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 15,
+        "id": "TWNK_15",
         "gene": "TWNK",
         "hgvsc": "c.1181G>A",
         "hgvsp": "p.R394H",
@@ -742,10 +851,12 @@
         "citation": "Bouchereau (2016) JIMD Rep 29, 109",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 16,
+        "id": "TWNK_16",
         "gene": "TWNK",
         "hgvsc": "c.1196A>G",
         "hgvsp": "p.N399S",
@@ -755,10 +866,12 @@
         "citation": "Demain (2017) Clin Genet 91, 302",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 17,
+        "id": "TWNK_17",
         "gene": "TWNK",
         "hgvsc": "c.1358G>A",
         "hgvsp": "p.R453Q",
@@ -768,10 +881,12 @@
         "citation": "Fekete (2019) BMC Med Genet 20,",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 18,
+        "id": "TWNK_18",
         "gene": "TWNK",
         "hgvsc": "c.952G>A",
         "hgvsp": "p.A318T",
@@ -781,10 +896,12 @@
         "citation": "Hakonen (2007) Brain.",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 19,
+        "id": "TWNK_19",
         "gene": "TWNK",
         "hgvsc": "c.1523A>G",
         "hgvsp": "p.Y508C",
@@ -794,10 +911,12 @@
         "citation": "Hakonen (2007) Brain.",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 20,
+        "id": "TWNK_20",
         "gene": "TWNK",
         "hgvsc": "c.1853C>T",
         "hgvsp": "p.P618L",
@@ -807,10 +926,12 @@
         "citation": "Alfares (2017) Mol Genet Metab 121, 913",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 21,
+        "id": "TWNK_21",
         "gene": "TWNK",
         "hgvsc": "c.1370C>T",
         "hgvsp": "p.W619*",
@@ -820,10 +941,12 @@
         "citation": "Sarzi (2007) Ann Neurol 62, 579",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 1,
+        "id": "UBR5_1",
         "gene": "UBR5",
         "hgvsc": "c.3682C>T",
         "hgvsp": "p.P1228S",
@@ -833,10 +956,12 @@
         "citation": "Lieberwirth (2022) Hum Mutat 43, 1795",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "UBR5_2",
         "gene": "UBR5",
         "hgvsc": "c.2591C>G",
         "hgvsp": "p.A864G",
@@ -846,10 +971,12 @@
         "citation": "Pan (2021) Int J Legal Med",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 3,
+        "id": "UBR5_3",
         "gene": "UBR5",
         "hgvsc": "c.1097A>G",
         "hgvsp": "p.K366R",
@@ -859,10 +986,12 @@
         "citation": "Shigemizu (2015) PLoS One 10, e0130329",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Nonsense"
+        "mutationtype": "Nonsense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 4,
+        "id": "UBR5_4",
         "gene": "UBR5",
         "hgvsc": "c.1349G>T",
         "hgvsp": "p.R450L",
@@ -872,10 +1001,12 @@
         "citation": "Shigemizu (2015) PLoS One 10, e0130329",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Nonsense"
+        "mutationtype": "Nonsense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 5,
+        "id": "UBR5_5",
         "gene": "UBR5",
         "hgvsc": "c.2965C>T",
         "hgvsp": "p.R989W",
@@ -885,10 +1016,12 @@
         "citation": "Shigemizu (2015) PLoS One 10, e0130329",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Nonsense"
+        "mutationtype": "Nonsense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 6,
+        "id": "UBR5_6",
         "gene": "UBR5",
         "hgvsc": "c.5971G>A",
         "hgvsp": "p.E1991K",
@@ -898,10 +1031,12 @@
         "citation": "Shigemizu (2015) PLoS One 10, e0130329",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 7,
+        "id": "UBR5_7",
         "gene": "UBR5",
         "hgvsc": "c.5720G>A",
         "hgvsp": "p.Arg1907His",
@@ -911,6 +1046,8 @@
         "citation": "Kato (2012) ISRN Neurol 2012, 508308",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     }
 ]

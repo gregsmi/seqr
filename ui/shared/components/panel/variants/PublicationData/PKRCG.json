@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": "PRKCG_1",
         "gene": "PRKCG",
         "hgvsc": "c.68G>A",
         "hgvsp": "p.G23E",
@@ -10,10 +10,12 @@
         "citation": "Schmitz-Hübsch (2021) Ann Clin Transl Neurol 8, 774",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "PRKCG_2",
         "gene": "PRKCG",
         "hgvsc": "c.70G>T",
         "hgvsp": "p.A24S",
@@ -23,10 +25,12 @@
         "citation": "Schmitz-Hübsch (2021) Ann Clin Transl Neurol 8, 774",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 3,
+        "id": "PRKCG_3",
         "gene": "PRKCG",
         "hgvsc": "c.70G>A",
         "hgvsp": "p.A24T",
@@ -36,10 +40,12 @@
         "citation": "Chelban (2018) Mov Disord 33, 1119",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 4,
+        "id": "PRKCG_4",
         "gene": "PRKCG",
         "hgvsc": "c.76A>G",
         "hgvsp": "p.R26G",
@@ -49,10 +55,12 @@
         "citation": "Sailer (2012) Neurology 79, 127",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Nonsense"
+        "mutationtype": "Nonsense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 5,
+        "id": "PRKCG_5",
         "gene": "PRKCG",
         "hgvsc": "c.107A>G",
         "hgvsp": "p.H36R",
@@ -62,10 +70,12 @@
         "citation": "Németh (2013) Brain 136, 3106Németh (2013) Brain 136, 3106",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 6,
+        "id": "PRKCG_6",
         "gene": "PRKCG",
         "hgvsc": "c.226C>T",
         "hgvsp": "p.R76*",
@@ -75,10 +85,12 @@
         "citation": "Shirafuji (2019) Mol Cell Neurosci 98, 46",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Nonsense"
+        "mutationtype": "Nonsense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 7,
+        "id": "PRKCG_7",
         "gene": "PRKCG",
         "hgvsc": "c.285C>G",
         "hgvsp": "N/A",
@@ -88,10 +100,12 @@
         "citation": "Chen (2005) Neurology 64, 1258",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Splice"
+        "mutationtype": "Splice",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 8,
+        "id":"PRKCG_8",
         "gene": "PRKCG",
         "hgvsc": "c.1975C>A",
         "hgvsp": "p.R659S",
@@ -101,10 +115,12 @@
         "citation": "Al-Maghtheh (1998) Am J Hum Genet 62, 1248",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 9,
+        "id": "PRKCG_9",
         "gene": "PRKCG",
         "hgvsc": "c.1856G>A",
         "hgvsp": "p.W619*",
@@ -114,6 +130,8 @@
         "citation": "Zou (2021) Brain 144, 3623",
         "studytype": "Family-Based",
         "functionalinfo": "",
-        "mutationtype": "Nonsense"
+        "mutationtype": "Nonsense",
+        "status": "AI Generated",
+        "notes": ""
     }
 ]

@@ -1,15 +1,19 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Grid, Popup, Label, Button, Header, Tab } from 'semantic-ui-react'
 import { GENOME_VERSION_37, clinvarSignificance, clinvarColor, getVariantMainGeneId, EVIDENCE_TABLE_COLUMNS } from 'shared/utils/constants' // FAMILY_FIELD_ID, INDIVIDUAL_FIELD_ID
+// HGVSC_ID, NOTES_ID,
 // import EditRecordsForm from 'shared/components/form/EditRecordsForm'
+// import { EVIDENCE_TABLE_FIELDS } from 'pages/Project/constants'
 import { VerticalSpacer } from '../../Spacers'
 // import { INDIVIDUAL_FIELDS } from '../../../../pages/Project/constants'
 import { TagFieldDisplay } from '../view-fields/TagFieldView'
 import FamilyReads from '../family/FamilyReads'
 import FamilyVariantTags, { LoadedFamilyLabel, taggedByPopup } from './FamilyVariantTags'
 import Annotations from './Annotations'
+import EditEvAggButton from './EditEvAggButton'
 import Pathogenicity from './Pathogenicity'
 import Predictions from './Predictions'
 import Frequencies from './Frequencies'
@@ -17,16 +21,7 @@ import VariantGenes, { VariantGene } from './VariantGene'
 import VariantIndividuals from './VariantIndividuals'
 import { compHetGene, has37Coords } from './VariantUtils'
 import DataTable from '../../table/DataTable'
-import rgsl1Evidence from './PublicationData/RGSL1.json'
-import col23A1Evidence from './PublicationData/COL23A1.json'
-import jph1Evidence from './PublicationData/JPH1.json'
-import fam111bEvidence from './PublicationData/FAM111B.json'
-import ubr5Evidence from './PublicationData/UBR5.json'
-import chi3lEvidence from './PublicationData/CHI3L.json'
-import coq2Evidence from './PublicationData/COQ2.json'
-import cpa6Evidence from './PublicationData/CPA6.json'
-import prkcgEvidence from './PublicationData/PKRCG.json'
-import twnkEvidence from './PublicationData/TWNK.json'
+import { GENE_ID_MAPPING } from './GeneReader'
 
 const StyledVariantRow = styled(({ isSV, severity, ...props }) => <Grid.Row {...props} />)`  
   .column {
@@ -87,60 +82,12 @@ const tagFamily = tag => (
   />
 )
 
-// const fs = require('fs');
-
-// const updateJsonFile = (jsonFilePath, tempFilePath) => {
-//     // Read main JSON file
-//     let jsonData = fs.readFileSync(jsonFilePath);
-//     let jsonContent = JSON.parse(jsonData);
-
-//     // Read temp file
-//     let tempData = fs.readFileSync(tempFilePath);
-//     let tempContent = JSON.parse(tempData);
-
-//     // Update JSON content with the temp content
-//     for (let key in tempContent) {
-//         jsonContent[key] = tempContent[key];
-//     }
-
-//     // Write content updates back to the main JSON file
-//     fs.writeFileSync(jsonFilePath, JSON.stringify(jsonContent, null, 2));
-// }
-
-const getEvidenceForTable = (geneId) => {
-  let evidence = {}
-
-  if (geneId === 'ENSG00000121446') {
-    evidence = rgsl1Evidence
-  } else if (geneId === 'ENSG00000050767') {
-    evidence = col23A1Evidence
-  } else if (geneId === 'ENSG00000104369') {
-    evidence = jph1Evidence
-  } else if (geneId === 'ENSG00000104517') {
-    evidence = ubr5Evidence
-  } else if (geneId === 'ENSG00000189057') {
-    evidence = fam111bEvidence
-  } else if (geneId === 'ENSG00000133048') {
-    evidence = chi3lEvidence
-  } else if (geneId === 'ENSG00000173085') {
-    evidence = coq2Evidence
-  } else if (geneId === 'ENSG00000165078') {
-    evidence = cpa6Evidence
-  } else if (geneId === 'ENSG00000126583') {
-    evidence = prkcgEvidence
-  } else if (geneId === 'ENSG00000107815') {
-    evidence = twnkEvidence
-  }
-
-  return (evidence)
-}
-
 const getUserFilterVal = ({ gene, hgvsc, hgvsp, phenotype, zygosity, inheritance, citation, studytype, functionalinfo, mutationtype, status, notes }) => `${gene}-${hgvsc}-${hgvsc}-${hgvsp}-${phenotype}-${zygosity}-${inheritance}-${citation}-${studytype}-${functionalinfo}-${mutationtype}-${status}-${notes}`
 
-const VariantLayout = (
+const PreVariantLayout = (
   {
     variant, compoundHetToggle, mainGeneId, isCompoundHet, linkToSavedVariants, topContent,
-    bottomContent, children, evidenceAggregationButton, showPublicationTable, ...rowProps
+    bottomContent, children, evidenceAggregationButton, showPublicationTable, evAggData, ...rowProps
   },
 ) => {
   const coreVariant = Array.isArray(variant) ? variant[0] : variant
@@ -177,29 +124,30 @@ const VariantLayout = (
       </Grid.Column>
       <Grid.Column width={12}>
         {showPublicationTable && (
-          <DataTable
-            striped
-            idField="hgvsc"
-            defaultSortColumn="hgvsc"
-            data={getEvidenceForTable(mainGeneId)}
-            columns={EVIDENCE_TABLE_COLUMNS}
-            getRowFilterVal={getUserFilterVal}
-            fixedWidth={false}
-          />
+          <>
+            <Grid.Column width={12}>
+              <DataTable
+                striped
+                idField="hgvsc"
+                defaultSortColumn="hgvsc"
+                // data={getEvidenceForTable(mainGeneId)}
+                data={evAggData[GENE_ID_MAPPING[mainGeneId]]}
+                columns={EVIDENCE_TABLE_COLUMNS}
+                getRowFilterVal={getUserFilterVal}
+                fixedWidth={false}
+              />
+            </Grid.Column>
+            <Grid.Column width={12}>
+              <EditEvAggButton geneId={mainGeneId} />
+            </Grid.Column>
+          </>
         )}
       </Grid.Column>
-      {/* <EditRecordsForm
-        idField="individualGuid"
-        entityKey="individuals"
-        defaultSortColumn={FAMILY_FIELD_ID}
-        filterColumn={INDIVIDUAL_FIELD_ID}
-        columns={INDIVIDUAL_FIELDS}
-      /> */}
     </StyledVariantRow>
   )
 }
 
-VariantLayout.propTypes = {
+PreVariantLayout.propTypes = {
   variant: PropTypes.any, // eslint-disable-line react/forbid-prop-types
   isCompoundHet: PropTypes.bool,
   mainGeneId: PropTypes.string,
@@ -210,10 +158,14 @@ VariantLayout.propTypes = {
   children: PropTypes.node,
   evidenceAggregationButton: PropTypes.element,
   showPublicationTable: PropTypes.bool,
+  evAggData: PropTypes.arrayOf(PropTypes.object),
 }
 
+const mapStateToProps = state => ({ evAggData: state.evAggState })
+
+const VariantLayout = connect(mapStateToProps)(PreVariantLayout)
+
 const Variant = React.memo((
-  // eslint-disable-next-line max-len
   { variant, mainGeneId, reads, showReads, dispatch, isCompoundHet, updateReads, evidenceAggregationButton, showPublicationTable, ...props },
 ) => {
   const variantMainGeneId = mainGeneId || getVariantMainGeneId(variant)
@@ -276,6 +228,8 @@ Variant.propTypes = {
   showReads: PropTypes.object,
   evidenceAggregationButton: PropTypes.element,
   showPublicationTable: PropTypes.bool,
+  dispatch: PropTypes.func,
+  updateReads: PropTypes.func,
 }
 
 const VariantWithReads = props => <FamilyReads layout={Variant} {...props} />

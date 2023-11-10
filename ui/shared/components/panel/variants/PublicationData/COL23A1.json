@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": "COL23A1_1",
         "gene": "COL23A1",
         "hgvsc": "c.638C>T",
         "hgvsp": "p.Q472*",
@@ -10,10 +10,12 @@
         "citation": "Turner (2019) Am J Hum Genet 105, 1274",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "missense"
+        "mutationtype": "missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "COL23A1_2",
         "gene": "COL23A1",
         "hgvsc": "c.C335T",
         "hgvsp": "p.A112V",
@@ -23,10 +25,12 @@
         "citation": "Pan (2021) Int J Legal Med",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 3,
+        "id": "COL23A1_3",
         "gene": "COL23A1",
         "hgvsc": "c.1341_1342CTdel",
         "hgvsp": "p.R447fs",
@@ -36,10 +40,12 @@
         "citation": "Pan (2021) Int J Legal Med :",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Nonsense"
+        "mutationtype": "Nonsense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 4,
+        "id": "COL23A1_4",
         "gene": "COL23A1",
         "hgvsc": "c.G3733A",
         "hgvsp": "p.V1245M",
@@ -49,6 +55,8 @@
         "citation": "Pan (2021) Int J Legal Med",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     }
 ]

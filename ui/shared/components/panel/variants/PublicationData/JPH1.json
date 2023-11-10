@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": "JPH1_1",
         "gene": "JPH1",
         "hgvsc": "c.638G>C",
         "hgvsp": "p.R213P",
@@ -10,10 +10,12 @@
         "citation": "Pla-Martín (2015) Hum Mol Genet 24, 213",
         "studytype": "Family-based",
         "functionalinfo": "Functional studies using animal cells supports pathogenicity of the variant",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "JPH1_2",
         "gene": "JPH1",
         "hgvsc": "c.733A>G",
         "hgvsp": "p.M245V",
@@ -23,6 +25,8 @@
         "citation": "Zhou (2022) Nat Genet 54: 1305",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     }
 ]

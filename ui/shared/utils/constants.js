@@ -224,6 +224,7 @@ export const successStoryTypeDisplay = tag => (
 )
 
 // EVIDENCE AGGREGATION
+export const ID_ID = 'id'
 export const GENE_ID = 'gene'
 export const HGVSC_ID = 'hgvsc'
 export const HGVSP_ID = 'hgvsp'
@@ -409,21 +410,21 @@ export const INDIVIDUAL_FIELD_CONFIGS = {
     formFieldProps: { component: Select, options: PROBAND_RELATIONSHIP_OPTIONS, search: true },
   },
 }
-
-export const EVIDENCE_TABLE_CONFIGS = {
-  [GENE_ID]: { label: 'Gene', description: 'Gene name in symbol format' },
-  [HGVSC_ID]: { label: 'HGVS C', description: 'HGVS C ID' },
-  [HGVSP_ID]: { label: 'HGVS P', description: 'HGVS P ID' },
-  [PHENO_ID]: { label: 'Phenotype', description: 'Free text phenotype' },
-  [ZYGO_ID]: { label: 'Zygosity', description: 'Categorical zygosity' },
-  [INHERIT_ID]: { label: 'Inheritance', description: 'Categorical variant inheritance' },
-  [CITE_ID]: { label: 'Citation', description: 'Paper citation in the form' },
-  [STUDY_ID]: { label: 'Study type', description: 'Categorical study type' },
-  [FUNCT_ID]: { label: 'Functional study', description: 'Free text functional study' },
-  [MUT_ID]: { label: 'Mutation type', description: 'Categorical mutation type' },
-  [STATUS_ID]: { label: 'Status', description: 'Categorical status' },
-  [NOTES_ID]: { label: 'Notes', description: 'Take notes here' },
-}
+// commented out evidence agg.
+// export const EVIDENCE_TABLE_CONFIGS = {
+//   [GENE_ID]: { label: 'Gene', description: 'Gene name in symbol format' },
+//   [HGVSC_ID]: { label: 'HGVS C', description: 'HGVS C ID' },
+//   [HGVSP_ID]: { label: 'HGVS P', description: 'HGVS P ID' },
+//   [PHENO_ID]: { label: 'Phenotype', description: 'Free text phenotype' },
+//   [ZYGO_ID]: { label: 'Zygosity', description: 'Categorical zygosity' },
+//   [INHERIT_ID]: { label: 'Inheritance', description: 'Categorical variant inheritance' },
+//   [CITE_ID]: { label: 'Citation', description: 'Paper citation in the form' },
+//   [STUDY_ID]: { label: 'Study type', description: 'Categorical study type' },
+//   [FUNCT_ID]: { label: 'Functional study', description: 'Free text functional study' },
+//   [MUT_ID]: { label: 'Mutation type', description: 'Categorical mutation type' },
+//   [STATUS_ID]: { label: 'Status', description: 'Categorical status' },
+//   [NOTES_ID]: { label: 'Notes', description: 'Take notes here' },
+// }
 
 export const INDIVIDUAL_HPO_EXPORT_DATA = [
   {
