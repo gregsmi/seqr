@@ -224,6 +224,7 @@ export const successStoryTypeDisplay = tag => (
 )
 
 // EVIDENCE AGGREGATION
+export const ID_ID = 'id'
 export const GENE_ID = 'gene'
 export const HGVSC_ID = 'hgvsc'
 export const HGVSP_ID = 'hgvsp'

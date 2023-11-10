@@ -3,17 +3,19 @@
 import { stripMarkdown } from 'shared/utils/stringUtils'
 import {
   // commented out evidence agg.
-  // GENE_ID, HGVSC_ID,
-  // HGVSP_ID,
-  // PHENO_ID,
-  // ZYGO_ID,
-  // INHERIT_ID,
-  // CITE_ID,
-  // STUDY_ID,
-  // FUNCT_ID,
-  // MUT_ID,
-  // STATUS_ID,
-  // NOTES_ID,
+  ID_ID,
+  GENE_ID,
+  HGVSC_ID,
+  HGVSP_ID,
+  PHENO_ID,
+  ZYGO_ID,
+  INHERIT_ID,
+  CITE_ID,
+  STUDY_ID,
+  FUNCT_ID,
+  MUT_ID,
+  STATUS_ID,
+  NOTES_ID,
   SELECTABLE_FAMILY_ANALYSIS_STATUS_OPTIONS,
   FAMILY_FIELD_ID,
   FAMILY_DISPLAY_NAME,
@@ -575,7 +577,51 @@ export const INDIVIDUAL_FIELDS = [
 //   { name: STATUS_ID, content: 'Status' },
 //   { name: NOTES_ID, content: 'Notes' },
 // ].map(tableConfigForField(EVIDENCE_TABLE_CONFIGS))
-
+const tableConfigForField2 = fieldConfigs => (field) => {
+  // eslint-disable-next-line no-console
+  // console.log('fieldConfigs:', JSON.stringify(fieldConfigs))
+  // eslint-disable-next-line no-console
+  // console.log('field ', field) formFieldProps = {}
+  // const  { label, width } = fieldConfigs[field]
+  // const  { label } = fieldConfigs[field]
+  const  { label, width, formFieldProps = {} } = fieldConfigs[field]
+  // eslint-disable-next-line no-console
+  console.log(JSON.stringify({ name: field,  content: label }))
+  return { name: field,  content: label, width, formFieldProps }
+}
+export const EVIDENCE_TABLE_CONFIGS2 = {
+  [ID_ID]: { label: 'ID', description: 'Record ID' },
+  [GENE_ID]: { label: 'Gene', description: 'Gene name in symbol format' },
+  [HGVSC_ID]: { label: 'HGVS C', description: 'HGVS C ID', width: 3 },
+  [HGVSP_ID]: { label: 'HGVS P', description: 'HGVS P ID' },
+  [PHENO_ID]: { label: 'Phenotype', description: 'Free text phenotype' },
+  [ZYGO_ID]: { label: 'Zygosity', description: 'Categorical zygosity' },
+  [INHERIT_ID]: { label: 'Inheritance', description: 'Categorical variant inheritance' },
+  [CITE_ID]: { label: 'Citation', description: 'Paper citation in the form' },
+  [STUDY_ID]: { label: 'Study type', description: 'Categorical study type' },
+  [FUNCT_ID]: { label: 'Functional study', description: 'Free text functional study' },
+  [MUT_ID]: { label: 'Mutation type', description: 'Categorical mutation type' },
+  [STATUS_ID]: { label: 'Status', description: 'Categorical status' },
+  [NOTES_ID]: { label: 'Notes', description: 'Take notes here' },
+}
+export const EVIDENCE_TABLE_FIELDS = [
+  ID_ID,
+  GENE_ID,
+  HGVSC_ID,
+  HGVSP_ID,
+  PHENO_ID,
+  ZYGO_ID,
+  // INHERIT_ID,
+  // CITE_ID,
+  // STUDY_ID,
+  // FUNCT_ID,
+  // MUT_ID,
+  STATUS_ID,
+  NOTES_ID,
+].map(tableConfigForField2(EVIDENCE_TABLE_CONFIGS2))
+// export const EVIDENCE_TABLE_FIELDS = [
+//   { name: GENE_ID,  content: 'Gene', width: undefined, formFieldProps: {} },
+// ]
 export const INDIVIDUAL_DETAIL_EXPORT_DATA = [
   ...INDIVIDUAL_HPO_EXPORT_DATA,
   ...INDIVIDUAL_DETAIL_FIELDS.reduce((acc, { isEditable, isCollaboratorEditable, isPrivate, subFields, ...field }) => {

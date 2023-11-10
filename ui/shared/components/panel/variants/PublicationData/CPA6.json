@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": "CPA6_1",
         "gene": "CPA6",
         "hgvsc": "c.809C>T",
         "hgvsp": "p.A270V",
@@ -10,10 +10,12 @@
         "citation": "Salzmann (2012) Hum Mutat.",
         "studytype": "Family-Based",
         "functionalinfo": "In silico analysis supports pathogenicity of the variant; Functional studies using patient cells supports pathogenicity of the variant",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "CPA6_2",
         "gene": "CPA6",
         "hgvsc": "",
         "hgvsp": "p.G267R",
@@ -23,10 +25,12 @@
         "citation": "Sapio (2012) J Biol Chem. ",
         "studytype": "Family-Based",
         "functionalinfo": "In silico analysis supports pathogenicity of the variant; Functional studies using patient cells supports pathogenicity of the variant",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 3,
+        "id": "CPA6_3",
         "gene": "CPA6",
         "hgvsc": "c.794G>A",
         "hgvsp": "p.C265Y",
@@ -36,6 +40,8 @@
         "citation": "Takata (2019) Nat Commun 10",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     }
 ]

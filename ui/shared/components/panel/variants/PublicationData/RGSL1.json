@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": "RGSL1_1",
         "gene": "RGSL1",
         "hgvsc": "c.1414C>T",
         "hgvsp": "p.Q472*",
@@ -10,10 +10,12 @@
         "citation": "Fu (2022) Nat Genet 54, 1320",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "RGSL1_2",
         "gene": "RGSL1",
         "hgvsc": "c.1615A>G",
         "hgvsp": "M539V",
@@ -23,10 +25,12 @@
         "citation": "Edwards (2020) JACC Basic Transl Sci 5, 376",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 3,
+        "id": "RGSL1_3",
         "gene": "RGSL1",
         "hgvsc": "c.1867C>T",
         "hgvsp": "p.R623C",
@@ -36,6 +40,8 @@
         "citation": "McRae (2017) Nature 542, 433",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     }
 ]

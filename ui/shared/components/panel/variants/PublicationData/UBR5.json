@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": "UBR5_1",
         "gene": "UBR5",
         "hgvsc": "c.3682C>T",
         "hgvsp": "p.P1228S",
@@ -10,10 +10,12 @@
         "citation": "Lieberwirth (2022) Hum Mutat 43, 1795",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 2,
+        "id": "UBR5_2",
         "gene": "UBR5",
         "hgvsc": "c.2591C>G",
         "hgvsp": "p.A864G",
@@ -23,10 +25,12 @@
         "citation": "Pan (2021) Int J Legal Med",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 3,
+        "id": "UBR5_3",
         "gene": "UBR5",
         "hgvsc": "c.1097A>G",
         "hgvsp": "p.K366R",
@@ -36,10 +40,12 @@
         "citation": "Shigemizu (2015) PLoS One 10, e0130329",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Nonsense"
+        "mutationtype": "Nonsense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 4,
+        "id": "UBR5_4",
         "gene": "UBR5",
         "hgvsc": "c.1349G>T",
         "hgvsp": "p.R450L",
@@ -49,10 +55,12 @@
         "citation": "Shigemizu (2015) PLoS One 10, e0130329",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Nonsense"
+        "mutationtype": "Nonsense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 5,
+        "id": "UBR5_5",
         "gene": "UBR5",
         "hgvsc": "c.2965C>T",
         "hgvsp": "p.R989W",
@@ -62,10 +70,12 @@
         "citation": "Shigemizu (2015) PLoS One 10, e0130329",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Nonsense"
+        "mutationtype": "Nonsense",
+        "status": "Verified",
+        "notes": ""
     },
     {
-        "id": 6,
+        "id": "UBR5_6",
         "gene": "UBR5",
         "hgvsc": "c.5971G>A",
         "hgvsp": "p.E1991K",
@@ -75,10 +85,12 @@
         "citation": "Shigemizu (2015) PLoS One 10, e0130329",
         "studytype": "Meta-analysis",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "AI Generated",
+        "notes": ""
     },
     {
-        "id": 7,
+        "id": "UBR5_7",
         "gene": "UBR5",
         "hgvsc": "c.5720G>A",
         "hgvsp": "p.Arg1907His",
@@ -88,6 +100,8 @@
         "citation": "Kato (2012) ISRN Neurol 2012, 508308",
         "studytype": "Family-based",
         "functionalinfo": "",
-        "mutationtype": "Missense"
+        "mutationtype": "Missense",
+        "status": "Verified",
+        "notes": ""
     }
 ]

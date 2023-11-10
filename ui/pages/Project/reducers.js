@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 
+import { allGeneData } from 'shared/components/panel/variants/GeneReader'
 import {
   loadingReducer, createSingleObjectReducer, createSingleValueReducer, createObjectsByIdReducer,
 } from 'redux/utils/reducerFactories'
@@ -13,6 +14,7 @@ import { SHOW_IN_REVIEW, SORT_BY_FAMILY_NAME, SORT_BY_FAMILY_ADDED_DATE, CASE_RE
 
 // action creators and reducers in one file as suggested by https://github.com/erikras/ducks-modular-redux
 const RECEIVE_DATA = 'RECEIVE_DATA'
+const UPDATE_DATA_EVAGG = 'UPDATE_DATA_EVAGG'
 const UPDATE_FAMILY_TABLE_STATE = 'UPDATE_FAMILY_TABLE_STATE'
 const UPDATE_FAMILY_TABLE_FILTER_STATE = 'UPDATE_FAMILY_TABLE_FILTER_STATE'
 const UPDATE_CASE_REVIEW_TABLE_STATE = 'UPDATE_CASE_REVIEW_TABLE_STATE'
@@ -159,17 +161,12 @@ export const updateFamilies = values => (dispatch, getState) => {
 }
 
 export const updateEvAgg = values => (dispatch, getState) => {
-  let action = 'edit_individuals'
-  if (values.uploadedFileId) {
-    action = `save_individuals_table/${values.uploadedFileId}`
-  } else if (values.delete) {
-    action = 'delete_individuals'
-  }
-
-  return new HttpRequestHelper(`/api/project/${getState().currentProjectGuid}/${action}`,
-    (responseJson) => {
-      dispatch({ type: RECEIVE_DATA, updatesById: responseJson })
-    }).post(values)
+  console.log('before dispatch: ')
+  dispatch({ type: UPDATE_DATA_EVAGG, updates: values })
+  // return new HttpRequestHelper('/api/project/evagg',
+  //   (responseJson) => {
+  //     dispatch({ type: UPDATE_DATA_EVAGG, updates: values })
+  //   }).post(values)
 }
 
 export const updateIndividuals = values => (dispatch, getState) => {
@@ -392,6 +389,37 @@ export const updateFamiliesTableFilters = updates => (dispatch, getState) => {
 export const updateSavedVariantTable = updates => ({ type: UPDATE_SAVED_VARIANT_TABLE_STATE, updates })
 
 // reducers
+const updateEvAggReducer = (state = allGeneData, action) => {
+  if (!action) {
+    return state
+  }
+
+  switch (action.type) {
+    case UPDATE_DATA_EVAGG: {
+      if (action.updates === undefined) {
+        // eslint-disable-next-line no-console
+        console.error(`Invalid ${UPDATE_DATA_EVAGG} action: action.updates is undefined: `, action)
+        return state
+      }
+      // console.log(' in reducer: action: ', JSON.stringify(action))
+      // console.log(' in reducer: state: ', JSON.stringify(state))
+      const geneId = Object.keys(action.updates)[0]
+      const updatedValues = action.updates[geneId]
+      console.log('updating in reducer: geneId: ', geneId)
+      // if ('evAggState' in state === false) {
+      //   return { ...state, evAggState: { ...action.updates } }
+      // }
+      const existingValues = [...state[geneId]]
+      const keptValues = existingValues.filter(record => updatedValues.find(r => r.id === record.id) === undefined)
+
+      const result = { ...state, [geneId]: [...keptValues, ...updatedValues] }
+      console.log('state after reducer: ', JSON.stringify(result))
+      return result
+    }
+    default:
+      return state
+  }
+}
 
 export const reducers = {
   currentProjectGuid: createSingleValueReducer(UPDATE_CURRENT_PROJECT, null),
@@ -427,14 +455,7 @@ export const reducers = {
     page: 1,
     recordsPerPage: 25,
   }, false),
-  updateEvAggState: createSingleObjectReducer(UPDATE_SAVED_VARIANT_TABLE_STATE, {
-    hideExcluded: false,
-    hideReviewOnly: false,
-    categoryFilter: SHOW_ALL,
-    sort: SORT_BY_FAMILY_GUID,
-    page: 1,
-    recordsPerPage: 25,
-  }, false),
+  evAggState: updateEvAggReducer,
 }
 
 const rootReducer = combineReducers(reducers)
