@@ -363,11 +363,23 @@ export const PROBAND_RELATIONSHIP_OPTIONS = [
   { value: 'U', name: 'Unknown' },
 ]
 
+export const EVAGG_STATUS_OPTIONS = [
+  { value: 'A', name: 'AI Generated' },
+  { value: 'V', name: 'Verified' },
+  { value: 'E', name: 'Exclude' },
+]
+
 const PROBAND_RELATIONSHIP_LOOKUP = PROBAND_RELATIONSHIP_OPTIONS.reduce(
   (acc, opt) => ({
     ...acc,
     ...{ [opt.value]: opt.name },
   }), {},
+)
+
+const EVAGG_STATUS_LOOKUP = EVAGG_STATUS_OPTIONS.reduce((acc, opt) => ({
+  ...acc,
+  ...{ [opt.value]: opt.name },
+}), {},
 )
 
 export const INDIVIDUAL_FIELD_ID = 'individualId'
