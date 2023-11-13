@@ -31,6 +31,9 @@ class ReferenceDataHandler(object):
             'gene_ids_to_gene': gene_ids_to_gene,
         }
 
+    def download_from_url(self):
+        return download_file(self.url)
+
     @staticmethod
     def parse_record(record):
         raise NotImplementedError
@@ -75,7 +78,7 @@ def update_records(reference_data_handler, file_path=None):
     logger.info('Updating {}'.format(reference_data_handler))
 
     if not file_path or not os.path.isfile(file_path):
-        file_path = download_file(reference_data_handler.url)
+        file_path = reference_data_handler.download_from_url()
 
     model_cls = reference_data_handler.model_cls
     model_name = model_cls.__name__

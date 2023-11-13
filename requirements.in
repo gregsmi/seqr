@@ -1,3 +1,5 @@
+azure-identity                    # for Azure-resident reference data
+azure-storage-blob                # for Azure-resident reference data
 Django<3.3                        # core server-side framework
 django-anymail                    # for sending emails using cloud-based mail service providers
 django-csp                        # for setting CSP headers
