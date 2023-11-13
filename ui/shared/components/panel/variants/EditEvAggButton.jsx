@@ -57,7 +57,7 @@ const Pane = React.memo(props => (
     modalName={MODAL_NAME}
     title="AI Evidence Aggrigator"
     size="large"
-    trigger={<ButtonLink>Edit Evidence Aggrigation</ButtonLink>}
+    trigger={<ButtonLink>Edit Evidence Aggregation Table</ButtonLink>}
   >
     <Tab panes={getPanes(props.geneId)} />
   </Modal>
