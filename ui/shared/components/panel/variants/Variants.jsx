@@ -122,10 +122,10 @@ const PreVariantLayout = (
       <Grid.Column width={16}>
         {bottomContent}
       </Grid.Column>
-      <Grid.Column width={12}>
+      <Grid.Column width={16}>
         {showPublicationTable && (
           <>
-            <Grid.Column width={12}>
+            <Grid.Column width={16}>
               <DataTable
                 striped
                 idField="hgvsc"

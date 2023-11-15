@@ -55,9 +55,9 @@ const getPanes = geneId => (PANE_DETAILS.map(({ formClass, menuItem }) => ({
 const Pane = React.memo(props => (
   <Modal
     modalName={MODAL_NAME}
-    title="AI Evidence Aggrigator"
+    title="AI Evidence Aggregator"
     size="large"
-    trigger={<ButtonLink>Edit Evidence Aggrigation</ButtonLink>}
+    trigger={<ButtonLink>Edit Evidence Aggregation Table</ButtonLink>}
   >
     <Tab panes={getPanes(props.geneId)} />
   </Modal>
