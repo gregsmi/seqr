@@ -400,6 +400,9 @@ SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_AZUREA
 SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_TENANT_ID = os.environ.get('SOCIAL_AUTH_AZUREAD_V2_OAUTH2_TENANT')
 LOGIN_URL = '/login/azuread-v2-tenant-oauth2' if SOCIAL_AUTH_AZUREAD_V2_TENANT_OAUTH2_KEY else '/login'
 #########################################################
+# Name of Azure storage account containing authentication-required reference data.
+# Azure EnvironmentCredentials (AZURE_CLIENT_ID etc.) must also be configured.
+AZURE_REF_STORAGE_ACCOUNT = os.environ.get('AZURE_REF_STORAGE_ACCOUNT')
 
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
 SOCIAL_AUTH_URL_NAMESPACE = 'social'

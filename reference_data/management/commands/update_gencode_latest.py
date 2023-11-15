@@ -42,7 +42,8 @@ class Command(BaseCommand):
 
         logger.info(f'Updating {len(genes_to_update)} previously loaded GeneInfo records')
         counters['genes_updated'] = len(genes_to_update)
-        GeneInfo.objects.bulk_update(genes_to_update, fields, batch_size=BATCH_SIZE)
+        if len(genes_to_update) > 0:
+            GeneInfo.objects.bulk_update(genes_to_update, fields, batch_size=BATCH_SIZE)
 
         logger.info('Creating {} GeneInfo records'.format(len(genes)))
         counters['genes_created'] = len(genes)
