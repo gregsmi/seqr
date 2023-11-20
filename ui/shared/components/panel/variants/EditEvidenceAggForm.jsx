@@ -15,8 +15,8 @@ const EditEvAggForm = React.memo(props => (
     modalName={props.modalName}
     idField={ID_ID}
     entityKey={GENE_ID_MAPPING[props.geneId]}
-    defaultSortColumn="hgvsp"
-    filterColumn="hgvsp"
+    defaultSortColumn="status"
+    // filterColumn="hgvsp"
     columns={EVIDENCE_TABLE_FIELDS}
     {...props}
   />

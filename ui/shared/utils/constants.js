@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Label } from 'semantic-ui-react'
 import flatten from 'lodash/flatten'
-
+import { Link } from 'react-router-dom'
 import { validators } from '../components/form/FormHelpers'
 import {
   BooleanCheckbox,
@@ -364,9 +364,9 @@ export const PROBAND_RELATIONSHIP_OPTIONS = [
 ]
 
 export const EVAGG_STATUS_OPTIONS = [
-  { value: 'A', name: 'AI Generated' },
-  { value: 'V', name: 'Verified' },
-  { value: 'E', name: 'Exclude' },
+  { value: 'AI Generated', name: 'AI Generated', color: '#668FE3' },
+  { value: 'Verified', name: 'Verified', color: '#56db58' },
+  { value: 'Exclude', name: 'Exclude', color: '#db6a56' },
 ]
 
 const PROBAND_RELATIONSHIP_LOOKUP = PROBAND_RELATIONSHIP_OPTIONS.reduce(
@@ -376,10 +376,11 @@ const PROBAND_RELATIONSHIP_LOOKUP = PROBAND_RELATIONSHIP_OPTIONS.reduce(
   }), {},
 )
 
-const EVAGG_STATUS_LOOKUP = EVAGG_STATUS_OPTIONS.reduce((acc, opt) => ({
-  ...acc,
-  ...{ [opt.value]: opt.name },
-}), {},
+const EVAGG_STATUS_LOOKUP = EVAGG_STATUS_OPTIONS.reduce(
+  (acc, opt) => ({
+    ...acc,
+    ...{ [opt.value]: opt.name },
+  }), {},
 )
 
 export const INDIVIDUAL_FIELD_ID = 'individualId'
@@ -423,20 +424,61 @@ export const INDIVIDUAL_FIELD_CONFIGS = {
   },
 }
 // commented out evidence agg.
-// export const EVIDENCE_TABLE_CONFIGS = {
-//   [GENE_ID]: { label: 'Gene', description: 'Gene name in symbol format' },
-//   [HGVSC_ID]: { label: 'HGVS C', description: 'HGVS C ID' },
-//   [HGVSP_ID]: { label: 'HGVS P', description: 'HGVS P ID' },
-//   [PHENO_ID]: { label: 'Phenotype', description: 'Free text phenotype' },
-//   [ZYGO_ID]: { label: 'Zygosity', description: 'Categorical zygosity' },
-//   [INHERIT_ID]: { label: 'Inheritance', description: 'Categorical variant inheritance' },
-//   [CITE_ID]: { label: 'Citation', description: 'Paper citation in the form' },
-//   [STUDY_ID]: { label: 'Study type', description: 'Categorical study type' },
-//   [FUNCT_ID]: { label: 'Functional study', description: 'Free text functional study' },
-//   [MUT_ID]: { label: 'Mutation type', description: 'Categorical mutation type' },
-//   [STATUS_ID]: { label: 'Status', description: 'Categorical status' },
-//   [NOTES_ID]: { label: 'Notes', description: 'Take notes here' },
-// }
+export const EVIDENCE_TABLE_CONFIGS = {
+  [ID_ID]: { label: 'ID', description: 'Record ID' },
+  [GENE_ID]: { label: 'Gene', description: 'Gene name in symbol format', width: 8 },
+  [HGVSC_ID]: { label: '-- HGVS C', description: 'HGVS C ID', width: 11 },
+  [HGVSP_ID]: { label: 'HGVS P', description: 'HGVS P ID', width: 10 },
+  [PHENO_ID]: { label: 'Phenotype', description: 'Free text phenotype', width: 14 },
+  [ZYGO_ID]: { label: 'Zygosity', description: 'Categorical zygosity', width: 12 },
+  [INHERIT_ID]: { label: 'Inheritance', description: 'Categorical variant inheritance', width: 11 },
+  [CITE_ID]: {
+    label: 'Citation',
+    description: 'Paper citation in the form',
+    width: 14,
+    // format: citation => <a href={citation.splitstr(',')[0]}>{}</a>, // citation.url
+    format: (citation) => {
+      const parts = citation.split(',')
+      return <Link to={parts[0]}>{parts[1]}</Link>
+    },
+  },
+  // [CITE_ID]: {
+  //   label: 'Citation',
+  //   description: 'Paper citation in the form',
+  //   width: 10,
+  //   format: (citation) => {
+  //     if (!citation || typeof citation !== 'object' || !citation.url || !citation.title) {
+  //       console.error('YAY Unexpected citation format:', citation)
+  //       return 'YAY Invalid citation'
+  //     }
+  //     return <a href={citation.url}>{citation.title}</a>
+  //   },
+  // },
+  // eslint-disable-next-line react/no-unescaped-entities
+  // return <a href="www.google.com">"Google"</a>
+  // <a href={citation.url} target="_blank" rel="noopener noreferrer">{citation.title}</a
+  [STUDY_ID]: {
+    label: 'Study T.',
+    description: 'Categorical study type',
+    width: 13,
+    style: { maxWidth: '50px', whiteSpace: 'normal' },
+  },
+  [FUNCT_ID]: {
+    label: 'Functional S.',
+    description: 'Free text functional study',
+    width: 11,
+    style: { maxWidth: '50px', whiteSpace: 'normal' },
+  },
+  [MUT_ID]: { label: 'Variant T.', description: 'Categorical mutation type', width: 10 },
+  [STATUS_ID]: {
+    label: 'Status',
+    description: 'Categorical status',
+    format: relationship => EVAGG_STATUS_LOOKUP[relationship],
+    formFieldProps: { component: Select, options: EVAGG_STATUS_OPTIONS, search: true },
+    width: 13,
+  },
+  [NOTES_ID]: { label: 'Notes', description: 'Take notes here', width: 16 },
+}
 
 export const INDIVIDUAL_HPO_EXPORT_DATA = [
   {
@@ -1749,11 +1791,41 @@ export const EVIDENCE_TABLE_COLUMNS = [
   { name: 'phenotype', content: 'Phenotype' },
   { name: 'zygosity', content: 'Zygosity' },
   { name: 'inheritance', content: 'Inheritance' },
-  { name: 'citation', content: 'Citation' },
+  {
+    name: 'citation',
+    content: 'Citation',
+    format: (citation) => {
+      const parts = citation.citation.toString().split(';')
+      return <a href={parts[1]} target="_blank" rel="noopener noreferrer">{parts[0]}</a> // will open the link in a new tab
+    },
+  },
   { name: 'studytype', content: 'Study Type' },
   { name: 'functionalinfo', content: 'Functional Study' },
-  { name: 'mutationtype', content: 'Mutation Type' },
+  { name: 'mutationtype', content: 'Variant Type' },
   { name: 'status', content: 'Status' },
+  // {
+  //   name: 'status',
+  //   content: 'Status',
+  //   format: (status) => {
+  //     const statusStr = status.status.toString()
+  //     console.log(statusStr)
+  //     let color
+  //     switch (statusStr) {
+  //       case 'AI Generated':
+  //         color = 'purple'
+  //         console.log(color)
+  //         break
+  //       case 'Verified':
+  //         color = 'green'
+  //         console.log(color)
+  //         break
+  //       default:
+  //         color = 'black'
+  //         console.log(color)
+  //     }
+  //     return <span style={color}>{status}</span>
+  //   },
+  // },
   { name: 'notes', content: 'Notes' },
 ]
 

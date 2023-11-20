@@ -44,7 +44,7 @@ import {
   FAMILY_ANALYSIS_STATUS_LOOKUP,
   INDIVIDUAL_FIELD_CONFIGS,
   // commented out evidence agg.
-  // EVIDENCE_TABLE_CONFIGS,
+  EVIDENCE_TABLE_CONFIGS,
   SHOW_ALL,
   exportConfigForField,
   INDIVIDUAL_EXPORT_DATA,
@@ -589,36 +589,23 @@ const tableConfigForField2 = fieldConfigs => (field) => {
   console.log(JSON.stringify({ name: field,  content: label }))
   return { name: field,  content: label, width, formFieldProps }
 }
-export const EVIDENCE_TABLE_CONFIGS2 = {
-  [ID_ID]: { label: 'ID', description: 'Record ID' },
-  [GENE_ID]: { label: 'Gene', description: 'Gene name in symbol format' },
-  [HGVSC_ID]: { label: 'HGVS C', description: 'HGVS C ID', width: 3 },
-  [HGVSP_ID]: { label: 'HGVS P', description: 'HGVS P ID' },
-  [PHENO_ID]: { label: 'Phenotype', description: 'Free text phenotype' },
-  [ZYGO_ID]: { label: 'Zygosity', description: 'Categorical zygosity' },
-  [INHERIT_ID]: { label: 'Inheritance', description: 'Categorical variant inheritance' },
-  [CITE_ID]: { label: 'Citation', description: 'Paper citation in the form' },
-  [STUDY_ID]: { label: 'Study type', description: 'Categorical study type' },
-  [FUNCT_ID]: { label: 'Functional study', description: 'Free text functional study' },
-  [MUT_ID]: { label: 'Mutation type', description: 'Categorical mutation type' },
-  [STATUS_ID]: { label: 'Status', description: 'Categorical status' },
-  [NOTES_ID]: { label: 'Notes', description: 'Take notes here' },
-}
+
+// commented out evidence agg
 export const EVIDENCE_TABLE_FIELDS = [
-  ID_ID,
-  GENE_ID,
+  // ID_ID,
+  // GENE_ID,
   HGVSC_ID,
   HGVSP_ID,
   PHENO_ID,
   ZYGO_ID,
-  // INHERIT_ID,
-  // CITE_ID,
-  // STUDY_ID,
-  // FUNCT_ID,
-  // MUT_ID,
+  INHERIT_ID,
+  CITE_ID,
+  STUDY_ID,
+  FUNCT_ID,
+  MUT_ID,
   STATUS_ID,
   NOTES_ID,
-].map(tableConfigForField2(EVIDENCE_TABLE_CONFIGS2))
+].map(tableConfigForField2(EVIDENCE_TABLE_CONFIGS))
 // export const EVIDENCE_TABLE_FIELDS = [
 //   { name: GENE_ID,  content: 'Gene', width: undefined, formFieldProps: {} },
 // ]
