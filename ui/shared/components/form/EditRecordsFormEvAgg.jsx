@@ -12,10 +12,10 @@ const ROWS_PER_PAGE = 12
 
 const TableContainer = styled.div`
 
-  padding: 0 1em;
+  padding: 0 2em;
   
   .ui.table.basic.compact th {
-    padding-bottom: 8px;
+    padding-bottom: 8px; // padding between delete selected and cancel, apply buttons
   }
 
   .ui.table.basic.compact td {
@@ -24,25 +24,25 @@ const TableContainer = styled.div`
   }
 
   .ui.table.basic.compact input[type="text"] {
-    padding: 5px 7px;
+    padding: 5px 5px; // changes size of text box
   }
   
   .ui.table.basic.compact .inline.fields {
-    margin: 0 7px;
+    margin: 0 7px; // runs table off when 7px is large
     
     .field {
-      padding-right: 8px;
+      padding-right: 10px;
     }
     
     label {
-      padding-left: 18px;
+      padding-left: 10px;
     }
   }
 
 `
 
 const FormContentContainer = styled.div`
-  marginBottom: ${props => (props.records && props.records.length > ROWS_PER_PAGE ? '50px' : '0px')};
+  marginBottom: ${props => (props.records && props.records.length > ROWS_PER_PAGE ? '0px' : '0px')};
 `
 
 class EditRecordsFormEvAgg extends React.PureComponent {
@@ -120,7 +120,7 @@ class EditRecordsFormEvAgg extends React.PureComponent {
           confirmCloseIfNotSaved
           closeOnSuccess
           showErrorPanel
-          size="small"
+          size="tiny"
           initialValues={records}
         >
           <TableContainer>

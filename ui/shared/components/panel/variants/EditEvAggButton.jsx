@@ -16,36 +16,12 @@ const TabPane = styled(Tab.Pane)`
 
 const MODAL_NAME = 'editEvidenceAggregation'
 const PANE_DETAILS = [
-  // {
-  //   menuItem: 'Edit Families',
-  //   formClass: EditFamiliesForm,
-  // },
   // commented out evidence agg.
   {
     menuItem: 'Edit Evidence Aggregations',
     formClass: EditEvidenceAggForm,
   },
-  // {
-  //   menuItem: 'Edit Individuals',
-  //   formClass: EditIndividualsForm,
-  // },
-  // {
-  //   menuItem: 'Bulk Edit Families',
-  //   formClass: EditFamiliesBulkForm,
-  // },
-  // {
-  //   menuItem: 'Bulk Edit Individuals',
-  //   formClass: EditIndividualsBulkForm,
-  // },
-  // {
-  //   menuItem: 'Bulk Edit Individual Metadata',
-  //   formClass: EditIndividualMetadataBulkForm,
-  // },
 ]
-// const PANES = PANE_DETAILS.map(({ formClass, menuItem }) => ({
-//   render: () => <TabPane key={menuItem}>{React.createElement(formClass, { modalName: MODAL_NAME })}</TabPane>,
-//   menuItem,
-// }))
 
 const getPanes = geneId => (PANE_DETAILS.map(({ formClass, menuItem }) => ({
   render: () => <TabPane key={menuItem}>{React.createElement(formClass, { modalName: MODAL_NAME, geneId })}</TabPane>,
