@@ -11,7 +11,7 @@
         "studytype": "Meta-analysis",
         "functionalinfo": "-",
         "mutationtype": "Missense",
-        "status": "Verified",
+        "status": "AI Generated",
         "notes": ""
     },
     {
@@ -86,7 +86,7 @@
         "studytype": "Case report",
         "functionalinfo": "-",
         "mutationtype": "Missense",
-        "status": "Verified",
+        "status": "AI Generated",
         "notes": ""
     },
     {
@@ -101,7 +101,7 @@
         "studytype": "Meta-analysis",
         "functionalinfo": "-",
         "mutationtype": "Missense",
-        "status": "Verified",
+        "status": "AI Generated",
         "notes": ""
     },
     {
@@ -176,7 +176,7 @@
         "studytype": "Cohort analysis",
         "functionalinfo": "-",
         "mutationtype": "-",
-        "status": "Verified",
+        "status": "AI Generated",
         "notes": ""
     },
     {
@@ -296,7 +296,7 @@
         "studytype": "Cohort analysis",
         "functionalinfo": "-",
         "mutationtype": "Missense",
-        "status": "Verified",
+        "status": "AI Generated",
         "notes": ""
     },
     {
@@ -393,7 +393,7 @@
         "id": "FAM111B_8",
         "gene": "FAM111B",
         "hgvsc": "c.1879A>G",
-        "hgvsp": "p.Arg627Gly",
+        "hgvsp": "*p.Arg627Gly",
         "phenotype": "Poikiloderma, hereditary fibrosing, with tendon contractures, myopathy, and pulmonary fibrosis",
         "zygosity": "Heterozygous",
         "inheritance": "De novo",
@@ -401,7 +401,7 @@
         "studytype": "Cohort analysis",
         "functionalinfo": "-",
         "mutationtype": "Missense",
-        "status": "Verified",
+        "status": "AI Generated",
         "notes": ""
     },
     {
@@ -446,7 +446,7 @@
         "studytype": "Cohort analysis",
         "functionalinfo": "Functional studies using animal cells supports pathogenicity of the variant",
         "mutationtype": "Missense",
-        "status": "Verified",
+        "status": "AI Generated",
         "notes": ""
     },
     {
@@ -596,7 +596,7 @@
         "studytype": "Meta-analysis",
         "functionalinfo": "-",
         "mutationtype": "Missense",
-        "status": "Verified",
+        "status": "AI Generated",
         "notes": ""
     },
     {
@@ -611,7 +611,7 @@
         "studytype": "Meta-analysis",
         "functionalinfo": "-",
         "mutationtype": "Nonsense",
-        "status": "Verified",
+        "status": "AI Generated",
         "notes": ""
     },
     {
@@ -667,7 +667,7 @@
         "phenotype": "Progressive external ophthalmoplegia",
         "zygosity": "Heterozygous",
         "inheritance": "Inherited",
-        "citation": "Sanchez-Martinez (2012) PLoS One 22952820; 11431692;https://pubmed.ncbi.nlm.nih.gov/22952820; 11431692/",
+        "citation": "Sanchez-Martinez (2012) PLoS One 22952820;https://pubmed.ncbi.nlm.nih.gov/22952820/",
         "studytype": "Cohort analysis",
         "functionalinfo": "Functional studies using animal cells supports pathogenicity of the variant",
         "mutationtype": "Missense",
@@ -1031,7 +1031,7 @@
         "studytype": "Cohort analysis",
         "functionalinfo": "-",
         "mutationtype": "Missense",
-        "status": "Verified",
+        "status": "AI Generated",
         "notes": ""
     },
     {
@@ -1061,7 +1061,7 @@
         "studytype": "Cohort analysis",
         "functionalinfo": "-",
         "mutationtype": "Missense",
-        "status": "Verified",
+        "status": "AI Generated",
         "notes": ""
     },
     {

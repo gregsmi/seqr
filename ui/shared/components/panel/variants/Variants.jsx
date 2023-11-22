@@ -129,7 +129,7 @@ const PreVariantLayout = (
               <DataTable
                 striped
                 idField="hgvsc"
-                defaultSortColumn="hgvsc"
+                defaultSortColumn="status"
                 // data={getEvidenceForTable(mainGeneId)}
                 data={evAggData[GENE_ID_MAPPING[mainGeneId]]}
                 columns={EVIDENCE_TABLE_COLUMNS}
