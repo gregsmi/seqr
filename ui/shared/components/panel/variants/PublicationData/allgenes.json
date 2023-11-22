@@ -667,7 +667,7 @@
         "phenotype": "Progressive external ophthalmoplegia",
         "zygosity": "Heterozygous",
         "inheritance": "Inherited",
-        "citation": "Sanchez-Martinez (2012) PLoS One 22952820; 11431692;https://pubmed.ncbi.nlm.nih.gov/22952820/",
+        "citation": "Sanchez-Martinez (2012) PLoS One 22952820;https://pubmed.ncbi.nlm.nih.gov/22952820/",
         "studytype": "Cohort analysis",
         "functionalinfo": "Functional studies using animal cells supports pathogenicity of the variant",
         "mutationtype": "Missense",
