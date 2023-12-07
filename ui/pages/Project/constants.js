@@ -2,7 +2,6 @@
 
 import { stripMarkdown } from 'shared/utils/stringUtils'
 import {
-  // commented out evidence agg.
   ID_ID,
   GENE_ID,
   HGVSC_ID,
@@ -43,7 +42,6 @@ import {
   ALL_FAMILY_ANALYSIS_STATUS_OPTIONS,
   FAMILY_ANALYSIS_STATUS_LOOKUP,
   INDIVIDUAL_FIELD_CONFIGS,
-  // commented out evidence agg.
   EVIDENCE_TABLE_CONFIGS,
   SHOW_ALL,
   exportConfigForField,
@@ -562,38 +560,14 @@ export const INDIVIDUAL_FIELDS = [
   INDIVIDUAL_FIELD_PROBAND_RELATIONSHIP,
 ].map(tableConfigForField(INDIVIDUAL_FIELD_CONFIGS))
 
-// commented out evidence agg.
-// export const EVIDENCE_TABLE_FIELDS = [
-//   { name: GENE_ID, content: 'Gene' },
-//   { name: HGVSC_ID, content: 'HGVS C' },
-//   { name: HGVSP_ID, content: 'HGVS P' },
-//   { name: PHENO_ID, content: 'Phenotype' },
-//   { name: ZYGO_ID, content: 'Zygosity' },
-//   { name: INHERIT_ID, content: 'Inheritance' },
-//   { name: CITE_ID, content: 'Citation' },
-//   { name: STUDY_ID, content: 'Study Type' },
-//   { name: FUNCT_ID, content: 'Functional Study' },
-//   { name: MUT_ID, content: 'Mutation Type' },
-//   { name: STATUS_ID, content: 'Status' },
-//   { name: NOTES_ID, content: 'Notes' },
-// ].map(tableConfigForField(EVIDENCE_TABLE_CONFIGS))
 const tableConfigForField2 = fieldConfigs => (field) => {
-  // eslint-disable-next-line no-console
-  // console.log('fieldConfigs:', JSON.stringify(fieldConfigs))
-  // eslint-disable-next-line no-console
-  // console.log('field ', field) formFieldProps = {}
-  // const  { label, width } = fieldConfigs[field]
-  // const  { label } = fieldConfigs[field]
   const  { label, width, formFieldProps = {} } = fieldConfigs[field]
   // eslint-disable-next-line no-console
   console.log(JSON.stringify({ name: field,  content: label }))
   return { name: field,  content: label, width, formFieldProps }
 }
 
-// commented out evidence agg
 export const EVIDENCE_TABLE_FIELDS = [
-  // ID_ID,
-  // GENE_ID,
   HGVSC_ID,
   HGVSP_ID,
   PHENO_ID,
@@ -606,9 +580,7 @@ export const EVIDENCE_TABLE_FIELDS = [
   STATUS_ID,
   NOTES_ID,
 ].map(tableConfigForField2(EVIDENCE_TABLE_CONFIGS))
-// export const EVIDENCE_TABLE_FIELDS = [
-//   { name: GENE_ID,  content: 'Gene', width: undefined, formFieldProps: {} },
-// ]
+
 export const INDIVIDUAL_DETAIL_EXPORT_DATA = [
   ...INDIVIDUAL_HPO_EXPORT_DATA,
   ...INDIVIDUAL_DETAIL_FIELDS.reduce((acc, { isEditable, isCollaboratorEditable, isPrivate, subFields, ...field }) => {

@@ -423,7 +423,6 @@ export const INDIVIDUAL_FIELD_CONFIGS = {
     formFieldProps: { component: Select, options: PROBAND_RELATIONSHIP_OPTIONS, search: true },
   },
 }
-// commented out evidence agg.
 export const EVIDENCE_TABLE_CONFIGS = {
   [ID_ID]: { label: 'ID', description: 'Record ID' },
   [GENE_ID]: { label: 'Gene', description: 'Gene name in symbol format', width: 8 },
@@ -436,27 +435,11 @@ export const EVIDENCE_TABLE_CONFIGS = {
     label: 'Citation',
     description: 'Paper citation in the form',
     width: 14,
-    // format: citation => <a href={citation.splitstr(',')[0]}>{}</a>, // citation.url
     format: (citation) => {
       const parts = citation.split(',')
       return <Link to={parts[0]}>{parts[1]}</Link>
     },
   },
-  // [CITE_ID]: {
-  //   label: 'Citation',
-  //   description: 'Paper citation in the form',
-  //   width: 10,
-  //   format: (citation) => {
-  //     if (!citation || typeof citation !== 'object' || !citation.url || !citation.title) {
-  //       console.error('YAY Unexpected citation format:', citation)
-  //       return 'YAY Invalid citation'
-  //     }
-  //     return <a href={citation.url}>{citation.title}</a>
-  //   },
-  // },
-  // eslint-disable-next-line react/no-unescaped-entities
-  // return <a href="www.google.com">"Google"</a>
-  // <a href={citation.url} target="_blank" rel="noopener noreferrer">{citation.title}</a
   [STUDY_ID]: {
     label: 'Study T.',
     description: 'Categorical study type',
