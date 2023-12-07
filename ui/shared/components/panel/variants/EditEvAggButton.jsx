@@ -7,7 +7,6 @@ import { ButtonLink } from 'shared/components/StyledComponents'
 import { EditFamiliesBulkForm, EditIndividualsBulkForm, EditIndividualMetadataBulkForm } from 'pages/Project/components/edit-families-and-individuals/BulkEditForm'
 import EditIndividualsForm from 'pages/Project/components/edit-families-and-individuals/EditIndividualsForm'
 import EditFamiliesForm from 'pages/Project/components/edit-families-and-individuals/EditFamiliesForm'
-// commented out evidence agg.
 import EditEvidenceAggForm from './EditEvidenceAggForm'
 
 const TabPane = styled(Tab.Pane)`
@@ -16,7 +15,6 @@ const TabPane = styled(Tab.Pane)`
 
 const MODAL_NAME = 'editEvidenceAggregation'
 const PANE_DETAILS = [
-  // commented out evidence agg.
   {
     menuItem: 'Edit Evidence Aggregations',
     formClass: EditEvidenceAggForm,
