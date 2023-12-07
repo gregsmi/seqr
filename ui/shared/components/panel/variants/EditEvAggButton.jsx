@@ -7,7 +7,6 @@ import { ButtonLink } from 'shared/components/StyledComponents'
 import { EditFamiliesBulkForm, EditIndividualsBulkForm, EditIndividualMetadataBulkForm } from 'pages/Project/components/edit-families-and-individuals/BulkEditForm'
 import EditIndividualsForm from 'pages/Project/components/edit-families-and-individuals/EditIndividualsForm'
 import EditFamiliesForm from 'pages/Project/components/edit-families-and-individuals/EditFamiliesForm'
-// commented out evidence agg.
 import EditEvidenceAggForm from './EditEvidenceAggForm'
 
 const TabPane = styled(Tab.Pane)`
@@ -16,36 +15,11 @@ const TabPane = styled(Tab.Pane)`
 
 const MODAL_NAME = 'editEvidenceAggregation'
 const PANE_DETAILS = [
-  // {
-  //   menuItem: 'Edit Families',
-  //   formClass: EditFamiliesForm,
-  // },
-  // commented out evidence agg.
   {
     menuItem: 'Edit Evidence Aggregations',
     formClass: EditEvidenceAggForm,
   },
-  // {
-  //   menuItem: 'Edit Individuals',
-  //   formClass: EditIndividualsForm,
-  // },
-  // {
-  //   menuItem: 'Bulk Edit Families',
-  //   formClass: EditFamiliesBulkForm,
-  // },
-  // {
-  //   menuItem: 'Bulk Edit Individuals',
-  //   formClass: EditIndividualsBulkForm,
-  // },
-  // {
-  //   menuItem: 'Bulk Edit Individual Metadata',
-  //   formClass: EditIndividualMetadataBulkForm,
-  // },
 ]
-// const PANES = PANE_DETAILS.map(({ formClass, menuItem }) => ({
-//   render: () => <TabPane key={menuItem}>{React.createElement(formClass, { modalName: MODAL_NAME })}</TabPane>,
-//   menuItem,
-// }))
 
 const getPanes = geneId => (PANE_DETAILS.map(({ formClass, menuItem }) => ({
   render: () => <TabPane key={menuItem}>{React.createElement(formClass, { modalName: MODAL_NAME, geneId })}</TabPane>,
@@ -55,7 +29,7 @@ const getPanes = geneId => (PANE_DETAILS.map(({ formClass, menuItem }) => ({
 const Pane = React.memo(props => (
   <Modal
     modalName={MODAL_NAME}
-    title="AI Evidence Aggrigator"
+    title="AI Evidence Aggregator"
     size="large"
     trigger={<ButtonLink>Edit Evidence Aggregation Table</ButtonLink>}
   >

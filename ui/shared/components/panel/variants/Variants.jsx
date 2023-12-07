@@ -3,12 +3,8 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Grid, Popup, Label, Button, Header, Tab } from 'semantic-ui-react'
-import { GENOME_VERSION_37, clinvarSignificance, clinvarColor, getVariantMainGeneId, EVIDENCE_TABLE_COLUMNS } from 'shared/utils/constants' // FAMILY_FIELD_ID, INDIVIDUAL_FIELD_ID
-// HGVSC_ID, NOTES_ID,
-// import EditRecordsForm from 'shared/components/form/EditRecordsForm'
-// import { EVIDENCE_TABLE_FIELDS } from 'pages/Project/constants'
+import { GENOME_VERSION_37, clinvarSignificance, clinvarColor, getVariantMainGeneId, EVIDENCE_TABLE_COLUMNS } from 'shared/utils/constants'
 import { VerticalSpacer } from '../../Spacers'
-// import { INDIVIDUAL_FIELDS } from '../../../../pages/Project/constants'
 import { TagFieldDisplay } from '../view-fields/TagFieldView'
 import FamilyReads from '../family/FamilyReads'
 import FamilyVariantTags, { LoadedFamilyLabel, taggedByPopup } from './FamilyVariantTags'
@@ -129,7 +125,7 @@ const PreVariantLayout = (
               <DataTable
                 striped
                 idField="hgvsc"
-                defaultSortColumn="hgvsc"
+                defaultSortColumn="status"
                 // data={getEvidenceForTable(mainGeneId)}
                 data={evAggData[GENE_ID_MAPPING[mainGeneId]]}
                 columns={EVIDENCE_TABLE_COLUMNS}
