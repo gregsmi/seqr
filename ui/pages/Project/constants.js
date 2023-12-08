@@ -2,8 +2,6 @@
 
 import { stripMarkdown } from 'shared/utils/stringUtils'
 import {
-  ID_ID,
-  GENE_ID,
   HGVSC_ID,
   HGVSP_ID,
   PHENO_ID,
@@ -560,13 +558,6 @@ export const INDIVIDUAL_FIELDS = [
   INDIVIDUAL_FIELD_PROBAND_RELATIONSHIP,
 ].map(tableConfigForField(INDIVIDUAL_FIELD_CONFIGS))
 
-const tableConfigForField2 = fieldConfigs => (field) => {
-  const  { label, width, formFieldProps = {} } = fieldConfigs[field]
-  // eslint-disable-next-line no-console
-  console.log(JSON.stringify({ name: field,  content: label }))
-  return { name: field,  content: label, width, formFieldProps }
-}
-
 export const EVIDENCE_TABLE_FIELDS = [
   HGVSC_ID,
   HGVSP_ID,
@@ -579,7 +570,7 @@ export const EVIDENCE_TABLE_FIELDS = [
   MUT_ID,
   STATUS_ID,
   NOTES_ID,
-].map(tableConfigForField2(EVIDENCE_TABLE_CONFIGS))
+].map(tableConfigForField(EVIDENCE_TABLE_CONFIGS))
 
 export const INDIVIDUAL_DETAIL_EXPORT_DATA = [
   ...INDIVIDUAL_HPO_EXPORT_DATA,

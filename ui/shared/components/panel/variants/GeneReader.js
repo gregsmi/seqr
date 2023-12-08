@@ -21,6 +21,4 @@ export const allGeneData = data.reduce((acc, obj) => {
   return acc
 }, {})
 
-const getEvidenceForTable = geneId => allGeneData[GENE_ID_MAPPING[geneId]]
-
-export default getEvidenceForTable
+// const getEvidenceForTable = geneId => allGeneData[GENE_ID_MAPPING[geneId]]

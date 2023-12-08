@@ -922,11 +922,3 @@ export const getRnaSeqOutliersByIndividual = createSelector(
     }), {},
   ),
 )
-
-// evidence aggregation data selectors
-// const selectEntityData = entities => Object.entries(entities).reduce((data, [_, val]) => {
-//   return data.concat(...val)
-// }, [])
-export const getEvAgg = createSelector(
-  getEvAggByGuid, data => data,
-)

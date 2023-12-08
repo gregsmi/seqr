@@ -126,7 +126,6 @@ const PreVariantLayout = (
                 striped
                 idField="hgvsc"
                 defaultSortColumn="status"
-                // data={getEvidenceForTable(mainGeneId)}
                 data={evAggData[GENE_ID_MAPPING[mainGeneId]]}
                 columns={EVIDENCE_TABLE_COLUMNS}
                 getRowFilterVal={getUserFilterVal}
@@ -161,9 +160,10 @@ const mapStateToProps = state => ({ evAggData: state.evAggState })
 
 const VariantLayout = connect(mapStateToProps)(PreVariantLayout)
 
-const Variant = React.memo((
-  { variant, mainGeneId, reads, showReads, dispatch, isCompoundHet, updateReads, evidenceAggregationButton, showPublicationTable, ...props },
-) => {
+const Variant = React.memo(({
+  variant, mainGeneId, reads, showReads, dispatch, isCompoundHet, updateReads,
+  evidenceAggregationButton, showPublicationTable, ...props
+}) => {
   const variantMainGeneId = mainGeneId || getVariantMainGeneId(variant)
   const { severity } = clinvarSignificance(variant.clinvar)
   return (

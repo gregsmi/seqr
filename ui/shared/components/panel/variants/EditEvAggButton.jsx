@@ -4,9 +4,6 @@ import { Tab } from 'semantic-ui-react'
 import styled from 'styled-components'
 import Modal from 'shared/components/modal/Modal'
 import { ButtonLink } from 'shared/components/StyledComponents'
-import { EditFamiliesBulkForm, EditIndividualsBulkForm, EditIndividualMetadataBulkForm } from 'pages/Project/components/edit-families-and-individuals/BulkEditForm'
-import EditIndividualsForm from 'pages/Project/components/edit-families-and-individuals/EditIndividualsForm'
-import EditFamiliesForm from 'pages/Project/components/edit-families-and-individuals/EditFamiliesForm'
 import EditEvidenceAggForm from './EditEvidenceAggForm'
 
 const TabPane = styled(Tab.Pane)`

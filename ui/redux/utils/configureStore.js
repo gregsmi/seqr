@@ -2,7 +2,6 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 
 import { loadState, saveState } from 'shared/utils/localStorage'
-import { geneData } from '../../shared/utils/jsonData'
 
 const PERSISTING_STATE = [
   'projectsTableState', 'familyTableState', 'savedVariantTableState', 'variantSearchDisplay', 'searchesByHash',

@@ -24,19 +24,9 @@
   },
   "reportUnusedDisableDirectives": true,
   "rules": {
-    // "eol-last": "off",
-    // "react-perf/jsx-no-new-object-as-prop": "off",
-    // "react-perf/jsx-no-new-array-as-prop": "off",
-    // "react-perf/jsx-no-new-function-as-prop": "off",
-    // "no-param-reassign": "off",
-    // "no-useless-return": "off",
-    // "arrow-body-style": "off",
-    "no-unused-vars": "off",
-    // "react/prop-types": "off",
-    // "arrow-parens": "off",
     "arrow-parens": ["error", "as-needed", { "requireForBlockBody": true }],
     "jsx-a11y/label-has-associated-control": "off",
-    "max-len": ["error", 150, 2, {
+    "max-len": ["error", 120, 2, {
       "ignoreUrls": true,
       "ignoreComments": false,
       "ignoreRegExpLiterals": true,

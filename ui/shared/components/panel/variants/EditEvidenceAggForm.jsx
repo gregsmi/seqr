@@ -4,11 +4,10 @@ import { connect } from 'react-redux'
 
 // import DataLoader from 'shared/components/DataLoader'
 import EditRecordsFormEvAgg from 'shared/components/form/EditRecordsFormEvAgg'
-import { ID_ID, HGVSC_ID, NOTES_ID, EVIDENCE_TABLE_COLUMNS } from 'shared/utils/constants'
+import { ID_ID } from 'shared/utils/constants'
 import { EVIDENCE_TABLE_FIELDS } from 'pages/Project/constants'
-import { getEvAgg } from 'pages/Project/selectors' // getting data for this table
 import { updateEvAgg } from 'pages/Project/reducers'
-import getEvidenceForTable, { GENE_ID_MAPPING } from './GeneReader'
+import { GENE_ID_MAPPING } from './GeneReader'
 
 const EditEvAggForm = React.memo(props => (
   <EditRecordsFormEvAgg
@@ -38,13 +37,7 @@ EditEvAggForm.propTypes = {
 // Thus, within the EditEvAggForm component, we can access this.props.records.
 // Further, it will have the data returned by getEvAggByGuid(state).
 const mapStateToProps = (state, ownProps) => {
-  // eslint-disable-next-line no-console
-  // console.log('map total ', JSON.stringify(state))
-  // eslint-disable-next-line no-console
-  // console.log('map state is: ', JSON.stringify(state.evAggState))
-  //   return ({ records: getEvAgg(state) })
   const { geneId } = ownProps
-  // const preRecords = getEvidenceForTable(geneId)
   console.log('state before reducer: ', JSON.stringify(state.evAggState))
   const preRecords = state.evAggState[GENE_ID_MAPPING[geneId]]
   // eslint-disable-next-line no-console

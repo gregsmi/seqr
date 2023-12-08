@@ -310,6 +310,7 @@ export const updateLocusList = values => (dispatch) => {
     }).post(values)
 }
 
+// root reducer
 const rootReducer = combineReducers({
   projectCategoriesByGuid: createObjectsByIdReducer(RECEIVE_DATA, 'projectCategoriesByGuid'),
   projectsByGuid: createObjectsByIdReducer(RECEIVE_DATA, 'projectsByGuid'),

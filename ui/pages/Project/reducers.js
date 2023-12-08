@@ -160,13 +160,9 @@ export const updateFamilies = values => (dispatch, getState) => {
     }).post(values)
 }
 
-export const updateEvAgg = values => (dispatch, getState) => {
+export const updateEvAgg = values => (dispatch) => {
   console.log('before dispatch: ')
   dispatch({ type: UPDATE_DATA_EVAGG, updates: values })
-  // return new HttpRequestHelper('/api/project/evagg',
-  //   (responseJson) => {
-  //     dispatch({ type: UPDATE_DATA_EVAGG, updates: values })
-  //   }).post(values)
 }
 
 export const updateIndividuals = values => (dispatch, getState) => {
