@@ -120,7 +120,7 @@ class EditRecordsForm extends React.PureComponent {
           confirmCloseIfNotSaved
           closeOnSuccess
           showErrorPanel
-          size="tiny"
+          size="small"
           initialValues={records}
         >
           <TableContainer>

@@ -47,6 +47,7 @@ const FAMILY_SORT_LOOKUP = FAMILY_SORT_OPTIONS.reduce(
 )
 
 // project data selectors
+
 export const getProjectGuid = state => state.currentProjectGuid
 export const getProjectOverviewIsLoading = state => state.projectOverviewLoading.isLoading
 export const getProjectCollaboratorsIsLoading = state => state.projectCollaboratorsLoading.isLoading
