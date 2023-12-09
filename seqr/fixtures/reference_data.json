@@ -1385,5 +1385,73 @@
         "definition": "",
         "comment": ""
     }
+},
+{
+    "model": "reference_data.pubevidence",
+    "pk": 6,
+    "fields": {
+        "gene": 2,
+        "paper_id": "10.1002/acn3.51315",
+        "hgvsc": "c.70G>T",
+        "hgvsp": "p.A24S",
+        "phenotype": "Spinocerebellar ataxia 14",
+        "zygosity": "Unknown",
+        "inheritance": "Dominant",
+        "citation": "",
+        "study_type": "Cohort analysis",
+        "functional_info": "-",
+        "mutation_type": "Missense"
+    }
+},
+{
+    "model": "reference_data.pubevidence",
+    "pk": 7,
+    "fields": {
+        "gene": 2,
+        "paper_id": "10.1016/j.dib.2019.104311",
+        "hgvsc": "c.346C>T",
+        "hgvsp": "p.R116C",
+        "phenotype": "Congenital heart defect",
+        "zygosity": "Unknown",
+        "inheritance": "[Dominant]",
+        "citation": "",
+        "study_type": "Meta-analysis",
+        "functional_info": "-",
+        "mutation_type": "Missense"
+    }
+},
+{
+    "model": "reference_data.pubevidence",
+    "pk": 8,
+    "fields": {
+        "gene": 2,
+        "paper_id": "34125279",
+        "hgvsc": "c.C335T",
+        "hgvsp": "p.A112V",
+        "phenotype": "Aortic dissection",
+        "zygosity": "Unknown",
+        "inheritance": "Dominant",
+        "citation": "",
+        "study_type": "Case report",
+        "functional_info": "-",
+        "mutation_type": "Missense"
+    }
+},
+{
+    "model": "reference_data.pubevidence",
+    "pk": 9,
+    "fields": {
+        "gene": 2,
+        "paper_id": "10.3390/jcm11010022",
+        "hgvsc": "c.1106C>T",
+        "hgvsp": "p.S369F",
+        "phenotype": "Progressive external ophthalmoplegia",
+        "zygosity": "Unknown",
+        "inheritance": "Dominant",
+        "citation": "",
+        "study_type": "Cohort analysis",
+        "functional_info": "-",
+        "mutation_type": "Missense"
+    }
 }
 ]

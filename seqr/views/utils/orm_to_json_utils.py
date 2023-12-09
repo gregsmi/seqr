@@ -788,3 +788,15 @@ def get_json_for_rna_seq_outliers(filters, significant_only=True, individual_gui
                 data_by_individual_gene[data.pop('individualGuid')][outlier_type][data['geneId']].append(data)
 
     return data_by_individual_gene
+
+
+def get_json_for_pub_evidence(evidences, user):
+    """Returns a JSON representation of the given publication evidence list.
+
+    Args:
+        evidences (list): Django models for the PubEvidence.
+    Returns:
+        dict: array of json objects
+    """
+
+    return _get_json_for_models(evidences, user=user)
