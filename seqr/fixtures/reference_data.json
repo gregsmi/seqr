@@ -1388,70 +1388,146 @@
 },
 {
     "model": "reference_data.pubevidence",
+    "pk": 1,
+    "fields": {
+        "gene": 1,
+        "paper_id": "10.1002/mds.29139",
+        "hgvs_c": "c.1001G>T",
+        "hgvs_p": "p.R334L",
+        "phenotype": "Progressive external ophthalmoplegia",
+        "zygosity": "Heterozygous",
+        "variant_inheritance": "Unknown",
+        "study_type": "Cohort analysis",
+        "functional_study": "-",
+        "variant_type": "Missense",
+        "paper_title": "TWNK in Parkinson's Disease: A Movement Disorder and Mitochondrial Disease Center Perspective Study.",
+        "link": "https://pubmed.ncbi.nlm.nih.gov/35792653/"
+    }
+},
+{
+    "model": "reference_data.pubevidence",
+    "pk": 2,
+    "fields": {
+        "gene": 1,
+        "paper_id": "10.1002/ana.21207",
+        "hgvs_c": "c.1370C>T",
+        "hgvs_p": "p.T457I",
+        "phenotype": "Mitochondrial DNA depletion syndrome 7 (hepatocerebral type)",
+        "zygosity": "Heterozygous",
+        "variant_inheritance": "Unknown",
+        "study_type": "Cohort analysis",
+        "functional_study": "-",
+        "variant_type": "Missense",
+        "paper_title": "Twinkle helicase (PEO1) gene mutation causes mitochondrial DNA depletion.",
+        "link": "https://pubmed.ncbi.nlm.nih.gov/17722119/"
+    }
+},
+{
+    "model": "reference_data.pubevidence",
+    "pk": 4,
+    "fields": {
+        "gene": 1,
+        "paper_id": "10.1212/01.wnl.0000056088.09408.3c",
+        "hgvs_c": "c.1001G>A",
+        "hgvs_p": "p.R334Q",
+        "phenotype": "Progressive external ophthalmoplegia",
+        "zygosity": "Heterozygous",
+        "variant_inheritance": "De novo",
+        "study_type": "Cohort analysis",
+        "functional_study": "-",
+        "variant_type": "Missense",
+        "paper_title": "Mutations of ANT1, Twinkle, and POLG1 in sporadic progressive external ophthalmoplegia (PEO).",
+        "link": "https://pubmed.ncbi.nlm.nih.gov/12707443/"
+    }
+},
+{
+    "model": "reference_data.pubevidence",
+    "pk": 5,
+    "fields": {
+        "gene": 1,
+        "paper_id": "10.1212/01.wnl.0000056088.09408.3c",
+        "hgvs_c": "-",
+        "hgvs_p": "p.S426N",
+        "phenotype": "Progressive external ophthalmoplegia",
+        "zygosity": "Heterozygous",
+        "variant_inheritance": "Inherited",
+        "study_type": "Cohort analysis",
+        "functional_study": "-",
+        "variant_type": "Missense",
+        "paper_title": "Mutations of ANT1, Twinkle, and POLG1 in sporadic progressive external ophthalmoplegia (PEO).",
+        "link": "https://pubmed.ncbi.nlm.nih.gov/12707443/"
+    }
+},
+{
+    "model": "reference_data.pubevidence",
     "pk": 6,
     "fields": {
         "gene": 2,
-        "paper_id": "10.1002/acn3.51315",
-        "hgvsc": "c.70G>T",
-        "hgvsp": "p.A24S",
-        "phenotype": "Spinocerebellar ataxia 14",
-        "zygosity": "Unknown",
-        "inheritance": "Dominant",
-        "citation": "",
+        "paper_id": "10.3390/jcm8111811",
+        "hgvs_c": "c.163C>T",
+        "hgvs_p": "p.R55*",
+        "phenotype": "Coenzyme Q10 deficiency",
+        "zygosity": "Heterozygous",
+        "variant_inheritance": "Unknown",
         "study_type": "Cohort analysis",
-        "functional_info": "-",
-        "mutation_type": "Missense"
+        "functional_study": "Functional studies using patient cells supports pathogenicity of the variant",
+        "variant_type": "Nonsense",
+        "paper_title": "Genes and Variants Underlying Human Congenital Lactic Acidosis-From Genetics to Personalized Treatment.",
+        "link": "https://pubmed.ncbi.nlm.nih.gov/31683770/"
     }
 },
 {
     "model": "reference_data.pubevidence",
     "pk": 7,
     "fields": {
-        "gene": 2,
-        "paper_id": "10.1016/j.dib.2019.104311",
-        "hgvsc": "c.346C>T",
-        "hgvsp": "p.R116C",
-        "phenotype": "Congenital heart defect",
-        "zygosity": "Unknown",
-        "inheritance": "[Dominant]",
-        "citation": "",
-        "study_type": "Meta-analysis",
-        "functional_info": "-",
-        "mutation_type": "Missense"
+        "gene": 3,
+        "paper_id": "10.1111/1346-8138.15045",
+        "hgvs_c": "c.1247T>C",
+        "hgvs_p": "p.Phe416Ser",
+        "phenotype": "Poikiloderma, hereditary fibrosing, with tendon contractures, myopathy, and pulmonary fibrosis",
+        "zygosity": "Heterozygous",
+        "variant_inheritance": "Inherited",
+        "study_type": "Cohort analysis",
+        "functional_study": "-",
+        "variant_type": "Missense",
+        "paper_title": "Family of hereditary fibrosing poikiloderma with tendon contractures, myopathy and pulmonary fibrosis caused by a novel FAM111B mutation.",
+        "link": "https://pubmed.ncbi.nlm.nih.gov/31392773/"
     }
 },
 {
     "model": "reference_data.pubevidence",
     "pk": 8,
     "fields": {
-        "gene": 2,
-        "paper_id": "34125279",
-        "hgvsc": "c.C335T",
-        "hgvsp": "p.A112V",
-        "phenotype": "Aortic dissection",
-        "zygosity": "Unknown",
-        "inheritance": "Dominant",
-        "citation": "",
-        "study_type": "Case report",
-        "functional_info": "-",
-        "mutation_type": "Missense"
+        "gene": 4,
+        "paper_id": "10.1002/acn3.51315",
+        "hgvs_c": "c.68G>A",
+        "hgvs_p": "p.G23E",
+        "phenotype": "Spinocerebellar ataxia 14",
+        "zygosity": "Heterozygous",
+        "variant_inheritance": "Unknown",
+        "study_type": "Cohort analysis",
+        "functional_study": "-",
+        "variant_type": "Missense",
+        "paper_title": "Spinocerebellar ataxia type 14: refining clinicogenetic diagnosis in a rare adult-onset disorder.",
+        "link": "https://pubmed.ncbi.nlm.nih.gov/33739604/"
     }
 },
 {
     "model": "reference_data.pubevidence",
     "pk": 9,
     "fields": {
-        "gene": 2,
-        "paper_id": "10.3390/jcm11010022",
-        "hgvsc": "c.1106C>T",
-        "hgvsp": "p.S369F",
-        "phenotype": "Progressive external ophthalmoplegia",
-        "zygosity": "Unknown",
-        "inheritance": "Dominant",
-        "citation": "",
+        "gene": 4,
+        "paper_id": "10.1002/acn3.51315",
+        "hgvs_c": "c.70G>T",
+        "hgvs_p": "p.A24S",
+        "phenotype": "Spinocerebellar ataxia 14",
+        "zygosity": "Heterozygous",
+        "variant_inheritance": "Unknown",
         "study_type": "Cohort analysis",
-        "functional_info": "-",
-        "mutation_type": "Missense"
+        "functional_study": "-",
+        "variant_type": "Missense",
+        "paper_title": "Spinocerebellar ataxia type 14: refining clinicogenetic diagnosis in a rare adult-onset disorder.",
+        "link": "https://pubmed.ncbi.nlm.nih.gov/33739604/"
     }
 }
 ]

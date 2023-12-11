@@ -4,7 +4,7 @@ from seqr.views.apis.pub_evidence_api import pub_evidence
 from seqr.views.utils.test_utils import AuthenticationTestCase
 
 
-GENE_ID = 'ENSG00000227232'
+GENE_ID = 'ENSG00000223972'
 
 
 class PubEvidenceAPITest(AuthenticationTestCase):
@@ -18,4 +18,4 @@ class PubEvidenceAPITest(AuthenticationTestCase):
         self.assertEqual(response.status_code, 200)
 
         evs = response.json()['pubEvById']
-        self.assertEqual(len(evs), 4)
+        self.assertEqual(len(evs), 3)

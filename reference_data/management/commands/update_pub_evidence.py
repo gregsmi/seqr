@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 ACCOUNT_URL = f"https://{AZURE_REF_STORAGE_ACCOUNT}.blob.core.windows.net"
 CONTAINER_NAME = "reference"
-BLOB_NAME = "evagg/truth_set_test.csv"
+BLOB_NAME = "evagg/truth_set_small.tsv"
 
 
 class PubEvReferenceDataHandler(ReferenceDataHandler):

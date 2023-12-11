@@ -271,29 +271,32 @@ class ClinGen(models.Model):
 
 
 class PubEvidence(models.Model):
+    # This is automatically mapped from the 'gene_symbol' field on import.
     gene = models.ForeignKey(GeneInfo, on_delete=models.CASCADE)
 
-    paper_id = models.CharField(max_length=25)
-    hgvsc = models.CharField(max_length=25)
-    hgvsp = models.CharField(max_length=25)
+    paper_id = models.TextField()
+    hgvs_c = models.CharField(max_length=25)
+    hgvs_p = models.CharField(max_length=25)
     phenotype = models.TextField()
     zygosity = models.CharField(max_length=25)
-    inheritance = models.CharField(max_length=25)
-    citation = models.TextField()
+    variant_inheritance = models.CharField(max_length=25)
     study_type = models.CharField(max_length=25)
-    functional_info = models.TextField()
-    mutation_type = models.CharField(max_length=25)
+    functional_study = models.TextField()
+    variant_type = models.CharField(max_length=25)
+    paper_title = models.TextField()
+    link = models.TextField()
  
     class Meta:
         json_fields = [
             'paper_id',
-            'hgvsc',
-            'hgvsp',
+            'hgvs_c',
+            'hgvs_p',
             'phenotype',
             'zygosity',
-            'inheritance',
-            'citation',
+            'variant_inheritance',
             'study_type',
-            'functional_info',
-            'mutation_type'
+            'functional_study',
+            'variant_type',
+            'paper_title',
+            'link'
         ]
