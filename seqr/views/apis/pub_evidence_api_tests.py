@@ -17,5 +17,8 @@ class PubEvidenceAPITest(AuthenticationTestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
-        evs = response.json()['pubEvById']
-        self.assertEqual(len(evs), 3)
+        evs = response.json()['pubEvByGene']
+        self.assertEqual(len(evs), 1)
+        self.assertTrue(GENE_ID in evs)
+        self.assertEqual(len(evs[GENE_ID]), 4)
+

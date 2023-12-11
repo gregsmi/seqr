@@ -8,8 +8,8 @@ from seqr.views.utils.permissions_utils import login_and_policies_required
 @login_and_policies_required
 def pub_evidence(request, gene_id):
     evidences = PubEvidence.objects.filter(gene__gene_id=gene_id)
-    pub_evidence = {pub['paperId']: pub for pub in get_json_for_pub_evidence(evidences, user=request.user)}
-    return create_json_response({'pubEvById': pub_evidence})
+    pub_evidence = {gene_id: get_json_for_pub_evidence(evidences, user=request.user)}
+    return create_json_response({'pubEvByGene': pub_evidence})
 
 
 @login_and_policies_required
