@@ -1,23 +1,21 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Grid, Popup, Label, Button, Header, Tab } from 'semantic-ui-react'
-import { GENOME_VERSION_37, clinvarSignificance, clinvarColor, getVariantMainGeneId, EVIDENCE_TABLE_COLUMNS } from 'shared/utils/constants'
+
+import { GENOME_VERSION_37, clinvarSignificance, clinvarColor, getVariantMainGeneId } from 'shared/utils/constants'
 import { VerticalSpacer } from '../../Spacers'
 import { TagFieldDisplay } from '../view-fields/TagFieldView'
 import FamilyReads from '../family/FamilyReads'
 import FamilyVariantTags, { LoadedFamilyLabel, taggedByPopup } from './FamilyVariantTags'
 import Annotations from './Annotations'
-import EditEvAggButton from './EditEvAggButton'
 import Pathogenicity from './Pathogenicity'
 import Predictions from './Predictions'
 import Frequencies from './Frequencies'
 import VariantGenes, { VariantGene } from './VariantGene'
 import VariantIndividuals from './VariantIndividuals'
 import { compHetGene, has37Coords } from './VariantUtils'
-import DataTable from '../../table/DataTable'
-import { GENE_ID_MAPPING } from './GeneReader'
+import PubEvidenceTable from './PubEvidenceTable'
 
 const StyledVariantRow = styled(({ isSV, severity, ...props }) => <Grid.Row {...props} />)`  
   .column {
@@ -78,12 +76,10 @@ const tagFamily = tag => (
   />
 )
 
-const getUserFilterVal = ({ gene, hgvsc, hgvsp, phenotype, zygosity, inheritance, citation, studytype, functionalinfo, mutationtype, status, notes }) => `${gene}-${hgvsc}-${hgvsc}-${hgvsp}-${phenotype}-${zygosity}-${inheritance}-${citation}-${studytype}-${functionalinfo}-${mutationtype}-${status}-${notes}`
-
-const PreVariantLayout = (
+const VariantLayout = (
   {
     variant, compoundHetToggle, mainGeneId, isCompoundHet, linkToSavedVariants, topContent,
-    bottomContent, children, evidenceAggregationButton, showPublicationTable, evAggData, ...rowProps
+    bottomContent, children, evidenceAggregationButton, showPublicationTable, ...rowProps
   },
 ) => {
   const coreVariant = Array.isArray(variant) ? variant[0] : variant
@@ -119,30 +115,16 @@ const PreVariantLayout = (
         {bottomContent}
       </Grid.Column>
       <Grid.Column width={16}>
-        {showPublicationTable && (
-          <>
-            <Grid.Column width={16}>
-              <DataTable
-                striped
-                idField="hgvsc"
-                defaultSortColumn="status"
-                data={evAggData[GENE_ID_MAPPING[mainGeneId]]}
-                columns={EVIDENCE_TABLE_COLUMNS}
-                getRowFilterVal={getUserFilterVal}
-                fixedWidth={false}
-              />
-            </Grid.Column>
-            <Grid.Column width={12}>
-              <EditEvAggButton geneId={mainGeneId} />
-            </Grid.Column>
-          </>
-        )}
+        <PubEvidenceTable
+          showPublicationTable={showPublicationTable}
+          mainGeneId={mainGeneId}
+        />
       </Grid.Column>
     </StyledVariantRow>
   )
 }
 
-PreVariantLayout.propTypes = {
+VariantLayout.propTypes = {
   variant: PropTypes.any, // eslint-disable-line react/forbid-prop-types
   isCompoundHet: PropTypes.bool,
   mainGeneId: PropTypes.string,
@@ -153,12 +135,7 @@ PreVariantLayout.propTypes = {
   children: PropTypes.node,
   evidenceAggregationButton: PropTypes.element,
   showPublicationTable: PropTypes.bool,
-  evAggData: PropTypes.arrayOf(PropTypes.object),
 }
-
-const mapStateToProps = state => ({ evAggData: state.evAggState })
-
-const VariantLayout = connect(mapStateToProps)(PreVariantLayout)
 
 const Variant = React.memo(({
   variant, mainGeneId, reads, showReads, dispatch, isCompoundHet, updateReads,
@@ -224,8 +201,6 @@ Variant.propTypes = {
   showReads: PropTypes.object,
   evidenceAggregationButton: PropTypes.element,
   showPublicationTable: PropTypes.bool,
-  dispatch: PropTypes.func,
-  updateReads: PropTypes.func,
 }
 
 const VariantWithReads = props => <FamilyReads layout={Variant} {...props} />
