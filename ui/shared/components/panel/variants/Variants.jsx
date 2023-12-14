@@ -79,7 +79,7 @@ const tagFamily = tag => (
 const VariantLayout = (
   {
     variant, compoundHetToggle, mainGeneId, isCompoundHet, linkToSavedVariants, topContent,
-    bottomContent, children, evidenceAggregationButton, showPublicationTable, ...rowProps
+    bottomContent, children, showPubsButton, showPubs, ...rowProps
   },
 ) => {
   const coreVariant = Array.isArray(variant) ? variant[0] : variant
@@ -105,7 +105,7 @@ const VariantLayout = (
           {mainGeneId ?
             <VariantGene geneId={mainGeneId} variant={coreVariant} compoundHetToggle={compoundHetToggle} /> :
             <VariantGenes variant={variant} />}
-          {evidenceAggregationButton}
+          {showPubsButton}
         </Grid.Column>
       )}
       <Grid.Column width={isCompoundHet ? 16 : 12}>
@@ -116,7 +116,7 @@ const VariantLayout = (
       </Grid.Column>
       <Grid.Column width={16}>
         <PubEvidenceTable
-          showPublicationTable={showPublicationTable}
+          showPubs={showPubs}
           mainGeneId={mainGeneId}
         />
       </Grid.Column>
@@ -133,14 +133,13 @@ VariantLayout.propTypes = {
   topContent: PropTypes.node,
   bottomContent: PropTypes.node,
   children: PropTypes.node,
-  evidenceAggregationButton: PropTypes.element,
-  showPublicationTable: PropTypes.bool,
+  showPubsButton: PropTypes.element,
+  showPubs: PropTypes.bool,
 }
 
-const Variant = React.memo(({
-  variant, mainGeneId, reads, showReads, dispatch, isCompoundHet, updateReads,
-  evidenceAggregationButton, showPublicationTable, ...props
-}) => {
+const Variant = React.memo((
+  { variant, mainGeneId, reads, showReads, dispatch, isCompoundHet, updateReads, showPubsButton, showPubs, ...props },
+) => {
   const variantMainGeneId = mainGeneId || getVariantMainGeneId(variant)
   const { severity } = clinvarSignificance(variant.clinvar)
   return (
@@ -169,8 +168,8 @@ const Variant = React.memo(({
       }
       bottomContent={reads}
       isCompoundHet={isCompoundHet}
-      evidenceAggregationButton={evidenceAggregationButton}
-      showPublicationTable={showPublicationTable}
+      showPubsButton={showPubsButton}
+      showPubs={showPubs}
       {...props}
     >
       <Grid columns="equal">
@@ -199,8 +198,8 @@ Variant.propTypes = {
   linkToSavedVariants: PropTypes.bool,
   reads: PropTypes.object,
   showReads: PropTypes.object,
-  evidenceAggregationButton: PropTypes.element,
-  showPublicationTable: PropTypes.bool,
+  showPubsButton: PropTypes.element,
+  showPubs: PropTypes.bool,
 }
 
 const VariantWithReads = props => <FamilyReads layout={Variant} {...props} />

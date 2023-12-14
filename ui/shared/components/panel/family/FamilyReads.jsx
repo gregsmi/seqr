@@ -293,13 +293,13 @@ class FamilyReads extends React.PureComponent {
       minTotalReads: 0,
     },
     locus: null,
-    showPublicationTable: false,
+    showPubs: false,
   }
 
   toggleTable = () => {
-    const { showPublicationTable } = this.state
-    const newState = !showPublicationTable
-    this.setState({ showPublicationTable: newState })
+    const { showPubs } = this.state
+    const newState = !showPubs
+    this.setState({ showPubs: newState })
   }
 
   updateReads = (familyGuid, locus, sampleTypes, tissueType) => {
@@ -403,7 +403,7 @@ class FamilyReads extends React.PureComponent {
       variant, familyGuid, buttonProps, layout, igvSamplesByFamilySampleIndividual, familiesByGuid,
       projectsByGuid, genesById, sortedIndividualByFamily, noTriggerButton, spliceOutliersByFamily, ...props
     } = this.props
-    const { openFamily, sampleTypes, rnaReferences, junctionTrackOptions, locus, showPublicationTable } = this.state
+    const { openFamily, sampleTypes, rnaReferences, junctionTrackOptions, locus, showPubs } = this.state
 
     const showReads = noTriggerButton ? null : (
       <ReadButtons
@@ -416,7 +416,7 @@ class FamilyReads extends React.PureComponent {
       />
     )
 
-    const evidenceAggregationButton = (<Button color="blue" onClick={this.toggleTable}>AI Evidence Aggregator</Button>)
+    const showPubsButton = (<Button color="blue" onClick={this.toggleTable}>AI Evidence Aggregator</Button>)
 
     const igvSampleIndividuals = (
       openFamily && (igvSamplesByFamilySampleIndividual || {})[openFamily]) || {}
@@ -510,8 +510,7 @@ class FamilyReads extends React.PureComponent {
     ) : null
 
     return React.createElement(layout,
-      // eslint-disable-next-line max-len
-      { variant, reads, showReads, updateReads: this.updateReads, evidenceAggregationButton, showPublicationTable, ...props })
+      { variant, reads, showReads, updateReads: this.updateReads, showPubsButton, showPubs, ...props })
   }
 
 }

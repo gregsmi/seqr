@@ -7,10 +7,10 @@ import DataTable from '../../table/DataTable'
 import EditEvAggButton from './EditEvAggButton'
 import { GENE_ID_MAPPING } from './GeneReader'
 
-const getUserFilterVal = ({ gene, hgvsc, hgvsp, phenotype, zygosity, inheritance, citation, studytype, functionalinfo, mutationtype, status, notes }) => `${gene}-${hgvsc}-${hgvsc}-${hgvsp}-${phenotype}-${zygosity}-${inheritance}-${citation}-${studytype}-${functionalinfo}-${mutationtype}-${status}-${notes}`
+const getPubsFilterVal = row => Object.values(row).join('-')
 
-const PubEvidenceTable = ({ showPublicationTable, mainGeneId, evAggData }) => {
-  if (!showPublicationTable) {
+const PubEvidenceTable = ({ showPubs, mainGeneId, evAggData }) => {
+  if (!showPubs) {
     return null
   }
 
@@ -23,7 +23,7 @@ const PubEvidenceTable = ({ showPublicationTable, mainGeneId, evAggData }) => {
           defaultSortColumn="status"
           data={evAggData[GENE_ID_MAPPING[mainGeneId]]}
           columns={EVIDENCE_TABLE_COLUMNS}
-          getRowFilterVal={getUserFilterVal}
+          getRowFilterVal={getPubsFilterVal}
           fixedWidth={false}
         />
       </Grid.Column>
@@ -35,7 +35,7 @@ const PubEvidenceTable = ({ showPublicationTable, mainGeneId, evAggData }) => {
 }
 
 PubEvidenceTable.propTypes = {
-  showPublicationTable: PropTypes.bool.isRequired,
+  showPubs: PropTypes.bool.isRequired,
   evAggData: PropTypes.object.isRequired,
   mainGeneId: PropTypes.string.isRequired,
 }
