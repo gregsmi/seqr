@@ -1767,51 +1767,6 @@ export const TISSUE_DISPLAY = {
 
 export const RNASEQ_JUNCTION_PADDING = 200
 
-export const EVIDENCE_TABLE_COLUMNS = [
-  { name: 'gene', content: 'Gene' },
-  { name: 'hgvsc', content: 'HGVS C' },
-  { name: 'hgvsp', content: 'HGVS P' },
-  { name: 'phenotype', content: 'Phenotype' },
-  { name: 'zygosity', content: 'Zygosity' },
-  { name: 'inheritance', content: 'Inheritance' },
-  {
-    name: 'citation',
-    content: 'Citation',
-    format: (citation) => {
-      const parts = citation.citation.toString().split(';')
-      return <a href={parts[1]} target="_blank" rel="noopener noreferrer">{parts[0]}</a> // will open the link in a new tab
-    },
-  },
-  { name: 'studytype', content: 'Study Type' },
-  { name: 'functionalinfo', content: 'Functional Study' },
-  { name: 'mutationtype', content: 'Variant Type' },
-  { name: 'status', content: 'Status' },
-  // {
-  //   name: 'status',
-  //   content: 'Status',
-  //   format: (status) => {
-  //     const statusStr = status.status.toString()
-  //     console.log(statusStr)
-  //     let color
-  //     switch (statusStr) {
-  //       case 'AI Generated':
-  //         color = 'purple'
-  //         console.log(color)
-  //         break
-  //       case 'Verified':
-  //         color = 'green'
-  //         console.log(color)
-  //         break
-  //       default:
-  //         color = 'black'
-  //         console.log(color)
-  //     }
-  //     return <span style={color}>{status}</span>
-  //   },
-  // },
-  { name: 'notes', content: 'Notes' },
-]
-
 export const FAQ_PATH = '/faq'
 export const MATCHMAKER_PATH = '/matchmaker'
 export const PRIVACY_PATH = '/privacy_policy'

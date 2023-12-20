@@ -14,7 +14,6 @@ import { SHOW_IN_REVIEW, SORT_BY_FAMILY_NAME, SORT_BY_FAMILY_ADDED_DATE, CASE_RE
 
 // action creators and reducers in one file as suggested by https://github.com/erikras/ducks-modular-redux
 const RECEIVE_DATA = 'RECEIVE_DATA'
-const UPDATE_DATA_EVAGG = 'UPDATE_DATA_EVAGG'
 const UPDATE_FAMILY_TABLE_STATE = 'UPDATE_FAMILY_TABLE_STATE'
 const UPDATE_FAMILY_TABLE_FILTER_STATE = 'UPDATE_FAMILY_TABLE_FILTER_STATE'
 const UPDATE_CASE_REVIEW_TABLE_STATE = 'UPDATE_CASE_REVIEW_TABLE_STATE'
@@ -36,6 +35,8 @@ const REQUEST_INDIVIDUALS = 'REQUEST_INDIVIDUALS'
 const REQUEST_MME_SUBMISSIONS = 'REQUEST_MME_SUBMISSIONS'
 const REQUEST_LOCUS_LISTS = 'REQUEST_LOCUS_LISTS'
 const RECEIVE_LOCUS_LISTS = 'RECEIVE_LOCUS_LISTS'
+const REQUEST_PUB_EVIDENCE = 'REQUEST_PUB_EVIDENCE'
+const UPDATE_DATA_EVAGG = 'UPDATE_DATA_EVAGG'
 
 // Data actions
 
@@ -417,6 +418,21 @@ const updateEvAggReducer = (state = allGeneData, action) => {
   }
 }
 
+// eslint-disable-next-line no-unused-vars
+export const loadPubEvidence = geneId => (dispatch, getState) => {
+  const { pubEvidenceByGene } = getState()
+  if (Object.keys(pubEvidenceByGene).length === 0) {
+    dispatch({ type: REQUEST_PUB_EVIDENCE })
+    new HttpRequestHelper('/api/pub_evidences',
+      (responseJson) => {
+        dispatch({ type: RECEIVE_DATA, updatesById: responseJson })
+      },
+      (e) => {
+        dispatch({ type: RECEIVE_DATA, error: e.message, updatesById: {} })
+      }).get()
+  }
+}
+
 export const reducers = {
   currentProjectGuid: createSingleValueReducer(UPDATE_CURRENT_PROJECT, null),
   matchmakerMatchesLoading: loadingReducer(REQUEST_MME_MATCHES, RECEIVE_MME_MATCHES),
@@ -451,6 +467,8 @@ export const reducers = {
     page: 1,
     recordsPerPage: 25,
   }, false),
+  pubEvidenceLoading: loadingReducer(REQUEST_PUB_EVIDENCE, RECEIVE_DATA),
+  pubEvidenceByGene: createObjectsByIdReducer(RECEIVE_DATA, 'pubEvidenceByGene'),
   evAggState: updateEvAggReducer,
 }
 

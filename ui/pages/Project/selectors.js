@@ -58,13 +58,25 @@ export const getRnaSeqDataLoading = state => state.rnaSeqDataLoading.isLoading
 export const getPhenotypeDataLoading = state => state.phenotypeDataLoading.isLoading
 export const getFamiliesLoading = state => state.familiesLoading.isLoading
 export const getFamilyVariantSummaryLoading = state => state.familyVariantSummaryLoading.isLoading
-export const getEvAggByGuid = state => state.evAggState
 export const getIndivdualsLoading = state => state.individualsLoading.isLoading
 export const getMmeSubmissionsLoading = state => state.mmeSubmissionsLoading.isLoading
 export const getSamplesLoading = state => state.samplesLoading.isLoading
 export const getTagTypesLoading = state => state.tagTypesLoading.isLoading
 export const getFamilyTagTypeCounts = state => state.familyTagTypeCounts
 const getFamiliesTableFiltersByProject = state => state.familyTableFilterState
+export const getPubEvidenceIsLoading = state => state.pubEvidenceLoading.isLoading
+export const getPubEvidenceByGene = state => state.pubEvidenceByGene
+
+export const getPubEvidenceForGene = createSelector(
+  getPubEvidenceByGene,
+  (state, geneId) => geneId,
+  (pubEvidenceByGene, geneId) => pubEvidenceByGene[geneId] || {},
+)
+
+export const getPubEvidenceRows = createSelector(
+  getPubEvidenceForGene,
+  pubEvidenceForGene => Object.values(pubEvidenceForGene),
+)
 
 export const getCurrentProject = createSelector(
   getProjectsByGuid, getProjectGuid, (projectsByGuid, currentProjectGuid) => projectsByGuid[currentProjectGuid],

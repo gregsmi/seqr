@@ -32,10 +32,6 @@ EditEvAggForm.propTypes = {
 // This enables access to the state from the Redux store.
 // The "state" is passed in as a parameter, and the function
 // returns an object that gets passed as props to the connected component.
-// Here, it’s returning an object with a single property
-// "records", which is set to the result of calling getEvAggByGuid(state).
-// Thus, within the EditEvAggForm component, we can access this.props.records.
-// Further, it will have the data returned by getEvAggByGuid(state).
 const mapStateToProps = (state, ownProps) => {
   const { geneId } = ownProps
   console.log('state before reducer: ', JSON.stringify(state.evAggState))
