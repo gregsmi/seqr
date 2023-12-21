@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Grid } from 'semantic-ui-react'
 import DataLoader from 'shared/components/DataLoader'
 import { loadPubEvidence } from 'pages/Project/reducers'
-import { getPubEvidenceRows, getPubEvidenceIsLoading } from 'pages/Project/selectors'
+import { getPubEvidenceArray, getPubEvidenceIsLoading } from 'pages/Project/selectors'
 import DataTable from '../../table/DataTable'
 import EditEvAggButton from './EditEvAggButton'
 
@@ -85,12 +85,12 @@ PubEvidenceTable.propTypes = {
   mainGeneId: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   load: PropTypes.func.isRequired,
-  pubEvidence: PropTypes.object.isRequired,
+  pubEvidence: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
   loading: getPubEvidenceIsLoading(state),
-  pubEvidence: getPubEvidenceRows(state, ownProps.mainGeneId),
+  pubEvidence: getPubEvidenceArray(state, ownProps.mainGeneId),
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

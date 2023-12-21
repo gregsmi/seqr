@@ -73,7 +73,7 @@ export const getPubEvidenceForGene = createSelector(
   (pubEvidenceByGene, geneId) => pubEvidenceByGene[geneId] || {},
 )
 
-export const getPubEvidenceRows = createSelector(
+export const getPubEvidenceArray = createSelector(
   getPubEvidenceForGene,
   pubEvidenceForGene => Object.values(pubEvidenceForGene),
 )

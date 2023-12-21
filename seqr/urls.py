@@ -142,7 +142,7 @@ from seqr.views.apis.project_api import create_project_handler, update_project_h
 from seqr.views.apis.project_categories_api import update_project_categories_handler
 from seqr.views.apis.anvil_workspace_api import anvil_workspace_page, create_project_from_workspace, \
     grant_workspace_access, validate_anvil_vcf, add_workspace_data, get_anvil_vcf_list
-from seqr.views.apis.pub_evidence_api import pub_evidence, pub_evidences, create_pub_evidence_note_handler, \
+from seqr.views.apis.pub_evidence_api import pub_evidence, pub_evidence_for_gene, create_pub_evidence_note_handler, \
     update_pub_evidence_note_handler, delete_pub_evidence_note_handler
 from matchmaker.views import external_api
 from seqr.views.utils.file_utils import save_temp_file
@@ -264,8 +264,8 @@ api_endpoints = {
     'gene_info/(?P<gene_id>[^/]+)/note/(?P<note_guid>[^/]+)/update': update_gene_note_handler,
     'gene_info/(?P<gene_id>[^/]+)/note/(?P<note_guid>[^/]+)/delete': delete_gene_note_handler,
 
-    'pub_evidences': pub_evidences,
-    'pub_evidence/(?P<gene_id>[^/]+)': pub_evidence,
+    'pub_evidence': pub_evidence,
+    'pub_evidence/(?P<gene_id>[^/]+)': pub_evidence_for_gene,
     'pub_evidence/(?P<gene_id>[^/]+)/note/create': create_pub_evidence_note_handler,
     'pub_evidence/(?P<gene_id>[^/]+)/note/(?P<note_guid>[^/]+)/update': update_pub_evidence_note_handler,
     'pub_evidence/(?P<gene_id>[^/]+)/note/(?P<note_guid>[^/]+)/delete': delete_pub_evidence_note_handler,

@@ -423,7 +423,7 @@ export const loadPubEvidence = geneId => (dispatch, getState) => {
   const { pubEvidenceByGene } = getState()
   if (Object.keys(pubEvidenceByGene).length === 0) {
     dispatch({ type: REQUEST_PUB_EVIDENCE })
-    new HttpRequestHelper('/api/pub_evidences',
+    new HttpRequestHelper('/api/pub_evidence',
       (responseJson) => {
         dispatch({ type: RECEIVE_DATA, updatesById: responseJson })
       },

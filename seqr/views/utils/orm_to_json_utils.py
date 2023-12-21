@@ -799,4 +799,5 @@ def get_json_for_pub_evidence(evidences, user):
         dict: array of json objects
     """
 
-    return _get_json_for_models(evidences, user=user)
+    nested_fields = [{'fields': ('gene', 'gene_symbol'), 'key': 'gene_symbol'}]
+    return _get_json_for_models(evidences, user=user, nested_fields=nested_fields)

@@ -1,6 +1,6 @@
 from django.urls.base import reverse
 
-from seqr.views.apis.pub_evidence_api import pub_evidence, pub_evidences
+from seqr.views.apis.pub_evidence_api import pub_evidence, pub_evidence_for_gene
 from seqr.views.utils.test_utils import AuthenticationTestCase
 
 
@@ -11,7 +11,7 @@ class PubEvidenceAPITest(AuthenticationTestCase):
     fixtures = ['users', 'reference_data']
 
     def test_pub_evidence(self):
-        url = reverse(pub_evidence, args=[GENE_ID])
+        url = reverse(pub_evidence_for_gene, args=[GENE_ID])
         self.check_require_login(url)
 
         response = self.client.get(url)
@@ -23,7 +23,7 @@ class PubEvidenceAPITest(AuthenticationTestCase):
         self.assertEqual(len(evs[GENE_ID]), 4)
 
     def test_all_pub_evidence(self):
-        url = reverse(pub_evidences)
+        url = reverse(pub_evidence)
         self.check_require_login(url)
 
         response = self.client.get(url)

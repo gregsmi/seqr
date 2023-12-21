@@ -12,16 +12,16 @@ def get_pub_evidence(gene_id):
 
 
 @login_and_policies_required
-def pub_evidence(request, gene_id):
-    evidences = get_pub_evidence(gene_id)
-    pub_evidence = {gene_id: get_json_for_pub_evidence(evidences, user=request.user)}
+def pub_evidence(request):
+    gene_ids = PubEvidence.objects.values_list('gene__gene_id', flat=True).distinct()
+    pub_evidence = { gene_id: get_json_for_pub_evidence(get_pub_evidence(gene_id), user=request.user) for gene_id in gene_ids }
     return create_json_response({'pubEvidenceByGene': pub_evidence})
 
 
 @login_and_policies_required
-def pub_evidences(request):
-    gene_ids = PubEvidence.objects.values_list('gene__gene_id', flat=True).distinct()
-    pub_evidence = { gene_id: get_json_for_pub_evidence(get_pub_evidence(gene_id), user=request.user) for gene_id in gene_ids }
+def pub_evidence_for_gene(request, gene_id):
+    evidences = get_pub_evidence(gene_id)
+    pub_evidence = {gene_id: get_json_for_pub_evidence(evidences, user=request.user)}
     return create_json_response({'pubEvidenceByGene': pub_evidence})
 
 
