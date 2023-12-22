@@ -11,18 +11,6 @@ class PubEvidenceAPITest(AuthenticationTestCase):
     fixtures = ['users', 'reference_data']
 
     def test_pub_evidence(self):
-        url = reverse(pub_evidence_for_gene, args=[GENE_ID])
-        self.check_require_login(url)
-
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-
-        evs = response.json()['pubEvidenceByGene']
-        self.assertEqual(len(evs), 1)
-        self.assertTrue(GENE_ID in evs)
-        self.assertEqual(len(evs[GENE_ID]), 4)
-
-    def test_all_pub_evidence(self):
         url = reverse(pub_evidence)
         self.check_require_login(url)
 
@@ -31,6 +19,18 @@ class PubEvidenceAPITest(AuthenticationTestCase):
 
         evs = response.json()['pubEvidenceByGene']
         self.assertEqual(len(evs), 4)
+        self.assertTrue(GENE_ID in evs)
+        self.assertEqual(len(evs[GENE_ID]), 4)
+
+    def test_pub_evidence_for_gene(self):
+        url = reverse(pub_evidence_for_gene, args=[GENE_ID])
+        self.check_require_login(url)
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+        evs = response.json()['pubEvidenceByGene']
+        self.assertEqual(len(evs), 1)
         self.assertTrue(GENE_ID in evs)
         self.assertEqual(len(evs[GENE_ID]), 4)
 

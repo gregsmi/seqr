@@ -1152,3 +1152,19 @@ class PhenotypePrioritization(BulkOperationBase):
 
     class Meta:
         json_fields = ['gene_id', 'tool', 'rank', 'disease_id', 'disease_name', 'scores']
+
+
+class PubEvidenceNote(ModelWithGUID):
+    note = models.TextField(default="", blank=True)
+    gene_id = models.CharField(max_length=20)  # ensembl ID
+    pub_ev_id = models.CharField(max_length=100)
+    submit_feedback = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return "%s:%s" % ((self.gene_id or self.pub_ev_id), (self.note or "")[:20])
+
+    def _compute_guid(self):
+        return 'PN%07d_%s' % (self.id, _slugify(str(self)))
+
+    class Meta:
+        json_fields = ['guid', 'note', 'gene_id', 'pub_ev_id', 'submit_feedback', 'last_modified_date', 'created_by']

@@ -143,7 +143,7 @@ from seqr.views.apis.project_categories_api import update_project_categories_han
 from seqr.views.apis.anvil_workspace_api import anvil_workspace_page, create_project_from_workspace, \
     grant_workspace_access, validate_anvil_vcf, add_workspace_data, get_anvil_vcf_list
 from seqr.views.apis.pub_evidence_api import pub_evidence, pub_evidence_for_gene, create_pub_evidence_note_handler, \
-    update_pub_evidence_note_handler, delete_pub_evidence_note_handler
+    create_pub_evidence_gene_note_handler, update_pub_evidence_note_handler, delete_pub_evidence_note_handler
 from matchmaker.views import external_api
 from seqr.views.utils.file_utils import save_temp_file
 
@@ -265,10 +265,11 @@ api_endpoints = {
     'gene_info/(?P<gene_id>[^/]+)/note/(?P<note_guid>[^/]+)/delete': delete_gene_note_handler,
 
     'pub_evidence': pub_evidence,
-    'pub_evidence/(?P<gene_id>[^/]+)': pub_evidence_for_gene,
-    'pub_evidence/(?P<gene_id>[^/]+)/note/create': create_pub_evidence_note_handler,
-    'pub_evidence/(?P<gene_id>[^/]+)/note/(?P<note_guid>[^/]+)/update': update_pub_evidence_note_handler,
-    'pub_evidence/(?P<gene_id>[^/]+)/note/(?P<note_guid>[^/]+)/delete': delete_pub_evidence_note_handler,
+    'pub_evidence/gene/(?P<gene_id>[^/]+)': pub_evidence_for_gene,
+    'pub_evidence/gene/(?P<gene_id>[^/]+)/note/create': create_pub_evidence_gene_note_handler,
+    'pub_evidence/pub_ev/(?P<pub_ev_id>[^/]+)/note/create': create_pub_evidence_note_handler,
+    'pub_evidence/note/(?P<note_guid>[^/]+)/update': update_pub_evidence_note_handler,
+    'pub_evidence/note/(?P<note_guid>[^/]+)/delete': delete_pub_evidence_note_handler,
 
     'hpo_terms/(?P<hpo_parent_id>[^/]+)': get_hpo_terms,
     'igv_genomes/(?P<cloud_host>[^/]+)/(?P<file_path>.*)': igv_genomes_proxy,
