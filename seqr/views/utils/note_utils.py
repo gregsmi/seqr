@@ -22,8 +22,18 @@ def create_note_handler(request, model_cls, parent_fields, get_response_json, ad
     return create_json_response(get_response_json(note))
 
 
-def update_note_handler(request, model_cls, parent_id, note_guid, parent_field, get_response_json):
-    note = model_cls.objects.get(guid=note_guid, **{parent_field: parent_id})
+def update_note_handler(request, model_cls, note_guid, get_response_json, **kwargs):
+    """Update a note model.
+    
+    Args:
+        request: Django request object.
+        model_cls: Note model class.
+        note_guid: Note guid for the specific note to update.
+        get_response_json: Function that returns the proper note object dictionary for response.
+        **kwargs: Optional additional field value pairs to restrict the search for the model object.    
+    
+    """
+    note = model_cls.objects.get(guid=note_guid, **kwargs)
     check_user_created_object_permissions(note, request.user)
 
     request_json = json.loads(request.body)
@@ -32,7 +42,17 @@ def update_note_handler(request, model_cls, parent_id, note_guid, parent_field, 
     return create_json_response(get_response_json(note))
 
 
-def delete_note_handler(request, model_cls, parent_id, note_guid, parent_field, get_response_json):
-    note = model_cls.objects.get(guid=note_guid, **{parent_field: parent_id})
+def delete_note_handler(request, model_cls, note_guid, get_response_json, **kwargs):
+    """Delete a note model.
+    
+    Args:
+        request: Django request object.
+        model_cls: Note model class.
+        note_guid: Note guid for the specific note to delete.
+        get_response_json: Function that returns the proper note object dictionary for response.
+        **kwargs: Optional additional field value pairs to restrict the search for the model object.    
+    
+    """
+    note = model_cls.objects.get(guid=note_guid, **kwargs)
     note.delete_model(request.user)
     return create_json_response(get_response_json())

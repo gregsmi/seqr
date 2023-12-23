@@ -12,7 +12,7 @@ from guardian.shortcuts import get_users_with_perms, get_groups_with_perms
 from panelapp.models import PaLocusList
 from reference_data.models import HumanPhenotypeOntology
 from seqr.models import GeneNote, VariantNote, VariantTag, VariantFunctionalData, SavedVariant, Family, CAN_VIEW, CAN_EDIT, \
-    get_audit_field_names, RnaSeqOutlier, RnaSeqSpliceOutlier
+    get_audit_field_names, RnaSeqOutlier, RnaSeqSpliceOutlier, PubEvidenceNote
 from seqr.views.utils.json_utils import _to_camel_case
 from seqr.views.utils.permissions_utils import has_project_permissions, \
     project_has_anvil, get_workspace_collaborator_perms, user_is_analyst, user_is_data_manager, user_is_pm, \
@@ -790,14 +790,39 @@ def get_json_for_rna_seq_outliers(filters, significant_only=True, individual_gui
     return data_by_individual_gene
 
 
-def get_json_for_pub_evidence(evidences, user):
+def _get_pub_ev_id(evidence_json):
+    id = "{}_{}_{}".format(evidence_json['paperId'], evidence_json['geneSymbol'], evidence_json['hgvsC'])
+    return id.replace('/', '-').replace('>', '-')
+
+
+def get_json_for_pub_evidence(evidences, user, include_notes=True):
     """Returns a JSON representation of the given publication evidence list.
 
     Args:
         evidences (list): Django models for the PubEvidence.
+        user (object): Django User object for determining whether to include restricted/internal-only fields
+        include_notes (boolean): A flag to indicate whether to include the notes
     Returns:
-        dict: array of json objects
+        json: array of json objects
     """
 
-    nested_fields = [{'fields': ('gene', 'gene_symbol'), 'key': 'gene_symbol'}]
-    return _get_json_for_models(evidences, user=user, nested_fields=nested_fields)
+    def _add_notes(result, evidence):
+        notes = PubEvidenceNote.objects.filter(pub_ev_id__in=[_get_pub_ev_id(result)])
+        result['notes'] = [get_json_for_pub_ev_note(note, user) for note in notes]
+
+    _process_result = _add_notes if include_notes else None
+    nested_fields = [{'fields': ('gene', 'gene_symbol'), 'key': 'geneSymbol'}]
+    return _get_json_for_models(evidences, user=user, nested_fields=nested_fields, process_result=_process_result)
+
+
+def get_json_for_pub_ev_note(note, user):
+    """Returns a JSON representation of the given publication evidence note.
+
+    Args:
+        note: Django model for the PubEvidenceNote.
+        user (object): Django User object for determining whether to include restricted/internal-only fields
+    Returns:
+        dict: json object
+    """
+
+    return _get_json_for_model(note, user=user, guid_key='noteGuid')

@@ -415,16 +415,18 @@ def create_family_note(request, family_guid):
 @login_and_policies_required
 def update_family_note(request, family_guid, note_guid):
     return update_note_handler(
-        request, FamilyNote, family_guid, note_guid, parent_field='family__guid',
+        request, FamilyNote, note_guid,
         get_response_json=lambda note: {'familyNotesByGuid': {note_guid: get_json_for_family_note(note)}},
+        family__guid=family_guid,
     )
 
 
 @login_and_policies_required
 def delete_family_note(request, family_guid, note_guid):
     return delete_note_handler(
-        request, FamilyNote, family_guid, note_guid, parent_field='family__guid',
+        request, FamilyNote, note_guid,
         get_response_json=lambda: {'familyNotesByGuid': {note_guid: None}},
+        family__guid=family_guid,
     )
 
 @login_and_policies_required

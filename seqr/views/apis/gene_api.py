@@ -30,16 +30,18 @@ def create_gene_note_handler(request, gene_id):
 @login_and_policies_required
 def update_gene_note_handler(request, gene_id, note_guid):
     return update_note_handler(
-        request, GeneNote, gene_id, note_guid, parent_field='gene_id',
+        request, GeneNote, note_guid,
         get_response_json=_get_gene_notes_response_func(gene_id, request.user),
+        gene_id=gene_id,
     )
 
 
 @login_and_policies_required
 def delete_gene_note_handler(request, gene_id, note_guid):
     return delete_note_handler(
-        request, GeneNote, gene_id, note_guid, parent_field='gene_id',
+        request, GeneNote, note_guid,
         get_response_json=_get_gene_notes_response_func(gene_id, request.user),
+        gene_id=gene_id,
     )
 
 
