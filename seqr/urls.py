@@ -267,7 +267,7 @@ api_endpoints = {
     'pub_evidence': pub_evidence,
     'pub_evidence/gene/(?P<gene_id>[^/]+)': pub_evidence_for_gene,
     'pub_evidence/gene/(?P<gene_id>[^/]+)/note/create': create_pub_evidence_gene_note,
-    'pub_evidence/pub_ev/(?P<pub_ev_id>[^/]+)/note/create': create_pub_evidence_note,
+    'pub_evidence/(?P<pub_ev_id>[^/]+)/note/create': create_pub_evidence_note,
     'pub_evidence/note/(?P<note_guid>[^/]+)/update': update_pub_evidence_note,
     'pub_evidence/note/(?P<note_guid>[^/]+)/delete': delete_pub_evidence_note,
 

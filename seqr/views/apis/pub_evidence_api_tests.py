@@ -9,7 +9,7 @@ from seqr.views.utils.test_utils import AuthenticationTestCase
 
 GENE_ID = 'ENSG00000223972'
 PUB_EV_ID = '10.1002/ana.21207_TWNK_c.1370C>T'.replace('/', '-').replace('>', '-')
-PUB_EV_NOTE_FIELDS = {'noteGuid', 'note', 'geneId', 'lastModifiedDate', 'createdBy', 'pubEvId', 'submitFeedback'}
+PUB_EV_NOTE_FIELDS = {'noteGuid', 'note', 'geneId', 'lastModifiedDate', 'createdBy', 'pubEvId', 'noteType', 'noteStatus'}
 
 
 class PubEvidenceAPITest(AuthenticationTestCase):
@@ -50,10 +50,10 @@ class PubEvidenceAPITest(AuthenticationTestCase):
                 response = self.client.post(create_note_url, content_type='application/json', data=json.dumps({}))
 
                 self.assertEqual(response.status_code, 400)
-                self.assertDictEqual(response.json(), {'error': 'Missing required field(s): note, submit_feedback'})
+                self.assertDictEqual(response.json(), {'error': 'Missing required field(s): note, note_type'})
 
                 response = self.client.post(create_note_url, content_type='application/json', data=json.dumps(
-                    {'note': 'new pubEv note', 'submit_feedback': True}
+                    {'note': 'new pubEv note', 'note_type': 'F'}
                 ))
                 self.assertEqual(response.status_code, 200)
                 response_json = response.json()
@@ -65,7 +65,8 @@ class PubEvidenceAPITest(AuthenticationTestCase):
                 self.assertEqual(new_note_response[key], value)
                 self.assertEqual(new_note_response['noteGuid'], new_note_guid)
                 self.assertEqual(new_note_response['note'], 'new pubEv note')
-                self.assertEqual(new_note_response['submitFeedback'], True)
+                self.assertEqual(new_note_response['noteType'], 'F')
+                self.assertEqual(new_note_response['noteStatus'], 'N')
                 self.assertEqual(new_note_response['createdBy'], 'Test No Access User')
 
                 # update the note
