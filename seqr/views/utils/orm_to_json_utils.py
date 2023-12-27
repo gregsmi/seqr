@@ -807,8 +807,10 @@ def get_json_for_pub_evidence(evidences, user, include_notes=True):
     """
 
     def _add_notes(result, evidence):
-        notes = PubEvidenceNote.objects.filter(pub_ev_id__in=[_get_pub_ev_id(result)])
+        pub_ev_id = _get_pub_ev_id(result)
+        notes = PubEvidenceNote.objects.filter(pub_ev_id__in=[pub_ev_id])
         result['notes'] = [get_json_for_pub_ev_note(note, user) for note in notes]
+        result['pubEvId'] = pub_ev_id
 
     _process_result = _add_notes if include_notes else None
     nested_fields = [{'fields': ('gene', 'gene_symbol'), 'key': 'geneSymbol'}]

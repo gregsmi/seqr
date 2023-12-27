@@ -19,30 +19,39 @@ def _get_pub_evidence_note_by_guid(note, user):
 @login_and_policies_required
 def pub_evidence(request):
     gene_ids = PubEvidence.objects.values_list('gene__gene_id', flat=True).distinct()
-    pub_evidence = { gene_id: get_json_for_pub_evidence(_get_pub_evidence(gene_id), user=request.user) for gene_id in gene_ids }
+    pub_evidence = { gene_id: get_json_for_pub_evidence(_get_pub_evidence(gene_id), request.user) for gene_id in gene_ids }
     return create_json_response({'pubEvidenceByGene': pub_evidence})
 
 
 @login_and_policies_required
 def pub_evidence_for_gene(request, gene_id):
     evidences = _get_pub_evidence(gene_id)
-    pub_evidence = {gene_id: get_json_for_pub_evidence(evidences, user=request.user)}
+    pub_evidence = {gene_id: get_json_for_pub_evidence(evidences, request.user)}
     return create_json_response({'pubEvidenceByGene': pub_evidence})
+
+
+@login_and_policies_required
+def pub_evidence_notes_for_gene(request, gene_id):
+    notes = PubEvidenceNote.objects.filter(gene_id=gene_id)
+    notes_by_gene = {gene_id: get_json_for_pub_ev_note(note, request.user) for note in notes}
+    return create_json_response({'pubEvidenceNotesByGene': notes_by_gene})
 
 
 @login_and_policies_required
 def create_pub_evidence_gene_note(request, gene_id):
     return create_note_handler(
-        request, PubEvidenceNote, parent_fields={'gene_id': gene_id}, additional_note_fields=['note_type'],
+        request, PubEvidenceNote, parent_fields={'gene_id': gene_id},
         get_response_json=lambda note: _get_pub_evidence_note_by_guid(note, request.user),
+        additional_note_fields=['pubEvId', 'noteType'],
     )
 
 
 @login_and_policies_required
-def create_pub_evidence_note(request, pub_ev_id):
+def create_pub_evidence_note(request):
     return create_note_handler(
-        request, PubEvidenceNote, parent_fields={'pub_ev_id': pub_ev_id}, additional_note_fields=['note_type'],
+        request, PubEvidenceNote, parent_fields={},
         get_response_json=lambda note: _get_pub_evidence_note_by_guid(note, request.user),
+        additional_note_fields=['pubEvId', 'noteType'],
     )
 
 
