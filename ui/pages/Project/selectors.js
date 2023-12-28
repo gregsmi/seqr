@@ -64,15 +64,14 @@ export const getSamplesLoading = state => state.samplesLoading.isLoading
 export const getTagTypesLoading = state => state.tagTypesLoading.isLoading
 export const getFamilyTagTypeCounts = state => state.familyTagTypeCounts
 const getFamiliesTableFiltersByProject = state => state.familyTableFilterState
-export const getPubEvidenceLoading = state => state.pubEvidenceLoading.isLoading
-export const getPubEvidenceNotesLoading = state => state.pubEvidenceNotesLoading.isLoading
 export const getPubEvidenceByGene = state => state.pubEvidenceByGene
-export const getPubEvidenceNotesByGene = state => state.pubEvidenceNotesByGene
+export const getPubEvidenceNotesByGuid = state => state.pubEvidenceNotesByGuid
+export const getPubEvidenceLoadingByGene = state => state.pubEvidenceLoadingByGene
 
-export const getPubEvidenceTableLoading = createSelector(
-  getPubEvidenceLoading,
-  getPubEvidenceNotesLoading,
-  (pubEvidenceLoading, pubEvidenceNotesLoading) => pubEvidenceLoading || pubEvidenceNotesLoading,
+export const getPubEvidenceLoading = createSelector(
+  getPubEvidenceLoadingByGene,
+  (state, geneId) => geneId,
+  (pubEvidenceLoadingByGene, geneId) => (pubEvidenceLoadingByGene[geneId] || {}).isLoading,
 )
 
 export const getPubEvidenceForGene = createSelector(
@@ -82,16 +81,25 @@ export const getPubEvidenceForGene = createSelector(
 )
 
 export const getPubEvidenceNotesForGene = createSelector(
-  getPubEvidenceNotesByGene,
+  getPubEvidenceNotesByGuid,
   (state, geneId) => geneId,
-  (pubEvidenceNotesByGene, geneId) => pubEvidenceNotesByGene[geneId] || {},
+  (notes, geneId) => Object.values(notes).filter(note => note.geneId === geneId),
 )
+
+export const getPubEvidenceFeedbackForGene = createSelector(
+  getPubEvidenceNotesForGene,
+  notes => notes.filter(note => note.noteType === 'F'),
+)
+
+const defaultNote = (geneId, pubEvId) => ({ geneId, pubEvId, noteType: 'N', noteStatus: 'N', note: '' })
 
 export const getPubEvidenceArray = createSelector(
   getPubEvidenceForGene,
-  pubEvidenceForGene => Object.values(pubEvidenceForGene).map(({ notes, pubEvId, ...evidence }) => ({
-    note: notes.find(n => n.noteType === 'N') || { pubEvId, noteType: 'N', noteStatus: 'N', note: '' },
-    ...evidence,
+  getPubEvidenceNotesForGene,
+  (state, geneId) => geneId,
+  (evidence, notes, geneId) => Object.values(evidence).map(({ pubEvId, ...props }) => ({
+    note: notes.find(n => n.noteType === 'N' && n.pubEvId === pubEvId) || defaultNote(geneId, pubEvId),
+    ...props,
   })),
 )
 

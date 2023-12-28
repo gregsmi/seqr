@@ -790,31 +790,22 @@ def get_json_for_rna_seq_outliers(filters, significant_only=True, individual_gui
     return data_by_individual_gene
 
 
-def _get_pub_ev_id(evidence_json):
-    id = "{}_{}_{}".format(evidence_json['paperId'], evidence_json['geneSymbol'], evidence_json['hgvsC'])
-    return id.replace('/', '-').replace('>', '-')
-
-
-def get_json_for_pub_evidence(evidences, user, include_notes=True):
+def get_json_for_pub_evidence(evidences, user):
     """Returns a JSON representation of the given publication evidence list.
 
     Args:
         evidences (list): Django models for the PubEvidence.
         user (object): Django User object for determining whether to include restricted/internal-only fields
-        include_notes (boolean): A flag to indicate whether to include the notes
     Returns:
         json: array of json objects
     """
 
-    def _add_notes(result, evidence):
-        pub_ev_id = _get_pub_ev_id(result)
-        notes = PubEvidenceNote.objects.filter(pub_ev_id__in=[pub_ev_id])
-        result['notes'] = [get_json_for_pub_ev_note(note, user) for note in notes]
-        result['pubEvId'] = pub_ev_id
+    def _add_id(result, evidence):
+        id = "{}_{}_{}".format(result['paperId'], result['geneSymbol'], result['hgvsC'])
+        result['pubEvId'] = id.replace('/', '-').replace('>', '-')
 
-    _process_result = _add_notes if include_notes else None
     nested_fields = [{'fields': ('gene', 'gene_symbol'), 'key': 'geneSymbol'}]
-    return _get_json_for_models(evidences, user=user, nested_fields=nested_fields, process_result=_process_result)
+    return _get_json_for_models(evidences, user=user, nested_fields=nested_fields, process_result=_add_id)
 
 
 def get_json_for_pub_ev_note(note, user):

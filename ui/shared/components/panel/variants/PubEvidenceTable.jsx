@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Grid, Icon } from 'semantic-ui-react'
+import { Grid, Icon, Popup } from 'semantic-ui-react'
 import DataLoader from 'shared/components/DataLoader'
 import { loadPubEvidence } from 'pages/Project/reducers'
-import { getPubEvidenceArray, getPubEvidenceNotesForGene, getPubEvidenceTableLoading } from 'pages/Project/selectors'
+import { getPubEvidenceArray, getPubEvidenceFeedbackForGene, getPubEvidenceLoading } from 'pages/Project/selectors'
 import DataTable from '../../table/DataTable'
 import EditEvAggButton from './EditEvAggButton'
 import PubEvidenceUpdateButton from './PubEvidenceUpdateButton'
@@ -12,14 +12,18 @@ import PubEvidenceUpdateButton from './PubEvidenceUpdateButton'
 const getPubsFilterVal = row => Object.values(row).join('-')
 
 export const EVIDENCE_TABLE_COLUMNS = [
+  {
+    name: 'status',
+    format: pub => (pub.note.noteStatus === 'V' && 
+      <Popup content='Verified' trigger={<Icon color="green" name="check circle" />} />
+    ),
+  },
   { name: 'updateNote', format: pub => (<PubEvidenceUpdateButton note={pub.note} />) },
   {
     name: 'hasNote',
-    format: pub => (pub.note.note && <Icon name="sticky note outline" />),
-  },
-  {
-    name: 'status',
-    format: pub => (pub.note.noteStatus === 'V' && <Icon color="green" name="check circle" />),
+    format: pub => (pub.note.note &&
+      <Popup content={pub.note.note} trigger={<Icon name="sticky note outline" />} />
+    ),
   },
   { name: 'paperId', content: 'Paper ID' },
   { name: 'hgvsC', content: 'HGVS C' },
@@ -37,35 +41,10 @@ export const EVIDENCE_TABLE_COLUMNS = [
     ),
     noFormatExport: true,
   },
-  // { name: 'status', content: 'Status' },
-  // {
-  //   name: 'status',
-  //   content: 'Status',
-  //   format: (status) => {
-  //     const statusStr = status.status.toString()
-  //     console.log(statusStr)
-  //     let color
-  //     switch (statusStr) {
-  //       case 'AI Generated':
-  //         color = 'purple'
-  //         console.log(color)
-  //         break
-  //       case 'Verified':
-  //         color = 'green'
-  //         console.log(color)
-  //         break
-  //       default:
-  //         color = 'black'
-  //         console.log(color)
-  //     }
-  //     return <span style={color}>{status}</span>
-  //   },
-  // },
-  // { name: 'notes', content: 'Notes' },
 ]
 
 // eslint-disable-next-line no-unused-vars
-const PubEvidenceTable = ({ showPubs, mainGeneId, loading, load, pubEvidence, pubEvidenceNotes }) => {
+const PubEvidenceTable = ({ showPubs, mainGeneId, loading, load, pubEvidence, pubEvidenceFeedback }) => {
   if (!showPubs) {
     return null
   }
@@ -76,8 +55,10 @@ const PubEvidenceTable = ({ showPubs, mainGeneId, loading, load, pubEvidence, pu
         <DataTable
           striped
           singleLine
+          compact="very"
+          collapsing
           loading={loading}
-          idField="hgvsc"
+          idField="hgvsC"
           defaultSortColumn="paperId"
           data={pubEvidence}
           columns={EVIDENCE_TABLE_COLUMNS}
@@ -97,13 +78,13 @@ PubEvidenceTable.propTypes = {
   loading: PropTypes.bool.isRequired,
   load: PropTypes.func.isRequired,
   pubEvidence: PropTypes.arrayOf(PropTypes.object).isRequired,
-  pubEvidenceNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  pubEvidenceFeedback: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  loading: getPubEvidenceTableLoading(state),
+  loading: getPubEvidenceLoading(state, ownProps.mainGeneId),
   pubEvidence: getPubEvidenceArray(state, ownProps.mainGeneId),
-  pubEvidenceNotes: getPubEvidenceNotesForGene(state, ownProps.mainGeneId),
+  pubEvidenceFeedback: getPubEvidenceFeedbackForGene(state, ownProps.mainGeneId),
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
