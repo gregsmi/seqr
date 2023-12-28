@@ -407,8 +407,10 @@ def create_family_note(request, family_guid):
     check_project_permissions(family.project, request.user)
 
     return create_note_handler(
-        request, FamilyNote, parent_fields={'family': family}, additional_note_fields=['noteType'],
+        request, FamilyNote,
         get_response_json=lambda note: {'familyNotesByGuid': {note.guid: get_json_for_family_note(note)}},
+        required_fields=['note', 'noteType'],
+        family=family,
     )
 
 

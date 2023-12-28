@@ -40,18 +40,19 @@ def pub_evidence_notes_for_gene(request, gene_id):
 @login_and_policies_required
 def create_pub_evidence_gene_note(request, gene_id):
     return create_note_handler(
-        request, PubEvidenceNote, parent_fields={'gene_id': gene_id},
+        request, PubEvidenceNote,
         get_response_json=lambda note: _get_pub_evidence_note_by_guid(note, request.user),
-        additional_note_fields=['pubEvId', 'noteType'],
+        required_fields=['noteType', 'note'], optional_fields=['pubEvId'],
+        gene_id=gene_id,
     )
 
 
 @login_and_policies_required
 def create_pub_evidence_note(request):
     return create_note_handler(
-        request, PubEvidenceNote, parent_fields={},
+        request, PubEvidenceNote,
         get_response_json=lambda note: _get_pub_evidence_note_by_guid(note, request.user),
-        additional_note_fields=['pubEvId', 'noteType'],
+        required_fields=['noteType', 'pubEvId'], optional_fields=['note'],
     )
 
 

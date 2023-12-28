@@ -40,9 +40,9 @@ class PubEvidenceAPITest(AuthenticationTestCase):
         self.assertEqual(len(evs[GENE_ID]), 4)
 
     def test_create_update_and_delete_pub_ev_note(self):
-        for create_note_url in [
-            reverse(create_pub_evidence_gene_note, args=[GENE_ID]),
-            reverse(create_pub_evidence_note),
+        for create_note_url, note in [
+            (reverse(create_pub_evidence_gene_note, args=[GENE_ID]), {'noteType': 'F', 'note': 'new gene note'}),
+            (reverse(create_pub_evidence_note), {'noteType': 'N', 'pubEvId': PUB_EV_ID})
         ]:
             with self.subTest(create_note_url):
                 # create the note
@@ -50,22 +50,21 @@ class PubEvidenceAPITest(AuthenticationTestCase):
                 response = self.client.post(create_note_url, content_type='application/json', data=json.dumps({}))
 
                 self.assertEqual(response.status_code, 400)
-                self.assertDictEqual(response.json(), {'error': 'Missing required field(s): note, pubEvId, noteType'})
+                self.assertDictEqual(response.json(), {'error': 'Missing required field(s): ' + ', '.join(note.keys())})
 
-                response = self.client.post(create_note_url, content_type='application/json', data=json.dumps(
-                    {'note': 'new pubEv note', 'noteType': 'F', 'pubEvId': PUB_EV_ID}
-                ))
+                response = self.client.post(create_note_url, content_type='application/json', data=json.dumps(note))
                 self.assertEqual(response.status_code, 200)
                 response_json = response.json()
+
                 self.assertSetEqual(set(response_json.keys()), {'pubEvidenceNotesByGuid'})
                 self.assertEqual(len(response_json['pubEvidenceNotesByGuid']), 1)
                 new_note_guid = list(response_json['pubEvidenceNotesByGuid'].keys())[0]
                 new_note_response = list(response_json['pubEvidenceNotesByGuid'].values())[0]
                 self.assertSetEqual(set(new_note_response.keys()), PUB_EV_NOTE_FIELDS)
-                self.assertEqual(new_note_response['pubEvId'], PUB_EV_ID)
                 self.assertEqual(new_note_response['noteGuid'], new_note_guid)
-                self.assertEqual(new_note_response['note'], 'new pubEv note')
-                self.assertEqual(new_note_response['noteType'], 'F')
+                self.assertEqual(new_note_response['noteType'], note['noteType'])
+                self.assertEqual(new_note_response['pubEvId'], note.get('pubEvId', ''))
+                self.assertEqual(new_note_response['note'], note.get('note', ''))
                 self.assertEqual(new_note_response['noteStatus'], 'N')
                 self.assertEqual(new_note_response['createdBy'], 'Test No Access User')
 

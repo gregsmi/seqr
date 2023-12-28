@@ -22,8 +22,10 @@ def gene_info(request, gene_id):
 @login_and_policies_required
 def create_gene_note_handler(request, gene_id):
     return create_note_handler(
-        request, GeneNote, parent_fields={'gene_id': gene_id},
+        request, GeneNote,
         get_response_json=_get_gene_notes_response_func(gene_id, request.user),
+        required_fields=['note'],
+        gene_id=gene_id,
     )
 
 
