@@ -12,10 +12,13 @@ import PubEvidenceUpdateButton from './PubEvidenceUpdateButton'
 const getPubsFilterVal = row => Object.values(row).join('-')
 
 export const EVIDENCE_TABLE_COLUMNS = [
-  { name: 'updateNote', content: '', format: pub => (<PubEvidenceUpdateButton note={pub.note} />) },
+  { name: 'updateNote', format: pub => (<PubEvidenceUpdateButton note={pub.note} />) },
+  {
+    name: 'hasNote',
+    format: pub => (pub.note.note && <Icon name="sticky note outline" />),
+  },
   {
     name: 'status',
-    content: 'Verified',
     format: pub => (pub.note.noteStatus === 'V' && <Icon color="green" name="check circle" />),
   },
   { name: 'paperId', content: 'Paper ID' },
@@ -75,7 +78,7 @@ const PubEvidenceTable = ({ showPubs, mainGeneId, loading, load, pubEvidence, pu
           singleLine
           loading={loading}
           idField="hgvsc"
-          defaultSortColumn="status"
+          defaultSortColumn="paperId"
           data={pubEvidence}
           columns={EVIDENCE_TABLE_COLUMNS}
           getRowFilterVal={getPubsFilterVal}
