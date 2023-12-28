@@ -1162,7 +1162,7 @@ class PubEvidenceNote(ModelWithGUID):
     note = models.TextField(default="", blank=True)
     gene_id = models.CharField(max_length=20)  # ensembl ID
     pub_ev_id = models.CharField(max_length=100)
-    note_status = models.CharField(max_length=1, choices=NOTE_TYPE_CHOICES, default='N')
+    note_status = models.CharField(max_length=1, choices=NOTE_STATUS_CHOICES, default='N')
 
     def __unicode__(self):
         return "%s:%s" % ((self.gene_id or self.pub_ev_id), (self.note or "")[:20])
