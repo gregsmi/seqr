@@ -36,6 +36,7 @@ const REQUEST_MME_SUBMISSIONS = 'REQUEST_MME_SUBMISSIONS'
 const REQUEST_LOCUS_LISTS = 'REQUEST_LOCUS_LISTS'
 const RECEIVE_LOCUS_LISTS = 'RECEIVE_LOCUS_LISTS'
 const REQUEST_PUB_EVIDENCE = 'REQUEST_PUB_EVIDENCE'
+const REQUEST_PUB_EVIDENCE_NOTES = 'REQUEST_PUB_EVIDENCE_NOTES'
 const UPDATE_DATA_EVAGG = 'UPDATE_DATA_EVAGG'
 
 // Data actions
@@ -418,9 +419,10 @@ const updateEvAggReducer = (state = allGeneData, action) => {
   }
 }
 
-// eslint-disable-next-line no-unused-vars
 export const loadPubEvidence = geneId => (dispatch, getState) => {
-  const { pubEvidenceByGene } = getState()
+  const { pubEvidenceByGene, pubEvidenceNotesByGene } = getState()
+
+  // First check if the pub evidence data is loaded.
   if (Object.keys(pubEvidenceByGene).length === 0) {
     dispatch({ type: REQUEST_PUB_EVIDENCE })
     new HttpRequestHelper('/api/pub_evidence',
@@ -431,7 +433,23 @@ export const loadPubEvidence = geneId => (dispatch, getState) => {
         dispatch({ type: RECEIVE_DATA, error: e.message, updatesById: {} })
       }).get()
   }
+
+  // Then check if the pub evidence notes are loaded for this gene.
+  if (!(geneId in pubEvidenceNotesByGene)) {
+    dispatch({ type: REQUEST_PUB_EVIDENCE_NOTES })
+    new HttpRequestHelper(`/api/pub_evidence/gene/${geneId}/notes`,
+      (responseJson) => {
+        dispatch({ type: RECEIVE_DATA, updatesById: responseJson })
+      },
+      (e) => {
+        dispatch({ type: RECEIVE_DATA, error: e.message, updatesById: {} })
+      }).get()
+  }
 }
+
+export const updatePubEvidenceNote = values => updateEntity(
+  values, RECEIVE_DATA, '/api/pub_evidence/notes', 'noteGuid',
+)
 
 export const reducers = {
   currentProjectGuid: createSingleValueReducer(UPDATE_CURRENT_PROJECT, null),
@@ -468,7 +486,9 @@ export const reducers = {
     recordsPerPage: 25,
   }, false),
   pubEvidenceLoading: loadingReducer(REQUEST_PUB_EVIDENCE, RECEIVE_DATA),
+  pubEvidenceNotesLoading: loadingReducer(REQUEST_PUB_EVIDENCE_NOTES, RECEIVE_DATA),
   pubEvidenceByGene: createObjectsByIdReducer(RECEIVE_DATA, 'pubEvidenceByGene'),
+  pubEvidenceNotesByGene: createObjectsByIdReducer(RECEIVE_DATA, 'pubEvidenceNotesByGene'),
   evAggState: updateEvAggReducer,
 }
 

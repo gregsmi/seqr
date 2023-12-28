@@ -1,16 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Icon } from 'semantic-ui-react'
 import DataLoader from 'shared/components/DataLoader'
 import { loadPubEvidence } from 'pages/Project/reducers'
-import { getPubEvidenceArray, getPubEvidenceIsLoading } from 'pages/Project/selectors'
+import { getPubEvidenceArray, getPubEvidenceNotesForGene, getPubEvidenceTableLoading } from 'pages/Project/selectors'
 import DataTable from '../../table/DataTable'
 import EditEvAggButton from './EditEvAggButton'
+import PubEvidenceUpdateButton from './PubEvidenceUpdateButton'
 
 const getPubsFilterVal = row => Object.values(row).join('-')
 
 export const EVIDENCE_TABLE_COLUMNS = [
+  { name: 'updateNote', content: '', format: pub => (<PubEvidenceUpdateButton note={pub.note} />) },
+  {
+    name: 'status',
+    content: 'Verified',
+    format: pub => (pub.note.noteStatus === 'V' && <Icon color="green" name="check circle" />),
+  },
   { name: 'paperId', content: 'Paper ID' },
   { name: 'hgvsC', content: 'HGVS C' },
   { name: 'hgvsP', content: 'HGVS P' },
@@ -54,7 +61,8 @@ export const EVIDENCE_TABLE_COLUMNS = [
   // { name: 'notes', content: 'Notes' },
 ]
 
-const PubEvidenceTable = ({ showPubs, mainGeneId, loading, load, pubEvidence }) => {
+// eslint-disable-next-line no-unused-vars
+const PubEvidenceTable = ({ showPubs, mainGeneId, loading, load, pubEvidence, pubEvidenceNotes }) => {
   if (!showPubs) {
     return null
   }
@@ -86,11 +94,13 @@ PubEvidenceTable.propTypes = {
   loading: PropTypes.bool.isRequired,
   load: PropTypes.func.isRequired,
   pubEvidence: PropTypes.arrayOf(PropTypes.object).isRequired,
+  pubEvidenceNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  loading: getPubEvidenceIsLoading(state),
+  loading: getPubEvidenceTableLoading(state),
   pubEvidence: getPubEvidenceArray(state, ownProps.mainGeneId),
+  pubEvidenceNotes: getPubEvidenceNotesForGene(state, ownProps.mainGeneId),
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

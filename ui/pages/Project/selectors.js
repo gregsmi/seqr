@@ -64,8 +64,16 @@ export const getSamplesLoading = state => state.samplesLoading.isLoading
 export const getTagTypesLoading = state => state.tagTypesLoading.isLoading
 export const getFamilyTagTypeCounts = state => state.familyTagTypeCounts
 const getFamiliesTableFiltersByProject = state => state.familyTableFilterState
-export const getPubEvidenceIsLoading = state => state.pubEvidenceLoading.isLoading
+export const getPubEvidenceLoading = state => state.pubEvidenceLoading.isLoading
+export const getPubEvidenceNotesLoading = state => state.pubEvidenceNotesLoading.isLoading
 export const getPubEvidenceByGene = state => state.pubEvidenceByGene
+export const getPubEvidenceNotesByGene = state => state.pubEvidenceNotesByGene
+
+export const getPubEvidenceTableLoading = createSelector(
+  getPubEvidenceLoading,
+  getPubEvidenceNotesLoading,
+  (pubEvidenceLoading, pubEvidenceNotesLoading) => pubEvidenceLoading || pubEvidenceNotesLoading,
+)
 
 export const getPubEvidenceForGene = createSelector(
   getPubEvidenceByGene,
@@ -73,9 +81,18 @@ export const getPubEvidenceForGene = createSelector(
   (pubEvidenceByGene, geneId) => pubEvidenceByGene[geneId] || {},
 )
 
+export const getPubEvidenceNotesForGene = createSelector(
+  getPubEvidenceNotesByGene,
+  (state, geneId) => geneId,
+  (pubEvidenceNotesByGene, geneId) => pubEvidenceNotesByGene[geneId] || {},
+)
+
 export const getPubEvidenceArray = createSelector(
   getPubEvidenceForGene,
-  pubEvidenceForGene => Object.values(pubEvidenceForGene),
+  pubEvidenceForGene => Object.values(pubEvidenceForGene).map(({ notes, pubEvId, ...evidence }) => ({
+    note: notes.find(n => n.noteType === 'N') || { pubEvId, noteType: 'N', noteStatus: 'N', note: '' },
+    ...evidence,
+  })),
 )
 
 export const getCurrentProject = createSelector(
