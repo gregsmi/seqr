@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Grid, Icon, Popup } from 'semantic-ui-react'
+import { Icon, Popup } from 'semantic-ui-react'
 import DataLoader from 'shared/components/DataLoader'
 import { loadPubEvidence } from 'pages/Project/reducers'
 import { getPubEvidenceArray, getPubEvidenceFeedbackForGene, getPubEvidenceLoading } from 'pages/Project/selectors'
 import DataTable from '../../table/DataTable'
-import EditEvAggButton from './EditEvAggButton'
 import PubEvidenceUpdateButton from './PubEvidenceUpdateButton'
 
 const getPubsFilterVal = row => Object.values(row).join('-')
@@ -14,8 +13,8 @@ const getPubsFilterVal = row => Object.values(row).join('-')
 export const EVIDENCE_TABLE_COLUMNS = [
   {
     name: 'status',
-    format: pub => (pub.note.noteStatus === 'V' && 
-      <Popup content='Verified' trigger={<Icon color="green" name="check circle" />} />
+    format: pub => (pub.note.noteStatus === 'V' &&
+      <Popup content="Verified" trigger={<Icon color="green" name="check circle" />} />
     ),
   },
   { name: 'updateNote', format: pub => (<PubEvidenceUpdateButton note={pub.note} />) },
@@ -51,23 +50,18 @@ const PubEvidenceTable = ({ showPubs, mainGeneId, loading, load, pubEvidence, pu
 
   return (
     <DataLoader content load={load} loading={false}>
-      <Grid.Column width={16}>
-        <DataTable
-          striped
-          singleLine
-          compact="very"
-          collapsing
-          loading={loading}
-          idField="hgvsC"
-          defaultSortColumn="paperId"
-          data={pubEvidence}
-          columns={EVIDENCE_TABLE_COLUMNS}
-          getRowFilterVal={getPubsFilterVal}
-        />
-      </Grid.Column>
-      <Grid.Column width={12}>
-        <EditEvAggButton geneId={mainGeneId} />
-      </Grid.Column>
+      <DataTable
+        striped
+        singleLine
+        compact="very"
+        collapsing
+        loading={loading}
+        idField="hgvsC"
+        defaultSortColumn="paperId"
+        data={pubEvidence}
+        columns={EVIDENCE_TABLE_COLUMNS}
+        getRowFilterVal={getPubsFilterVal}
+      />
     </DataLoader>
   )
 }

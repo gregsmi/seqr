@@ -1,7 +1,6 @@
 import React from 'react'
 import { Form, Label } from 'semantic-ui-react'
 import flatten from 'lodash/flatten'
-import { Link } from 'react-router-dom'
 import { validators } from '../components/form/FormHelpers'
 import {
   BooleanCheckbox,
@@ -223,21 +222,6 @@ export const successStoryTypeDisplay = tag => (
   </span>
 )
 
-// EVIDENCE AGGREGATION
-export const ID_ID = 'id'
-export const GENE_ID = 'gene'
-export const HGVSC_ID = 'hgvsc'
-export const HGVSP_ID = 'hgvsp'
-export const PHENO_ID = 'phenotype'
-export const ZYGO_ID = 'zygosity'
-export const INHERIT_ID = 'inheritance'
-export const CITE_ID = 'citation'
-export const STUDY_ID = 'studytype'
-export const FUNCT_ID = 'functionalinfo'
-export const MUT_ID = 'mutationtype'
-export const STATUS_ID = 'status'
-export const NOTES_ID = 'notes'
-
 // FAMILY FIELDS
 export const FAMILY_FIELD_ID = 'familyId'
 export const FAMILY_DISPLAY_NAME = 'displayName'
@@ -363,20 +347,7 @@ export const PROBAND_RELATIONSHIP_OPTIONS = [
   { value: 'U', name: 'Unknown' },
 ]
 
-export const EVAGG_STATUS_OPTIONS = [
-  { value: 'AI Generated', name: 'AI Generated', color: '#668FE3' },
-  { value: 'Verified', name: 'Verified', color: '#56db58' },
-  { value: 'Exclude', name: 'Exclude', color: '#db6a56' },
-]
-
 const PROBAND_RELATIONSHIP_LOOKUP = PROBAND_RELATIONSHIP_OPTIONS.reduce(
-  (acc, opt) => ({
-    ...acc,
-    ...{ [opt.value]: opt.name },
-  }), {},
-)
-
-const EVAGG_STATUS_LOOKUP = EVAGG_STATUS_OPTIONS.reduce(
   (acc, opt) => ({
     ...acc,
     ...{ [opt.value]: opt.name },
@@ -422,45 +393,6 @@ export const INDIVIDUAL_FIELD_CONFIGS = {
     format: relationship => PROBAND_RELATIONSHIP_LOOKUP[relationship],
     formFieldProps: { component: Select, options: PROBAND_RELATIONSHIP_OPTIONS, search: true },
   },
-}
-export const EVIDENCE_TABLE_CONFIGS = {
-  [ID_ID]: { label: 'ID', description: 'Record ID' },
-  [GENE_ID]: { label: 'Gene', description: 'Gene name in symbol format', width: 8 },
-  [HGVSC_ID]: { label: '-- HGVS C', description: 'HGVS C ID', width: 11 },
-  [HGVSP_ID]: { label: 'HGVS P', description: 'HGVS P ID', width: 10 },
-  [PHENO_ID]: { label: 'Phenotype', description: 'Free text phenotype', width: 14 },
-  [ZYGO_ID]: { label: 'Zygosity', description: 'Categorical zygosity', width: 12 },
-  [INHERIT_ID]: { label: 'Inheritance', description: 'Categorical variant inheritance', width: 11 },
-  [CITE_ID]: {
-    label: 'Citation',
-    description: 'Paper citation in the form',
-    width: 14,
-    format: (citation) => {
-      const parts = citation.split(',')
-      return <Link to={parts[0]}>{parts[1]}</Link>
-    },
-  },
-  [STUDY_ID]: {
-    label: 'Study T.',
-    description: 'Categorical study type',
-    width: 13,
-    style: { maxWidth: '50px', whiteSpace: 'normal' },
-  },
-  [FUNCT_ID]: {
-    label: 'Functional S.',
-    description: 'Free text functional study',
-    width: 11,
-    style: { maxWidth: '50px', whiteSpace: 'normal' },
-  },
-  [MUT_ID]: { label: 'Variant T.', description: 'Categorical mutation type', width: 10 },
-  [STATUS_ID]: {
-    label: 'Status',
-    description: 'Categorical status',
-    format: relationship => EVAGG_STATUS_LOOKUP[relationship],
-    formFieldProps: { component: Select, options: EVAGG_STATUS_OPTIONS, search: true },
-    width: 13,
-  },
-  [NOTES_ID]: { label: 'Notes', description: 'Take notes here', width: 16 },
 }
 
 export const INDIVIDUAL_HPO_EXPORT_DATA = [
