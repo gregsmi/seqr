@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form, Label } from 'semantic-ui-react'
 import flatten from 'lodash/flatten'
+
 import { validators } from '../components/form/FormHelpers'
 import {
   BooleanCheckbox,
@@ -223,6 +224,7 @@ export const successStoryTypeDisplay = tag => (
 )
 
 // FAMILY FIELDS
+
 export const FAMILY_FIELD_ID = 'familyId'
 export const FAMILY_DISPLAY_NAME = 'displayName'
 export const FAMILY_FIELD_DESCRIPTION = 'description'

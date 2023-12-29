@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux'
 
-import { allGeneData } from 'shared/components/panel/variants/GeneReader'
 import {
   loadingReducer, createSingleObjectReducer, createSingleValueReducer, createObjectsByIdReducer,
 } from 'redux/utils/reducerFactories'
@@ -36,7 +35,6 @@ const REQUEST_MME_SUBMISSIONS = 'REQUEST_MME_SUBMISSIONS'
 const REQUEST_LOCUS_LISTS = 'REQUEST_LOCUS_LISTS'
 const RECEIVE_LOCUS_LISTS = 'RECEIVE_LOCUS_LISTS'
 const UPDATE_PUB_EVIDENCE = 'UPDATE_PUB_EVIDENCE'
-const UPDATE_DATA_EVAGG = 'UPDATE_DATA_EVAGG'
 
 // Data actions
 
@@ -159,11 +157,6 @@ export const updateFamilies = values => (dispatch, getState) => {
     (responseJson) => {
       dispatch({ type: RECEIVE_DATA, updatesById: responseJson })
     }).post(values)
-}
-
-export const updateEvAgg = values => (dispatch) => {
-  console.log('before dispatch: ')
-  dispatch({ type: UPDATE_DATA_EVAGG, updates: values })
 }
 
 export const updateIndividuals = values => (dispatch, getState) => {
@@ -385,39 +378,6 @@ export const updateFamiliesTableFilters = updates => (dispatch, getState) => {
 
 export const updateSavedVariantTable = updates => ({ type: UPDATE_SAVED_VARIANT_TABLE_STATE, updates })
 
-// reducers
-const updateEvAggReducer = (state = allGeneData, action) => {
-  if (!action) {
-    return state
-  }
-
-  switch (action.type) {
-    case UPDATE_DATA_EVAGG: {
-      if (action.updates === undefined) {
-        // eslint-disable-next-line no-console
-        console.error(`Invalid ${UPDATE_DATA_EVAGG} action: action.updates is undefined: `, action)
-        return state
-      }
-      // console.log(' in reducer: action: ', JSON.stringify(action))
-      // console.log(' in reducer: state: ', JSON.stringify(state))
-      const geneId = Object.keys(action.updates)[0]
-      const updatedValues = action.updates[geneId]
-      console.log('updating in reducer: geneId: ', geneId)
-      // if ('evAggState' in state === false) {
-      //   return { ...state, evAggState: { ...action.updates } }
-      // }
-      const existingValues = [...state[geneId]]
-      const keptValues = existingValues.filter(record => updatedValues.find(r => r.id === record.id) === undefined)
-
-      const result = { ...state, [geneId]: [...keptValues, ...updatedValues] }
-      console.log('state after reducer: ', JSON.stringify(result))
-      return result
-    }
-    default:
-      return state
-  }
-}
-
 const updatePubEvidenceLoading = (geneId, isLoading, error) => (
   { type: UPDATE_PUB_EVIDENCE, updatesById: { geneId: { isLoading, error } } }
 )
@@ -441,6 +401,8 @@ export const loadPubEvidence = geneId => (dispatch, getState) => {
 export const updatePubEvidenceNote = values => updateEntity(
   values, RECEIVE_DATA, '/api/pub_evidence/notes', 'noteGuid',
 )
+
+// reducers
 
 export const reducers = {
   currentProjectGuid: createSingleValueReducer(UPDATE_CURRENT_PROJECT, null),
@@ -479,7 +441,6 @@ export const reducers = {
   pubEvidenceByGene: createObjectsByIdReducer(RECEIVE_DATA, 'pubEvidenceByGene'),
   pubEvidenceNotesByGuid: createObjectsByIdReducer(RECEIVE_DATA, 'pubEvidenceNotesByGuid'),
   pubEvidenceLoadingByGene: createObjectsByIdReducer(UPDATE_PUB_EVIDENCE),
-  evAggState: updateEvAggReducer,
 }
 
 const rootReducer = combineReducers(reducers)
