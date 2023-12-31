@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Icon, Popup } from 'semantic-ui-react'
+import { Grid, Icon, Popup, Segment } from 'semantic-ui-react'
 import DataLoader from 'shared/components/DataLoader'
 import { loadPubEvidence } from 'pages/Project/reducers'
 import { getPubEvidenceArray, getPubEvidenceFeedbackForGene, getPubEvidenceLoading } from 'pages/Project/selectors'
@@ -10,6 +10,51 @@ import PubEvidenceUpdateButton from './PubEvidenceUpdateButton'
 
 const getPubsFilterVal = row => Object.values(row).join('-')
 
+const getHeader = publication => (
+  <Segment>
+    <Grid columns={2}>
+      <Grid.Row>
+        <Grid.Column>
+          <p>
+            <b>Paper ID:&nbsp;</b>
+            {publication.paperId}
+          </p>
+          <p>
+            <b>HGVS C:&nbsp;</b>
+            {publication.hgvsC}
+          </p>
+          <p>
+            <b>HGVS P:&nbsp;</b>
+            {publication.hgvsP}
+          </p>
+          <p>
+            <b>Study Type:&nbsp;</b>
+            {publication.studyType}
+          </p>
+        </Grid.Column>
+        <Grid.Column>
+          <p>
+            <b>Phenotype:&nbsp;</b>
+            {publication.phenotype}
+          </p>
+          <p>
+            <b>Zygosity:&nbsp;</b>
+            {publication.zygosity}
+          </p>
+          <p>
+            <b>Inheritance:&nbsp;</b>
+            {publication.variantInheritance}
+          </p>
+          <p>
+            <b>Variant Type:&nbsp;</b>
+            {publication.variantType}
+          </p>
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
+  </Segment>
+)
+
 export const EVIDENCE_TABLE_COLUMNS = [
   {
     name: 'status',
@@ -17,7 +62,10 @@ export const EVIDENCE_TABLE_COLUMNS = [
       <Popup content="Verified" trigger={<Icon color="green" name="check circle" />} />
     ),
   },
-  { name: 'updateNote', format: pub => (<PubEvidenceUpdateButton note={pub.note} />) },
+  {
+    name: 'updateNote',
+    format: pub => (<PubEvidenceUpdateButton header={getHeader(pub)} note={pub.note} />)
+  },
   {
     name: 'hasNote',
     format: pub => (pub.note.note &&
@@ -43,7 +91,7 @@ export const EVIDENCE_TABLE_COLUMNS = [
 ]
 
 // eslint-disable-next-line no-unused-vars
-const PubEvidenceTable = ({ showPubs, mainGeneId, loading, load, pubEvidence, pubEvidenceFeedback }) => {
+const PubEvidenceTable = ({ showPubs, loading, load, pubEvidence, pubEvidenceFeedback }) => {
   if (!showPubs) {
     return null
   }
@@ -68,7 +116,7 @@ const PubEvidenceTable = ({ showPubs, mainGeneId, loading, load, pubEvidence, pu
 
 PubEvidenceTable.propTypes = {
   showPubs: PropTypes.bool.isRequired,
-  mainGeneId: PropTypes.string.isRequired,
+  mainGeneId: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
   loading: PropTypes.bool.isRequired,
   load: PropTypes.func.isRequired,
   pubEvidence: PropTypes.arrayOf(PropTypes.object).isRequired,

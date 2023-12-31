@@ -8,6 +8,18 @@ import UpdateButton from 'shared/components/buttons/UpdateButton'
 import RichTextEditor from 'shared/components/form/RichTextEditor'
 import { RadioGroup } from 'shared/components/form/Inputs'
 
+const PubEvNoteContainer = ({ header, children }) => (
+  <div>
+    {header}
+    {children}
+  </div>
+)
+
+PubEvNoteContainer.propTypes = {
+  header: PropTypes.node,
+  children: PropTypes.node,
+}
+
 const PUB_EV_STATUS_OPTIONS = ['Verified', 'Not Verified'].map(text => ({ text, value: text[0] }))
 
 const PUB_EVIDENCE_FIELDS = [
@@ -15,20 +27,22 @@ const PUB_EVIDENCE_FIELDS = [
   { name: 'note', label: 'Note', component: RichTextEditor },
 ]
 
-const PubEvidenceUpdateButton = React.memo(({ note, onSubmit }) => (
+const PubEvidenceUpdateButton = React.memo(({ header, note, onSubmit }) => (
   <UpdateButton
     editIconName="write"
     modalTitle="Edit Publication Evidence"
-    modalId={`pub-ev-${note.pubEvId}-${note.geneId}`}
+    modalId={`pub-ev-${note.pubEvId}-${note.geneId}-${note.noteType}}}`}
     onSubmit={onSubmit}
     initialValues={note}
     formFields={PUB_EVIDENCE_FIELDS}
+    formContainer={<PubEvNoteContainer header={header} />}
     showErrorPanel
   />
 ))
 
 PubEvidenceUpdateButton.propTypes = {
   note: PropTypes.object,
+  header: PropTypes.node,
   onSubmit: PropTypes.func.isRequired,
 }
 
