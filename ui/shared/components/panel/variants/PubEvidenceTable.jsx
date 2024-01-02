@@ -64,7 +64,7 @@ export const EVIDENCE_TABLE_COLUMNS = [
   },
   {
     name: 'updateNote',
-    format: pub => (<PubEvidenceUpdateButton header={getHeader(pub)} note={pub.note} />)
+    format: pub => (<PubEvidenceUpdateButton header={getHeader(pub)} note={pub.note} />),
   },
   {
     name: 'hasNote',
@@ -101,11 +101,13 @@ const PubEvidenceTable = ({ showPubs, loading, load, pubEvidence, pubEvidenceFee
       <DataTable
         striped
         singleLine
+        horizontalScroll
         compact="very"
         collapsing
         loading={loading}
         idField="hgvsC"
         defaultSortColumn="paperId"
+        emptyContent="No publications found"
         data={pubEvidence}
         columns={EVIDENCE_TABLE_COLUMNS}
         getRowFilterVal={getPubsFilterVal}
