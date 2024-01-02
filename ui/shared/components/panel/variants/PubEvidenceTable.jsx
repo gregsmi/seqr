@@ -57,19 +57,16 @@ const getHeader = publication => (
 
 export const EVIDENCE_TABLE_COLUMNS = [
   {
-    name: 'status',
-    format: pub => (pub.note.noteStatus === 'V' &&
-      <Popup content="Verified" trigger={<Icon color="green" name="check circle" />} />
-    ),
-  },
-  {
     name: 'updateNote',
     format: pub => (<PubEvidenceUpdateButton header={getHeader(pub)} note={pub.note} />),
   },
   {
-    name: 'hasNote',
-    format: pub => (pub.note.note &&
-      <Popup content={pub.note.note} trigger={<Icon name="sticky note outline" />} />
+    name: 'status',
+    format: ({ note }) => (
+      <span>
+        {note.noteStatus === 'V' && <Popup content="Verified" trigger={<Icon color="green" name="check circle" />} />}
+        {note.note && <Popup content={note.note} trigger={<Icon name="sticky note outline" />} />}
+      </span>
     ),
   },
   { name: 'paperId', content: 'Paper ID' },
@@ -83,9 +80,7 @@ export const EVIDENCE_TABLE_COLUMNS = [
   {
     name: 'paperTitle',
     content: 'Paper',
-    format: pub => (
-      <a href={pub.link} target="_blank" rel="noopener noreferrer">{pub.paperTitle}</a>
-    ),
+    format: pub => (<a href={pub.link} target="_blank" rel="noopener noreferrer">{pub.paperTitle}</a>),
     noFormatExport: true,
   },
 ]
