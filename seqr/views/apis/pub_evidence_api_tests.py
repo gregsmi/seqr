@@ -29,7 +29,7 @@ class PubEvidenceAPITest(AuthenticationTestCase):
 
     def test_create_update_and_delete_pub_ev_note(self):
         for type, note in [
-            ('gene note', {'noteType': 'F', 'geneId': GENE_ID, 'note': 'new gene note'}),
+            ('feedback note', {'noteType': 'F', 'geneId': GENE_ID, 'note': 'new feedback note'}),
             ('pub_ev note', {'noteType': 'N', 'geneId': GENE_ID, 'pubEvId': PUB_EV_ID, 'noteStatus': 'V'})
         ]:
             with self.subTest(type):

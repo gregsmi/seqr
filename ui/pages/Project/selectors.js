@@ -91,14 +91,15 @@ export const getPubEvidenceFeedbackForGene = createSelector(
   notes => notes.filter(note => note.noteType === 'F'),
 )
 
-const defaultNote = (geneId, pubEvId) => ({ geneId, pubEvId, noteType: 'N', noteStatus: 'N', note: '' })
+const defaultNote = (geneId, pubEvId, noteType) => ({ geneId, pubEvId, noteType, noteStatus: 'N', note: '' })
 
 export const getPubEvidenceArray = createSelector(
   getPubEvidenceForGene,
   getPubEvidenceNotesForGene,
   (state, geneId) => geneId,
   (evidence, notes, geneId) => Object.values(evidence).map(({ pubEvId, ...props }) => ({
-    note: notes.find(n => n.noteType === 'N' && n.pubEvId === pubEvId) || defaultNote(geneId, pubEvId),
+    note: notes.find(n => n.noteType === 'N' && n.pubEvId === pubEvId) || defaultNote(geneId, pubEvId, 'N'),
+    feedback: notes.find(n => n.noteType === 'F' && n.pubEvId === pubEvId) || defaultNote(geneId, pubEvId, 'F'),
     ...props,
   })),
 )

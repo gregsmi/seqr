@@ -10,7 +10,7 @@ import PubEvidenceUpdateButton from './PubEvidenceUpdateButton'
 
 const getPubsFilterVal = row => Object.values(row).join('-')
 
-const getHeader = publication => (
+const getPubEvDisplay = publication => (
   <Segment>
     <Grid columns={2}>
       <Grid.Row>
@@ -58,7 +58,12 @@ const getHeader = publication => (
 export const EVIDENCE_TABLE_COLUMNS = [
   {
     name: 'updateNote',
-    format: pub => (<PubEvidenceUpdateButton header={getHeader(pub)} note={pub.note} />),
+    format: pub => (
+      <span>
+        <PubEvidenceUpdateButton header={getPubEvDisplay(pub)} note={pub.feedback} />
+        <PubEvidenceUpdateButton header={getPubEvDisplay(pub)} note={pub.note} />
+      </span>
+    ),
   },
   {
     name: 'status',
