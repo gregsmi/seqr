@@ -5,9 +5,11 @@ import { connect } from 'react-redux'
 import { Popup } from 'semantic-ui-react'
 
 import { updatePubEvidenceNote } from 'pages/Project/reducers'
-import UpdateButton from 'shared/components/buttons/UpdateButton'
 import RichTextEditor from 'shared/components/form/RichTextEditor'
 import { RadioGroup } from 'shared/components/form/Inputs'
+import { ButtonLink } from 'shared/components/StyledComponents'
+import FormWrapper from 'shared/components/form/FormWrapper'
+import Modal from 'shared/components/modal/Modal'
 
 const PUB_NOTE_TITLE = 'Edit Publication Evidence Note'
 const PUB_NOTE_STATUS_OPTIONS = ['Verified', 'Not Verified'].map(text => ({ text, value: text[0] }))
@@ -27,36 +29,28 @@ const NOTE_TYPE_MAPPING = {
   F: { title: PUB_FEEDBACK_TITLE, fields: PUB_FEEDBACK_FIELDS, icon: 'commenting', popup: PUB_FEEDBACK_POPUP },
 }
 
-const PubEvNoteContainer = ({ header, children }) => (
-  <div>
-    {header}
-    {children}
-  </div>
-)
-
-PubEvNoteContainer.propTypes = {
-  header: PropTypes.node,
-  children: PropTypes.node,
-}
-
 const PubEvidenceUpdateButton = React.memo(({ header, note, onSubmit }) => {
   const { title, fields, icon, popup } = NOTE_TYPE_MAPPING[note.noteType]
+  const modalName = `pub-ev-${note.pubEvId}-${note.geneId}-${note.noteType}`
   return (
     <Popup
       content={popup}
-      position="top center"
-      basic
       trigger={
-        <UpdateButton
-          editIconName={icon}
-          modalTitle={title}
-          modalId={`pub-ev-${note.pubEvId}-${note.geneId}-${note.noteType}`}
-          onSubmit={onSubmit}
-          initialValues={note}
-          formFields={fields}
-          formContainer={<PubEvNoteContainer header={header} />}
-          showErrorPanel
-        />
+        // Without a <span> here, the Popup will not render - possibly related to
+        // https://github.com/Semantic-Org/Semantic-UI-React/issues/1413
+        // With the <span>, the Popup reopens itself on click of the Modal:
+        // https://github.com/Semantic-Org/Semantic-UI-React/issues/4176
+        <Modal title={title} modalName={modalName} trigger={<ButtonLink icon={icon} size="small" />}>
+          <div>
+            {header}
+            <FormWrapper
+              onSubmit={onSubmit}
+              modalName={modalName}
+              initialValues={note}
+              fields={fields}
+            />
+          </div>
+        </Modal>
       }
     />
   )
