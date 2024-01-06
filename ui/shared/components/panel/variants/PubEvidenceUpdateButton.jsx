@@ -34,21 +34,23 @@ const PubEvidenceUpdateButton = React.memo(({ header, note, onSubmit }) => {
   const modalName = `pub-ev-${note.pubEvId}-${note.geneId}-${note.noteType}`
   return (
     <Popup
+      basic
       content={popup}
+      on="hover"
       trigger={
-      // Without a <div> or <span> here, the Popup will not render:
-      // https://github.com/Semantic-Org/Semantic-UI-React/issues/1413
-      // With the <span>, the Popup reopens itself on close of the Modal:
-      // https://github.com/Semantic-Org/Semantic-UI-React/issues/4176
-        <Modal title={title} modalName={modalName} trigger={<ButtonLink icon={icon} />}>
-          {header}
-          <FormWrapper
-            onSubmit={onSubmit}
-            modalName={modalName}
-            initialValues={note}
-            fields={fields}
-          />
-        </Modal>
+        // Without a <div> or <span> here, the Popup will not render:
+        // https://github.com/Semantic-Org/Semantic-UI-React/issues/1413
+        <span>
+          <Modal title={title} modalName={modalName} trigger={<ButtonLink icon={icon} />}>
+            {header}
+            <FormWrapper
+              onSubmit={onSubmit}
+              modalName={modalName}
+              initialValues={note}
+              fields={fields}
+            />
+          </Modal>
+        </span>
       }
     />
   )
