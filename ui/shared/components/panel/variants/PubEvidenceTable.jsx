@@ -74,19 +74,51 @@ export const EVIDENCE_TABLE_COLUMNS = [
       </span>
     ),
   },
-  { name: 'paperId', content: 'Paper ID' },
+  {
+    name: 'paperId',
+    content: 'Paper ID',
+    noFormatExport: true,
+    format: pub => (
+      <Popup
+        content={pub.citation}
+        trigger={<a href={pub.link} target="_blank" rel="noopener noreferrer">{pub.paperId}</a>}
+      />
+    ),
+  },
+  // {
+  //   name: 'citation',
+  //   content: 'Paper',
+  //   noFormatExport: true,
+  //   format: pub => (<a href={pub.link} target="_blank" rel="noopener noreferrer">{pub.citation}</a>),
+  // },
   { name: 'hgvsC', content: 'HGVS C' },
   { name: 'hgvsP', content: 'HGVS P' },
-  { name: 'phenotype', content: 'Phenotype' },
+  { name: 'individualId', content: 'Individual' },
+  {
+    name: 'phenotype',
+    content: 'Phenotype',
+    noFormatExport: true,
+    format: pub => (
+      <Popup
+        content={pub.phenotype}
+        trigger={<span>{pub.phenotype.length > 30 ? `${pub.phenotype.substring(0, 30)}...` : pub.phenotype}</span>}
+      />
+    ),
+  },
   { name: 'zygosity', content: 'Zygosity' },
   { name: 'variantInheritance', content: 'Inheritance' },
-  { name: 'studyType', content: 'Study Type' },
   { name: 'variantType', content: 'Variant Type' },
+  { name: 'studyType', content: 'Study Type' },
   {
     name: 'paperTitle',
-    content: 'Paper',
-    format: pub => (<a href={pub.link} target="_blank" rel="noopener noreferrer">{pub.paperTitle}</a>),
+    content: 'Title',
     noFormatExport: true,
+    format: pub => (
+      <Popup
+        content={pub.paperTitle}
+        trigger={<span>{pub.paperTitle.length > 40 ? `${pub.paperTitle.substring(0, 40)}...` : pub.paperTitle}</span>}
+      />
+    ),
   },
 ]
 

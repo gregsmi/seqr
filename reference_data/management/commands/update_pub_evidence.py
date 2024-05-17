@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 ACCOUNT_URL = f"https://{AZURE_REF_STORAGE_ACCOUNT}.blob.core.windows.net"
 CONTAINER_NAME = "reference"
-BLOB_NAME = "evagg/truth_set_small.tsv"
+BLOB_NAME = "evagg/pub_ev_latest.tsv"
 
 
 class PubEvReferenceDataHandler(ReferenceDataHandler):
@@ -35,6 +35,16 @@ class PubEvReferenceDataHandler(ReferenceDataHandler):
             f.write(download_stream.readall())
 
         return local_file_path
+
+    @staticmethod
+    def get_file_header(f):
+        while True:
+            # Skip '#'-prefixed header lines to get to the column names.
+            line = next(f).rstrip('\n\r').split('\t')
+            if not line[0].startswith('#'):
+                break
+            logger.info(f'PubEvidence header: {line}')
+        return line
 
     @staticmethod
     def parse_record(record):

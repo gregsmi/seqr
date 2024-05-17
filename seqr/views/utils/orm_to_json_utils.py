@@ -800,12 +800,8 @@ def get_json_for_pub_evidence(evidences, user):
         json: array of json objects
     """
 
-    def _add_id(result, evidence):
-        id = "{}_{}_{}".format(result['paperId'], result['geneSymbol'], result['hgvsC'])
-        result['pubEvId'] = id.replace('/', '-').replace('>', '-')
-
     nested_fields = [{'fields': ('gene', 'gene_symbol'), 'key': 'geneSymbol'}]
-    return _get_json_for_models(evidences, user=user, nested_fields=nested_fields, process_result=_add_id)
+    return _get_json_for_models(evidences, user=user, nested_fields=nested_fields)
 
 
 def get_json_for_pub_ev_note(note, user):

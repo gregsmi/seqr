@@ -274,29 +274,41 @@ class PubEvidence(models.Model):
     # This is automatically mapped from the 'gene_symbol' field on import.
     gene = models.ForeignKey(GeneInfo, on_delete=models.CASCADE)
 
+    pub_ev_id = models.TextField()
     paper_id = models.TextField()
-    hgvs_c = models.CharField(max_length=25)
-    hgvs_p = models.CharField(max_length=25)
+    hgvs_c = models.CharField(max_length=30)
+    hgvs_p = models.CharField(max_length=30)
+    variant_text = models.TextField()
+    transcript = models.TextField()
+    gnomad_frequency = models.TextField()
+    individual_id = models.TextField()
     phenotype = models.TextField()
-    zygosity = models.CharField(max_length=25)
-    variant_inheritance = models.CharField(max_length=25)
-    study_type = models.CharField(max_length=25)
+    zygosity = models.CharField(max_length=30)
+    variant_inheritance = models.CharField(max_length=60)
+    variant_type = models.CharField(max_length=30)
+    study_type = models.CharField(max_length=30)
     functional_study = models.TextField()
-    variant_type = models.CharField(max_length=25)
-    paper_title = models.TextField()
+    citation = models.TextField()
     link = models.TextField()
+    paper_title = models.TextField()
  
     class Meta:
         json_fields = [
+            'pub_ev_id',
             'paper_id',
             'hgvs_c',
             'hgvs_p',
+            'variant_text',
+            'transcript',
+            'gnomad_frequency',
+            'individual_id',
             'phenotype',
             'zygosity',
             'variant_inheritance',
+            'variant_type',
             'study_type',
             'functional_study',
-            'variant_type',
-            'paper_title',
-            'link'
+            'citation',
+            'link',
+            'paper_title'
         ]
