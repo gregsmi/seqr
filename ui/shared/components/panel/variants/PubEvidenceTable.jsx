@@ -85,12 +85,6 @@ export const EVIDENCE_TABLE_COLUMNS = [
       />
     ),
   },
-  // {
-  //   name: 'citation',
-  //   content: 'Paper',
-  //   noFormatExport: true,
-  //   format: pub => (<a href={pub.link} target="_blank" rel="noopener noreferrer">{pub.citation}</a>),
-  // },
   { name: 'hgvsC', content: 'HGVS C' },
   { name: 'hgvsP', content: 'HGVS P' },
   { name: 'individualId', content: 'Individual' },
