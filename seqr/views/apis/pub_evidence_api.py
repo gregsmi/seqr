@@ -21,7 +21,7 @@ def create_pub_evidence_note(request):
     return create_note_handler(
         request, PubEvidenceNote,
         get_response_json=lambda note: _get_pub_evidence_note_by_guid(note.guid, note, request.user),
-        required_fields=['geneId', 'noteType'], optional_fields=['pubEvId', 'note', 'noteStatus'],
+        required_fields=['geneId', 'noteType'], optional_fields=['evidenceId', 'note', 'noteStatus'],
     )
 
 

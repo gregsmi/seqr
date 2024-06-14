@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 ACCOUNT_URL = f"https://{AZURE_REF_STORAGE_ACCOUNT}.blob.core.windows.net"
 CONTAINER_NAME = "reference"
-BLOB_NAME = "evagg/pub_ev_latest.tsv"
+BLOB_NAME = "evagg/pub_evidence_latest.tsv"
 
 
 class PubEvReferenceDataHandler(ReferenceDataHandler):
@@ -46,8 +46,17 @@ class PubEvReferenceDataHandler(ReferenceDataHandler):
             logger.info(f'PubEvidence header: {line}')
         return line
 
+    def get_gene_for_record(self, record):
+        gene_symbol = record.pop('gene', None)
+        if not (gene := self.gene_reference['gene_symbols_to_gene'].get(gene_symbol)):
+            raise ValueError('Gene "{}" not found in the GeneInfo table'.format(gene_symbol))
+        return gene
+
     @staticmethod
     def parse_record(record):
+        record['engineered_cells'] = True if record['engineered_cells'] == 'True' else False
+        record['patient_cells_tissues'] = True if record['patient_cells_tissues'] == 'True' else False
+        record['animal_model'] = True if record['animal_model'] == 'True' else False
         yield record
 
 

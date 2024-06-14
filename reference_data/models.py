@@ -274,11 +274,11 @@ class PubEvidence(models.Model):
     # This is automatically mapped from the 'gene_symbol' field on import.
     gene = models.ForeignKey(GeneInfo, on_delete=models.CASCADE)
 
-    pub_ev_id = models.TextField()
+    evidence_id = models.TextField()
     paper_id = models.TextField()
     hgvs_c = models.CharField(max_length=30)
     hgvs_p = models.CharField(max_length=30)
-    variant_text = models.TextField()
+    paper_variant = models.TextField()
     transcript = models.TextField()
     gnomad_frequency = models.TextField()
     individual_id = models.TextField()
@@ -287,18 +287,20 @@ class PubEvidence(models.Model):
     variant_inheritance = models.CharField(max_length=60)
     variant_type = models.CharField(max_length=30)
     study_type = models.CharField(max_length=30)
-    functional_study = models.TextField()
+    engineered_cells = models.BooleanField()
+    patient_cells_tissues = models.BooleanField()
+    animal_model = models.BooleanField()
     citation = models.TextField()
     link = models.TextField()
     paper_title = models.TextField()
  
     class Meta:
         json_fields = [
-            'pub_ev_id',
+            'evidence_id',
             'paper_id',
             'hgvs_c',
             'hgvs_p',
-            'variant_text',
+            'paper_variant',
             'transcript',
             'gnomad_frequency',
             'individual_id',
@@ -307,7 +309,9 @@ class PubEvidence(models.Model):
             'variant_inheritance',
             'variant_type',
             'study_type',
-            'functional_study',
+            'engineered_cells',
+            'patient_cells_tissues',
+            'animal_model',
             'citation',
             'link',
             'paper_title'

@@ -8,8 +8,8 @@ from seqr.views.utils.test_utils import AuthenticationTestCase
 
 
 GENE_ID = 'ENSG00000223972'
-PUB_EV_ID = '10.1002/ana.21207_TWNK_c.1370C>T'.replace('/', '-').replace('>', '-')
-PUB_EV_NOTE_FIELDS = {'noteGuid', 'note', 'geneId', 'lastModifiedDate', 'createdBy', 'pubEvId', 'noteType', 'noteStatus'}
+EVIDENCE_ID = '10.1002/ana.21207_TWNK_c.1370C>T'.replace('/', '-').replace('>', '-')
+PUB_EV_NOTE_FIELDS = {'noteGuid', 'note', 'geneId', 'lastModifiedDate', 'createdBy', 'evidenceId', 'noteType', 'noteStatus'}
 
 
 class PubEvidenceAPITest(AuthenticationTestCase):
@@ -30,7 +30,7 @@ class PubEvidenceAPITest(AuthenticationTestCase):
     def test_create_update_and_delete_pub_ev_note(self):
         for type, note in [
             ('feedback note', {'noteType': 'F', 'geneId': GENE_ID, 'note': 'new feedback note'}),
-            ('pub_ev note', {'noteType': 'N', 'geneId': GENE_ID, 'pubEvId': PUB_EV_ID, 'noteStatus': 'V'})
+            ('pub_ev note', {'noteType': 'N', 'geneId': GENE_ID, 'evidenceId': EVIDENCE_ID, 'noteStatus': 'V'})
         ]:
             with self.subTest(type):
                 create_note_url = reverse(create_pub_evidence_note)
@@ -52,7 +52,7 @@ class PubEvidenceAPITest(AuthenticationTestCase):
                 self.assertEqual(new_note_response['noteGuid'], new_note_guid)
                 self.assertEqual(new_note_response['noteType'], note['noteType'])
                 self.assertEqual(new_note_response['geneId'], note['geneId'])
-                self.assertEqual(new_note_response['pubEvId'], note.get('pubEvId', ''))
+                self.assertEqual(new_note_response['evidenceId'], note.get('evidenceId', ''))
                 self.assertEqual(new_note_response['noteStatus'], note.get('noteStatus', 'N'))
                 self.assertEqual(new_note_response['note'], note.get('note', ''))
                 self.assertEqual(new_note_response['createdBy'], 'Test No Access User')

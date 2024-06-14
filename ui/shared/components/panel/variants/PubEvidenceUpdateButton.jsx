@@ -31,7 +31,7 @@ const NOTE_TYPE_MAPPING = {
 
 const PubEvidenceUpdateButton = React.memo(({ header, note, onSubmit }) => {
   const { title, fields, icon, popup } = NOTE_TYPE_MAPPING[note.noteType]
-  const modalName = `pub-ev-${note.pubEvId}-${note.geneId}-${note.noteType}`
+  const modalName = `pub-ev-${note.evidenceId}-${note.geneId}-${note.noteType}`
   return (
     <Popup
       basic
