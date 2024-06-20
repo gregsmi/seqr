@@ -98,6 +98,7 @@ export const getPubEvidenceArray = createSelector(
   getPubEvidenceNotesForGene,
   (state, geneId) => geneId,
   (evidence, notes, geneId) => Object.values(evidence).map(({ evidenceId, ...props }) => ({
+    evidenceId,
     note: notes.find(n => n.noteType === 'N' && n.evidenceId === evidenceId) || defaultNote(geneId, evidenceId, 'N'),
     feedback: notes.find(n => n.noteType === 'F' && n.evidenceId === evidenceId) || defaultNote(geneId, evidenceId, 'F'),
     ...props,

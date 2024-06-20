@@ -56,14 +56,52 @@ const getPubEvDisplay = publication => (
 )
 
 export const EVIDENCE_TABLE_COLUMNS = [
+  { name: 'individualId', content: 'Individual' },
   {
-    name: 'updateNote',
+    name: 'phenotype',
+    content: 'Phenotype',
+    noFormatExport: true,
     format: pub => (
-      <span>
-        <PubEvidenceUpdateButton header={getPubEvDisplay(pub)} note={pub.feedback} />
-        <PubEvidenceUpdateButton header={getPubEvDisplay(pub)} note={pub.note} />
-      </span>
+      <Popup
+        content={pub.phenotype}
+        trigger={<span>{pub.phenotype.length > 25 ? `${pub.phenotype.substring(0, 25)}...` : pub.phenotype}</span>}
+      />
     ),
+  },
+  { name: 'hgvsC', content: 'HGVS C' },
+  { name: 'gnomadFrequency', content: 'Frequency' },
+  { name: 'hgvsP', content: 'HGVS P' },
+  { name: 'variantType', content: 'Variant Type' },
+  { name: 'zygosity', content: 'Zygosity' },
+  { name: 'variantInheritance', content: 'Inheritance' },
+  {
+    name: 'citation',
+    content: 'Paper',
+    noFormatExport: true,
+    format: pub => (
+      <Popup
+        content={pub.paperTitle}
+        trigger={<a href={pub.link} target="_blank" rel="noopener noreferrer">{pub.citation}</a>}
+      />
+    ),
+  },
+  { name: 'studyType', content: 'Type' },
+  {
+    name: 'functionalStudy',
+    content: 'Functional Study',
+    format: (pub) => {
+      const functionalStudy = []
+      if (pub.engineeredCells) {
+        functionalStudy.push('engineered cells')
+      }
+      if (pub.patientCellsTissues) {
+        functionalStudy.push('patient cells')
+      }
+      if (pub.animalModel) {
+        functionalStudy.push('animal model')
+      }
+      return functionalStudy.join(', ')
+    },
   },
   {
     name: 'status',
@@ -75,43 +113,12 @@ export const EVIDENCE_TABLE_COLUMNS = [
     ),
   },
   {
-    name: 'paperId',
-    content: 'Paper ID',
-    noFormatExport: true,
+    name: 'updateNote',
     format: pub => (
-      <Popup
-        content={pub.citation}
-        trigger={<a href={pub.link} target="_blank" rel="noopener noreferrer">{pub.paperId}</a>}
-      />
-    ),
-  },
-  { name: 'hgvsC', content: 'HGVS C' },
-  { name: 'hgvsP', content: 'HGVS P' },
-  { name: 'individualId', content: 'Individual' },
-  {
-    name: 'phenotype',
-    content: 'Phenotype',
-    noFormatExport: true,
-    format: pub => (
-      <Popup
-        content={pub.phenotype}
-        trigger={<span>{pub.phenotype.length > 30 ? `${pub.phenotype.substring(0, 30)}...` : pub.phenotype}</span>}
-      />
-    ),
-  },
-  { name: 'zygosity', content: 'Zygosity' },
-  { name: 'variantInheritance', content: 'Inheritance' },
-  { name: 'variantType', content: 'Variant Type' },
-  { name: 'studyType', content: 'Study Type' },
-  {
-    name: 'paperTitle',
-    content: 'Title',
-    noFormatExport: true,
-    format: pub => (
-      <Popup
-        content={pub.paperTitle}
-        trigger={<span>{pub.paperTitle.length > 40 ? `${pub.paperTitle.substring(0, 40)}...` : pub.paperTitle}</span>}
-      />
+      <span>
+        <PubEvidenceUpdateButton header={getPubEvDisplay(pub)} note={pub.feedback} />
+        <PubEvidenceUpdateButton header={getPubEvDisplay(pub)} note={pub.note} />
+      </span>
     ),
   },
 ]
@@ -131,8 +138,8 @@ const PubEvidenceTable = ({ showPubs, loading, load, pubEvidence, pubEvidenceFee
         compact="very"
         collapsing
         loading={loading}
-        idField="hgvsC"
-        defaultSortColumn="paperId"
+        idField="evidenceId"
+        defaultSortColumn="citation"
         emptyContent="No publications found"
         data={pubEvidence}
         columns={EVIDENCE_TABLE_COLUMNS}
