@@ -55,54 +55,63 @@ const getPubEvDisplay = publication => (
   </Segment>
 )
 
+const getFuncStudy = (pub) => {
+  const functionalStudy = []
+  if (pub.engineeredCells) {
+    functionalStudy.push('engineered cells')
+  }
+  if (pub.patientCellsTissues) {
+    functionalStudy.push('patient cells')
+  }
+  if (pub.animalModel) {
+    functionalStudy.push('animal model')
+  }
+  return functionalStudy.join(', ')
+}
+
+// If the item length is greater than 25, show the first 25 characters and the rest in a popup
+const overflowStyle = { maxWidth: '800px' }
+const fmtPopup = (item) => {
+  if (item.length > 25) {
+    return (
+      <Popup
+        style={overflowStyle}
+        content={item}
+        trigger={
+          <span>
+            {item.substring(0, 25)}
+            ...
+          </span>
+        }
+      />
+    )
+  }
+  return item
+}
+
 export const EVIDENCE_TABLE_COLUMNS = [
   { name: 'individualId', content: 'Individual' },
-  {
-    name: 'phenotype',
-    content: 'Phenotype',
-    noFormatExport: true,
-    format: pub => (
-      <Popup
-        content={pub.phenotype}
-        trigger={<span>{pub.phenotype.length > 25 ? `${pub.phenotype.substring(0, 25)}...` : pub.phenotype}</span>}
-      />
-    ),
-  },
+  { name: 'phenotype', content: 'Phenotype', noFormatExport: true, format: pub => fmtPopup(pub.phenotype) },
   { name: 'hgvsC', content: 'HGVS C' },
   { name: 'gnomadFrequency', content: 'Frequency' },
   { name: 'hgvsP', content: 'HGVS P' },
   { name: 'variantType', content: 'Variant Type' },
   { name: 'zygosity', content: 'Zygosity' },
-  { name: 'variantInheritance', content: 'Inheritance' },
+  { name: 'variantInheritance', content: 'Inheritance', noFormatExport: true, format: pub => fmtPopup(pub.variantInheritance) },
   {
     name: 'citation',
     content: 'Paper',
     noFormatExport: true,
     format: pub => (
       <Popup
+        style={overflowStyle}
         content={pub.paperTitle}
         trigger={<a href={pub.link} target="_blank" rel="noopener noreferrer">{pub.citation}</a>}
       />
     ),
   },
   { name: 'studyType', content: 'Type' },
-  {
-    name: 'functionalStudy',
-    content: 'Functional Study',
-    format: (pub) => {
-      const functionalStudy = []
-      if (pub.engineeredCells) {
-        functionalStudy.push('engineered cells')
-      }
-      if (pub.patientCellsTissues) {
-        functionalStudy.push('patient cells')
-      }
-      if (pub.animalModel) {
-        functionalStudy.push('animal model')
-      }
-      return functionalStudy.join(', ')
-    },
-  },
+  { name: 'functionalStudy', content: 'Functional Study', noFormatExport: true, format: pub => fmtPopup(getFuncStudy(pub)) },
   {
     name: 'status',
     format: ({ note }) => (

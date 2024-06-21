@@ -29,6 +29,7 @@ import {
 const IGV = React.lazy(() => import('../../graph/IGV'))
 
 const MIN_LOCUS_RANGE_SIZE = 100
+const overflowStyle = { maxWidth: '800px' }
 
 const getTrackOptions = (type, sample, individual) => {
   const name = ReactDOMServer.renderToString(
@@ -416,7 +417,25 @@ class FamilyReads extends React.PureComponent {
       />
     )
 
-    const showPubsButton = (<Button color="blue" onClick={this.toggleTable}>AI Evidence Aggregator</Button>)
+    const showPubsButton = (
+      <div>
+        <Button color="blue" size="tiny" onClick={this.toggleTable}>
+          AI Evidence Aggregator
+        </Button>
+        <Popup
+          style={overflowStyle}
+          content="The Evidence Aggregator is intended to be one tool within a genomic analyst's toolkit to review
+          literature related to a variant of interest. It is the user's responsibility to verify the accuracy of the
+          information returned by the Evidence Aggregator. The Evidence Aggregator is not designed, intended, or made
+          available for use in the diagnosis, prevention, mitigation, or treatment of a disease or medical condition
+          nor to perform any medical function and the performance of the Evidence Aggregator for such purposes has not
+          been established. You bear sole responsibility for any use of the Evidence Aggregator, including incorporation
+          into any product intended for a medical purpose."
+          trigger={<Icon name="info circle" color="blue" size="large" />}
+          hoverable
+        />
+      </div>
+    )
 
     const igvSampleIndividuals = (
       openFamily && (igvSamplesByFamilySampleIndividual || {})[openFamily]) || {}
