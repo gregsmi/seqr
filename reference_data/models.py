@@ -280,7 +280,7 @@ class PubEvidence(models.Model):
     hgvs_p = models.TextField()
     paper_variant = models.TextField()
     transcript = models.TextField()
-    validation_errors = models.TextField()
+    validation_error = models.TextField()
     gnomad_frequency = models.TextField()
     individual_id = models.TextField()
     phenotype = models.TextField()
@@ -303,6 +303,7 @@ class PubEvidence(models.Model):
             'hgvs_p',
             'paper_variant',
             'transcript',
+            'validation_error',
             'gnomad_frequency',
             'individual_id',
             'phenotype',
