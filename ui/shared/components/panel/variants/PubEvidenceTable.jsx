@@ -90,11 +90,30 @@ const fmtPopup = (item) => {
 }
 
 export const EVIDENCE_TABLE_COLUMNS = [
+  {
+    name: 'updateNote',
+    format: pub => (
+      <span>
+        <PubEvidenceUpdateButton header={getPubEvDisplay(pub)} note={pub.feedback} />
+        <PubEvidenceUpdateButton header={getPubEvDisplay(pub)} note={pub.note} />
+      </span>
+    ),
+  },
+  {
+    name: 'status',
+    format: ({ note, validationError }) => (
+      <span>
+        {note.noteStatus === 'V' && <Popup content="Verified" trigger={<Icon color="green" name="check circle" />} />}
+        {note.note && <Popup content={note.note} trigger={<Icon name="sticky note outline" />} />}
+        {validationError && <Popup content={`Variant validation error: ${validationError}`} trigger={<Icon color="yellow" name="exclamation triangle" />} />}
+      </span>
+    ),
+  },
   { name: 'individualId', content: 'Individual' },
   { name: 'phenotype', content: 'Phenotype', noFormatExport: true, format: pub => fmtPopup(pub.phenotype) },
   { name: 'hgvsC', content: 'HGVS C' },
-  { name: 'gnomadFrequency', content: 'Frequency' },
   { name: 'hgvsP', content: 'HGVS P' },
+  { name: 'gnomadFrequency', content: 'Frequency' },
   { name: 'variantType', content: 'Variant Type' },
   { name: 'zygosity', content: 'Zygosity' },
   { name: 'variantInheritance', content: 'Inheritance', noFormatExport: true, format: pub => fmtPopup(pub.variantInheritance) },
@@ -105,31 +124,17 @@ export const EVIDENCE_TABLE_COLUMNS = [
     format: pub => (
       <Popup
         style={overflowStyle}
-        content={pub.paperTitle}
-        trigger={<a href={pub.link} target="_blank" rel="noopener noreferrer">{pub.citation}</a>}
+        content={`${pub.citation}: ${pub.paperTitle}`}
+        trigger={
+          <a href={pub.link} target="_blank" rel="noopener noreferrer">
+            {pub.citation.length > 30 ? `${pub.citation.substring(0, 30)}...` : pub.citation}
+          </a>
+        }
       />
     ),
   },
   { name: 'studyType', content: 'Type' },
   { name: 'functionalStudy', content: 'Functional Study', noFormatExport: true, format: pub => fmtPopup(getFuncStudy(pub)) },
-  {
-    name: 'status',
-    format: ({ note }) => (
-      <span>
-        {note.noteStatus === 'V' && <Popup content="Verified" trigger={<Icon color="green" name="check circle" />} />}
-        {note.note && <Popup content={note.note} trigger={<Icon name="sticky note outline" />} />}
-      </span>
-    ),
-  },
-  {
-    name: 'updateNote',
-    format: pub => (
-      <span>
-        <PubEvidenceUpdateButton header={getPubEvDisplay(pub)} note={pub.feedback} />
-        <PubEvidenceUpdateButton header={getPubEvDisplay(pub)} note={pub.note} />
-      </span>
-    ),
-  },
 ]
 
 // eslint-disable-next-line no-unused-vars
