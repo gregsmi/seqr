@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Segment, Icon, Popup, Divider, Loader, Button } from 'semantic-ui-react'
+import { Segment, Icon, Popup, Divider, Loader } from 'semantic-ui-react'
 
 import {
   getSortedIndividualsByFamily,
@@ -29,7 +29,6 @@ import {
 const IGV = React.lazy(() => import('../../graph/IGV'))
 
 const MIN_LOCUS_RANGE_SIZE = 100
-const overflowStyle = { maxWidth: '800px' }
 
 const getTrackOptions = (type, sample, individual) => {
   const name = ReactDOMServer.renderToString(
@@ -294,13 +293,6 @@ class FamilyReads extends React.PureComponent {
       minTotalReads: 0,
     },
     locus: null,
-    showPubs: false,
-  }
-
-  toggleTable = () => {
-    const { showPubs } = this.state
-    const newState = !showPubs
-    this.setState({ showPubs: newState })
   }
 
   updateReads = (familyGuid, locus, sampleTypes, tissueType) => {
@@ -404,7 +396,7 @@ class FamilyReads extends React.PureComponent {
       variant, familyGuid, buttonProps, layout, igvSamplesByFamilySampleIndividual, familiesByGuid,
       projectsByGuid, genesById, sortedIndividualByFamily, noTriggerButton, spliceOutliersByFamily, ...props
     } = this.props
-    const { openFamily, sampleTypes, rnaReferences, junctionTrackOptions, locus, showPubs } = this.state
+    const { openFamily, sampleTypes, rnaReferences, junctionTrackOptions, locus } = this.state
 
     const showReads = noTriggerButton ? null : (
       <ReadButtons
@@ -415,26 +407,6 @@ class FamilyReads extends React.PureComponent {
         familiesByGuid={familiesByGuid}
         showReads={this.showReads}
       />
-    )
-
-    const showPubsButton = (
-      <div>
-        <Button color="blue" size="tiny" onClick={this.toggleTable}>
-          AI Evidence Aggregator
-        </Button>
-        <Popup
-          style={overflowStyle}
-          content="The Evidence Aggregator is intended to be one tool within a genomic analyst's toolkit to review
-          literature related to a variant of interest. It is the user's responsibility to verify the accuracy of the
-          information returned by the Evidence Aggregator. The Evidence Aggregator is not designed, intended, or made
-          available for use in the diagnosis, prevention, mitigation, or treatment of a disease or medical condition
-          nor to perform any medical function and the performance of the Evidence Aggregator for such purposes has not
-          been established. You bear sole responsibility for any use of the Evidence Aggregator, including incorporation
-          into any product intended for a medical purpose."
-          trigger={<Icon name="info circle" color="blue" size="large" />}
-          hoverable
-        />
-      </div>
     )
 
     const igvSampleIndividuals = (
@@ -529,7 +501,7 @@ class FamilyReads extends React.PureComponent {
     ) : null
 
     return React.createElement(layout,
-      { variant, reads, showReads, updateReads: this.updateReads, showPubsButton, showPubs, ...props })
+      { variant, reads, showReads, updateReads: this.updateReads, ...props })
   }
 
 }

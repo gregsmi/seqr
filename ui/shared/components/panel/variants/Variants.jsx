@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Grid, Popup, Label, Button, Header, Tab } from 'semantic-ui-react'
+import { Grid, Icon, Popup, Label, Button, Header, Tab } from 'semantic-ui-react'
 
 import { GENOME_VERSION_37, clinvarSignificance, clinvarColor, getVariantMainGeneId } from 'shared/utils/constants'
 import { VerticalSpacer } from '../../Spacers'
@@ -46,6 +46,7 @@ const StyledCompoundHetRows = styled(Grid)`
     }
   }
 `
+const overflowStyle = { maxWidth: '800px' }
 
 const InlinePopup = styled(Popup).attrs({ basic: true, flowing: true })`
   padding: 0.2em !important;
@@ -79,10 +80,15 @@ const tagFamily = tag => (
 const VariantLayout = (
   {
     variant, compoundHetToggle, mainGeneId, isCompoundHet, linkToSavedVariants, topContent,
-    bottomContent, children, showPubsButton, showPubs, ...rowProps
+    bottomContent, children, ...rowProps
   },
 ) => {
   const coreVariant = Array.isArray(variant) ? variant[0] : variant
+  const [showPubs, setShowPubs] = useState(false)
+  const toggleShowPubs = useCallback(() => {
+    setShowPubs(!showPubs)
+  }, [showPubs])
+
   return (
     <StyledVariantRow {...rowProps}>
       <Grid.Column width={16}>
@@ -105,7 +111,23 @@ const VariantLayout = (
           {mainGeneId ?
             <VariantGene geneId={mainGeneId} variant={coreVariant} compoundHetToggle={compoundHetToggle} /> :
             <VariantGenes variant={variant} />}
-          {showPubsButton}
+          <div>
+            <Button color="blue" size="tiny" onClick={toggleShowPubs}>
+              AI Evidence Aggregator
+            </Button>
+            <Popup
+              style={overflowStyle}
+              content="The Evidence Aggregator is intended to be one tool within a genomic analyst's toolkit to review
+              literature related to a variant of interest. It is the user's responsibility to verify the accuracy of the
+              information returned by the Evidence Aggregator. The Evidence Aggregator is not designed, intended, or made
+              available for use in the diagnosis, prevention, mitigation, or treatment of a disease or medical condition
+              nor to perform any medical function and the performance of the Evidence Aggregator for such purposes has not
+              been established. You bear sole responsibility for any use of the Evidence Aggregator, including incorporation
+              into any product intended for a medical purpose."
+              trigger={<Icon name="info circle" color="blue" size="large" />}
+              hoverable
+            />
+          </div>
         </Grid.Column>
       )}
       <Grid.Column width={isCompoundHet ? 16 : 12}>
@@ -114,12 +136,11 @@ const VariantLayout = (
       <Grid.Column width={16}>
         {bottomContent}
       </Grid.Column>
-      <Grid.Column width={16}>
-        <PubEvidenceTable
-          showPubs={showPubs}
-          mainGeneId={mainGeneId}
-        />
-      </Grid.Column>
+      {showPubs && (
+        <Grid.Column width={16}>
+          <PubEvidenceTable mainGeneId={mainGeneId} />
+        </Grid.Column>
+      )}
     </StyledVariantRow>
   )
 }
@@ -133,12 +154,10 @@ VariantLayout.propTypes = {
   topContent: PropTypes.node,
   bottomContent: PropTypes.node,
   children: PropTypes.node,
-  showPubsButton: PropTypes.element,
-  showPubs: PropTypes.bool,
 }
 
 const Variant = React.memo((
-  { variant, mainGeneId, reads, showReads, dispatch, isCompoundHet, updateReads, showPubsButton, showPubs, ...props },
+  { variant, mainGeneId, reads, showReads, dispatch, isCompoundHet, updateReads, ...props },
 ) => {
   const variantMainGeneId = mainGeneId || getVariantMainGeneId(variant)
   const { severity } = clinvarSignificance(variant.clinvar)
@@ -168,8 +187,6 @@ const Variant = React.memo((
       }
       bottomContent={reads}
       isCompoundHet={isCompoundHet}
-      showPubsButton={showPubsButton}
-      showPubs={showPubs}
       {...props}
     >
       <Grid columns="equal">
@@ -198,8 +215,6 @@ Variant.propTypes = {
   linkToSavedVariants: PropTypes.bool,
   reads: PropTypes.object,
   showReads: PropTypes.object,
-  showPubsButton: PropTypes.element,
-  showPubs: PropTypes.bool,
 }
 
 const VariantWithReads = props => <FamilyReads layout={Variant} {...props} />

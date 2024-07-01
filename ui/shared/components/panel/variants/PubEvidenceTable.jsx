@@ -138,33 +138,26 @@ export const EVIDENCE_TABLE_COLUMNS = [
 ]
 
 // eslint-disable-next-line no-unused-vars
-const PubEvidenceTable = ({ showPubs, loading, load, pubEvidence, pubEvidenceFeedback }) => {
-  if (!showPubs) {
-    return null
-  }
-
-  return (
-    <DataLoader content load={load} loading={false}>
-      <DataTable
-        striped
-        singleLine
-        horizontalScroll
-        compact="very"
-        collapsing
-        loading={loading}
-        idField="evidenceId"
-        defaultSortColumn="citation"
-        emptyContent="No publications found"
-        data={pubEvidence}
-        columns={EVIDENCE_TABLE_COLUMNS}
-        getRowFilterVal={getPubsFilterVal}
-      />
-    </DataLoader>
-  )
-}
+const PubEvidenceTable = ({ loading, load, pubEvidence, pubEvidenceFeedback }) => (
+  <DataLoader content load={load} loading={false}>
+    <DataTable
+      striped
+      singleLine
+      horizontalScroll
+      compact="very"
+      collapsing
+      loading={loading}
+      idField="evidenceId"
+      defaultSortColumn="citation"
+      emptyContent="No publications found"
+      data={pubEvidence}
+      columns={EVIDENCE_TABLE_COLUMNS}
+      getRowFilterVal={getPubsFilterVal}
+    />
+  </DataLoader>
+)
 
 PubEvidenceTable.propTypes = {
-  showPubs: PropTypes.bool.isRequired,
   mainGeneId: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
   loading: PropTypes.bool.isRequired,
   load: PropTypes.func.isRequired,
