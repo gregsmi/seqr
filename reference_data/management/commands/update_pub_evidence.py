@@ -57,6 +57,18 @@ class PubEvReferenceDataHandler(ReferenceDataHandler):
         record['engineered_cells'] = True if record['engineered_cells'] == 'True' else False
         record['patient_cells_tissues'] = True if record['patient_cells_tissues'] == 'True' else False
         record['animal_model'] = True if record['animal_model'] == 'True' else False
+        if record['individual_id'] == 'unknown':
+            record['individual_id'] = ''
+        if record['variant_inheritance'] == 'unknown':
+            record['variant_inheritance'] = ''
+        if record['zygosity'] == 'unknown' or record['zygosity'] == 'none':
+            record['zygosity'] = ''
+        if record['hgvs_c'] == 'NA':
+            record['hgvs_c'] = ''
+        if record['hgvs_p'] == 'NA':
+            record['hgvs_p'] = ''
+        if record['study_type'] == 'other':
+            record['study_type'] = ''
         yield record
 
 
