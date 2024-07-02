@@ -7,6 +7,7 @@ import { loadPubEvidence } from 'pages/Project/reducers'
 import { getPubEvidenceArray, getPubEvidenceFeedbackForGene, getPubEvidenceLoading } from 'pages/Project/selectors'
 import DataTable from '../../table/DataTable'
 import PubEvidenceUpdateButton from './PubEvidenceUpdateButton'
+import { genericComparator } from '../../../utils/sortUtils'
 
 const getPubsFilterVal = row => Object.values(row).join('-')
 
@@ -54,6 +55,18 @@ const getPubEvDisplay = publication => (
     </Grid>
   </Segment>
 )
+
+const sortHGVS = field => (a, b) => {
+  let valA = a[field]
+  let valB = b[field]
+  if (typeof valA === 'string' && valA.match(/\d+/)) {
+    valA = parseInt(valA.match(/\d+/)[0], 10)
+  }
+  if (typeof valB === 'string' && valB.match(/\d+/)) {
+    valB = parseInt(valB.match(/\d+/)[0], 10)
+  }
+  return genericComparator(valA, valB)
+}
 
 const getFuncStudy = (pub) => {
   const functionalStudy = []
@@ -111,8 +124,8 @@ export const EVIDENCE_TABLE_COLUMNS = [
   },
   { name: 'individualId', content: 'Individual' },
   { name: 'phenotype', content: 'Phenotype', noFormatExport: true, format: pub => fmtPopup(pub.phenotype) },
-  { name: 'hgvsC', content: 'HGVS C' },
-  { name: 'hgvsP', content: 'HGVS P' },
+  { name: 'hgvsC', content: 'HGVS C', sort: sortHGVS('hgvsC') },
+  { name: 'hgvsP', content: 'HGVS P', sort: sortHGVS('hgvsP') },
   { name: 'gnomadFrequency', content: 'Frequency' },
   { name: 'variantType', content: 'Variant Type' },
   { name: 'zygosity', content: 'Zygosity' },

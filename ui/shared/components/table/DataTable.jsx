@@ -171,7 +171,10 @@ class DataTable extends React.PureComponent {
     const sortedDirection = direction || (defaultSortDescending ? DESCENDING : ASCENDING)
 
     let totalRows = data.length
-    let sortedData = data.sort(compareObjects(column || defaultSortColumn))
+
+    const sortColumn = column || defaultSortColumn
+    const sortFunction = columns.find(col => col.name === sortColumn).sort || compareObjects(sortColumn)
+    let sortedData = data.sort(sortFunction)
     if (sortedDirection === DESCENDING) {
       sortedData = sortedData.reverse()
     }
