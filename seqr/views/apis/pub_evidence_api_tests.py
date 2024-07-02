@@ -2,13 +2,14 @@ import json
 from django.urls.base import reverse
 import mock
 
-from seqr.views.apis.pub_evidence_api import pub_evidence_for_gene, \
+from seqr.views.apis.pub_evidence_api import pub_evidence_for_gene, pub_evidence_all_gene_ids, \
     create_pub_evidence_note, update_pub_evidence_note, delete_pub_evidence_note
 from seqr.views.utils.test_utils import AuthenticationTestCase
 
 
 GENE_ID = 'ENSG00000223972'
-EVIDENCE_ID = '10.1002/ana.21207_TWNK_c.1370C>T'.replace('/', '-').replace('>', '-')
+EVIDENCE_ID = 'pmid-23922384_c.1191delT_proband'
+GENE_IDS = [GENE_ID, 'ENSG00000227232', 'ENSG00000237613', 'ENSG00000243485']
 PUB_EV_NOTE_FIELDS = {'noteGuid', 'note', 'geneId', 'lastModifiedDate', 'createdBy', 'evidenceId', 'noteType', 'noteStatus'}
 
 
@@ -25,7 +26,21 @@ class PubEvidenceAPITest(AuthenticationTestCase):
         evs = response.json()['pubEvidenceByGene']
         self.assertEqual(len(evs), 1)
         self.assertTrue(GENE_ID in evs)
-        self.assertEqual(len(evs[GENE_ID]), 4)
+        self.assertEqual(len(evs[GENE_ID]), 3)
+        self.assertEqual(evs[GENE_ID][0]['evidenceId'], EVIDENCE_ID)
+
+    def test_pub_evidence_all_gene_ids(self):
+        url = reverse(pub_evidence_all_gene_ids)
+        self.check_require_login(url)
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+        gene_ids = response.json()['pubEvidenceGeneIds']
+        self.assertEqual(len(gene_ids), 4)
+        self.assertEqual(gene_ids[GENE_ID], 3)
+        self.assertSetEqual(set(gene_ids.keys()), set(GENE_IDS))
+        self.assertSetEqual(set(gene_ids.values()), {1, 2, 3})
 
     def test_create_update_and_delete_pub_ev_note(self):
         for type, note in [

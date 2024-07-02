@@ -9,6 +9,13 @@ from seqr.views.utils.permissions_utils import login_and_policies_required
 
 
 @login_and_policies_required
+def pub_evidence_all_gene_ids(request):
+    ids = PubEvidence.objects.values('gene__gene_id').annotate(count=Count('gene__gene_id'))
+    # Return a mapping of gene IDs to the number of PubEvidence records for each gene.
+    return create_json_response({'pubEvidenceGeneIds': {gene['gene__gene_id']: gene['count'] for gene in ids}})
+
+
+@login_and_policies_required
 def pub_evidence_for_gene(request, gene_id):
     evidence = {gene_id: get_json_for_pub_evidence(PubEvidence.objects.filter(gene__gene_id=gene_id), request.user)}
     gene_notes = PubEvidenceNote.objects.filter(gene_id=gene_id)
