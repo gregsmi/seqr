@@ -98,7 +98,15 @@ const getFuncStudy = (pub) => {
   return functionalStudy.join(', ')
 }
 
+const filterGroupStyle = {
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+}
+const checkStyle = { fontSize: '13px' }
+const filterStyle = { height: '38px', fontSize: '13px' }
 const overflowStyle = { maxWidth: '800px' }
+
 const fmtPopup = (item) => {
   if (item.length > 25) {
     return (
@@ -175,15 +183,20 @@ class PubEvidenceTable extends React.PureComponent {
 
   state = {
     filterText: null,
+    excludeInvalid: false,
   }
 
   handleFilter = (e, data) => {
     this.setState({ filterText: data.value.toLowerCase() })
   }
 
+  handleCheckbox = (e, data) => {
+    this.setState({ excludeInvalid: data.checked })
+  }
+
   render() {
     const { loading, load, pubEvidence } = this.props
-    const { filterText } = this.state
+    const { filterText, excludeInvalid } = this.state
 
     let data = pubEvidence
 
@@ -191,9 +204,27 @@ class PubEvidenceTable extends React.PureComponent {
       data = data.filter(row => Object.values(row).join('-').toLowerCase().includes(filterText))
     }
 
+    if (excludeInvalid) {
+      data = data.filter(row => !row.validationError)
+    }
+
     return (
       <DataLoader content load={load} loading={false}>
-        <Form.Input label="Filter: " inline onChange={this.handleFilter} />
+        <Form.Group inline style={filterGroupStyle}>
+          <Form.Input
+            style={filterStyle}
+            iconPosition="left"
+            icon="search"
+            placeholder="Filter rows with text..."
+            inline
+            onChange={this.handleFilter}
+          />
+          <Form.Checkbox
+            style={checkStyle}
+            label="Exclude invalid variants"
+            onChange={this.handleCheckbox}
+          />
+        </Form.Group>
         <DataTable
           striped
           singleLine
