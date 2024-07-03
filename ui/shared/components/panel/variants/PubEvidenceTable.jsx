@@ -150,32 +150,37 @@ export const EVIDENCE_TABLE_COLUMNS = [
   { name: 'functionalStudy', content: 'Functional Study', noFormatExport: true, format: pub => fmtPopup(getFuncStudy(pub)) },
 ]
 
-// eslint-disable-next-line no-unused-vars
-const PubEvidenceTable = ({ loading, load, pubEvidence, pubEvidenceFeedback }) => (
-  <DataLoader content load={load} loading={false}>
-    <DataTable
-      striped
-      singleLine
-      horizontalScroll
-      compact="very"
-      collapsing
-      loading={loading}
-      idField="evidenceId"
-      defaultSortColumn="citation"
-      emptyContent="No publications found"
-      data={pubEvidence}
-      columns={EVIDENCE_TABLE_COLUMNS}
-      getRowFilterVal={getPubsFilterVal}
-    />
-  </DataLoader>
-)
+class PubEvidenceTable extends React.PureComponent {
 
-PubEvidenceTable.propTypes = {
-  mainGeneId: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
-  loading: PropTypes.bool.isRequired,
-  load: PropTypes.func.isRequired,
-  pubEvidence: PropTypes.arrayOf(PropTypes.object).isRequired,
-  pubEvidenceFeedback: PropTypes.arrayOf(PropTypes.object).isRequired,
+  static propTypes = {
+    loading: PropTypes.bool.isRequired,
+    load: PropTypes.func.isRequired,
+    pubEvidence: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }
+
+  render() {
+    const { loading, load, pubEvidence } = this.props
+    return (
+      <DataLoader content load={load} loading={false}>
+        {/* <Form.Input label="Filter: " inline onChange={handleFilter} /> */}
+        <DataTable
+          striped
+          singleLine
+          horizontalScroll
+          compact="very"
+          collapsing
+          loading={loading}
+          idField="evidenceId"
+          defaultSortColumn="citation"
+          emptyContent="No publications found"
+          data={pubEvidence}
+          columns={EVIDENCE_TABLE_COLUMNS}
+          getRowFilterVal={getPubsFilterVal}
+        />
+      </DataLoader>
+    )
+  }
+
 }
 
 const mapStateToProps = (state, ownProps) => ({
