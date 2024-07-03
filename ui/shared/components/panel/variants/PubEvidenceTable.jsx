@@ -6,7 +6,7 @@ import DataLoader from 'shared/components/DataLoader'
 import { loadPubEvidence } from 'pages/Project/reducers'
 import { getPubEvidenceArray, getPubEvidenceFeedbackForGene, getPubEvidenceLoading } from 'pages/Project/selectors'
 import DataTable from '../../table/DataTable'
-import PubEvidenceUpdateButton from './PubEvidenceUpdateButton'
+import { PubEvidenceUpdateButton } from './PubEvidenceButtons'
 import { genericComparator } from '../../../utils/sortUtils'
 
 const getPubsFilterVal = row => Object.values(row).join('-')

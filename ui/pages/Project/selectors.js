@@ -67,6 +67,8 @@ const getFamiliesTableFiltersByProject = state => state.familyTableFilterState
 export const getPubEvidenceByGene = state => state.pubEvidenceByGene
 export const getPubEvidenceNotesByGuid = state => state.pubEvidenceNotesByGuid
 export const getPubEvidenceLoadingByGene = state => state.pubEvidenceLoadingByGene
+export const getPubEvidenceGeneIds = state => state.pubEvidenceGeneIds
+export const getPubEvidenceGeneIdsLoading = state => state.pubEvidenceGeneIdsLoading.isLoading
 
 export const getPubEvidenceLoading = createSelector(
   getPubEvidenceLoadingByGene,

@@ -35,6 +35,8 @@ const REQUEST_MME_SUBMISSIONS = 'REQUEST_MME_SUBMISSIONS'
 const REQUEST_LOCUS_LISTS = 'REQUEST_LOCUS_LISTS'
 const RECEIVE_LOCUS_LISTS = 'RECEIVE_LOCUS_LISTS'
 const UPDATE_PUB_EVIDENCE = 'UPDATE_PUB_EVIDENCE'
+const REQUEST_PUB_EVIDENCE_GENE_IDS = 'REQUEST_PUB_EVIDENCE_GENE_IDS'
+const RECEIVE_PUB_EVIDENCE_GENE_IDS = 'RECEIVE_PUB_EVIDENCE_GENE_IDS'
 
 // Data actions
 
@@ -382,6 +384,23 @@ const updatePubEvidenceLoading = (geneId, isLoading, error) => (
   { type: UPDATE_PUB_EVIDENCE, updatesById: { geneId: { isLoading, error } } }
 )
 
+export const loadPubEvidenceGeneIds = () => (dispatch, getState) => {
+  const { pubEvidenceGeneIds, pubEvidenceGeneIdsLoading } = getState()
+  if (pubEvidenceGeneIdsLoading.isLoading) {
+    return
+  }
+  if (!pubEvidenceGeneIds || Object.keys(pubEvidenceGeneIds).length === 0) {
+    dispatch({ type: REQUEST_PUB_EVIDENCE_GENE_IDS })
+    new HttpRequestHelper('/api/pub_evidence/gene_ids',
+      (responseJson) => {
+        dispatch({ type: RECEIVE_PUB_EVIDENCE_GENE_IDS, newValue: responseJson.pubEvidenceGeneIds })
+      },
+      (e) => {
+        dispatch({ type: RECEIVE_PUB_EVIDENCE_GENE_IDS, error: e.message, newValue: {} })
+      }).get()
+  }
+}
+
 export const loadPubEvidence = geneId => (dispatch, getState) => {
   const { pubEvidenceByGene } = getState()
 
@@ -438,6 +457,8 @@ export const reducers = {
     page: 1,
     recordsPerPage: 25,
   }, false),
+  pubEvidenceGeneIds: createSingleValueReducer(RECEIVE_PUB_EVIDENCE_GENE_IDS),
+  pubEvidenceGeneIdsLoading: loadingReducer(REQUEST_PUB_EVIDENCE_GENE_IDS, RECEIVE_PUB_EVIDENCE_GENE_IDS),
   pubEvidenceByGene: createObjectsByIdReducer(RECEIVE_DATA, 'pubEvidenceByGene'),
   pubEvidenceNotesByGuid: createObjectsByIdReducer(RECEIVE_DATA, 'pubEvidenceNotesByGuid'),
   pubEvidenceLoadingByGene: createObjectsByIdReducer(UPDATE_PUB_EVIDENCE),
