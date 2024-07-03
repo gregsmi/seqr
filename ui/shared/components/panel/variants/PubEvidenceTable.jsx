@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Grid, Icon, Popup, Segment } from 'semantic-ui-react'
+import { Form, Grid, Icon, Popup, Segment } from 'semantic-ui-react'
 import DataLoader from 'shared/components/DataLoader'
 import { loadPubEvidence } from 'pages/Project/reducers'
 import { getPubEvidenceArray, getPubEvidenceFeedbackForGene, getPubEvidenceLoading } from 'pages/Project/selectors'
@@ -9,7 +9,35 @@ import DataTable from '../../table/DataTable'
 import { PubEvidenceUpdateButton } from './PubEvidenceButtons'
 import { genericComparator } from '../../../utils/sortUtils'
 
-const getPubsFilterVal = row => Object.values(row).join('-')
+const getHGVSint = (val) => {
+  if (val && val.match(/\d+/)) {
+    return parseInt(val.match(/\d+/)[0], 10)
+  }
+  return val
+}
+
+const getHGVSCint = (a) => {
+  let val = getHGVSint(a.hgvsC)
+  if (typeof val !== 'number') {
+    const valP = getHGVSint(a.hgvsP)
+    if (typeof valP === 'number') {
+      val = valP * 3
+    }
+  }
+  return val
+}
+
+const sortHGVSP = (a, b) => {
+  const valA = getHGVSint(a.hgvsP)
+  const valB = getHGVSint(b.hgvsP)
+  return genericComparator(valA, valB)
+}
+
+const sortHGVSC = (a, b) => {
+  const valA = getHGVSCint(a)
+  const valB = getHGVSCint(b)
+  return genericComparator(valA, valB)
+}
 
 const getPubEvDisplay = publication => (
   <Segment>
@@ -56,18 +84,6 @@ const getPubEvDisplay = publication => (
   </Segment>
 )
 
-const sortHGVS = field => (a, b) => {
-  let valA = a[field]
-  let valB = b[field]
-  if (typeof valA === 'string' && valA.match(/\d+/)) {
-    valA = parseInt(valA.match(/\d+/)[0], 10)
-  }
-  if (typeof valB === 'string' && valB.match(/\d+/)) {
-    valB = parseInt(valB.match(/\d+/)[0], 10)
-  }
-  return genericComparator(valA, valB)
-}
-
 const getFuncStudy = (pub) => {
   const functionalStudy = []
   if (pub.engineeredCells) {
@@ -82,7 +98,6 @@ const getFuncStudy = (pub) => {
   return functionalStudy.join(', ')
 }
 
-// If the item length is greater than 25, show the first 25 characters and the rest in a popup
 const overflowStyle = { maxWidth: '800px' }
 const fmtPopup = (item) => {
   if (item.length > 25) {
@@ -124,8 +139,8 @@ export const EVIDENCE_TABLE_COLUMNS = [
   },
   { name: 'individualId', content: 'Individual' },
   { name: 'phenotype', content: 'Phenotype', noFormatExport: true, format: pub => fmtPopup(pub.phenotype) },
-  { name: 'hgvsC', content: 'HGVS C', sort: sortHGVS('hgvsC') },
-  { name: 'hgvsP', content: 'HGVS P', sort: sortHGVS('hgvsP') },
+  { name: 'hgvsC', content: 'HGVS C', sort: sortHGVSC },
+  { name: 'hgvsP', content: 'HGVS P', sort: sortHGVSP },
   { name: 'gnomadFrequency', content: 'Frequency' },
   { name: 'variantType', content: 'Variant Type' },
   { name: 'zygosity', content: 'Zygosity' },
@@ -158,11 +173,27 @@ class PubEvidenceTable extends React.PureComponent {
     pubEvidence: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
+  state = {
+    filterText: null,
+  }
+
+  handleFilter = (e, data) => {
+    this.setState({ filterText: data.value.toLowerCase() })
+  }
+
   render() {
     const { loading, load, pubEvidence } = this.props
+    const { filterText } = this.state
+
+    let data = pubEvidence
+
+    if (filterText) {
+      data = data.filter(row => Object.values(row).join('-').toLowerCase().includes(filterText))
+    }
+
     return (
       <DataLoader content load={load} loading={false}>
-        {/* <Form.Input label="Filter: " inline onChange={handleFilter} /> */}
+        <Form.Input label="Filter: " inline onChange={this.handleFilter} />
         <DataTable
           striped
           singleLine
@@ -173,9 +204,8 @@ class PubEvidenceTable extends React.PureComponent {
           idField="evidenceId"
           defaultSortColumn="citation"
           emptyContent="No publications found"
-          data={pubEvidence}
+          data={data}
           columns={EVIDENCE_TABLE_COLUMNS}
-          getRowFilterVal={getPubsFilterVal}
         />
       </DataLoader>
     )
