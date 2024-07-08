@@ -589,7 +589,7 @@ export const BaseVariantGene = React.memo(({
   } else {
     summaryDetail = (
       <GeneLinks>
-        <a href={`https://decipher.sanger.ac.uk/gene/${gene.geneId}/overview/protein-genomic-info`} target="_blank" rel="noreferrer">
+        <a href={`https://www.deciphergenomics.org/gene/${gene.geneId}/overview/protein-genomic-info`} target="_blank" rel="noreferrer">
           Decipher
         </a>
         &nbsp; | &nbsp;
